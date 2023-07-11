@@ -11,6 +11,7 @@ module.exports = {
     await Venue.bulkCreate(
       [
         {
+          groupId: 1,
           address: "123 4th ave S",
           city: "Seattle",
           state: "WA",
@@ -18,6 +19,7 @@ module.exports = {
           lng: 122.3321,
         },
         {
+          groupId: 2,
           address: "456 7th ave N",
           city: "Portland",
           state: "OR",
@@ -25,6 +27,7 @@ module.exports = {
           lng: 122.6784,
         },
         {
+          groupId: 3,
           address: "891 0th ave W",
           city: "Boston",
           state: "MA",

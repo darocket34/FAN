@@ -1,46 +1,45 @@
 "use strict";
-const { GroupImage } = require("../models");
+const { EventImage } = require("../models");
 let options = {};
 if (process.env.NODE_ENV === "production") {
   options.schema = process.env.SCHEMA;
 }
+/** @type {import('sequelize-cli').Migration} */
 
 // const images = [
 //   {
-//     groupId: 1,
-//     url: "url1",
+//     eventId: 1,
+//     url: "url10",
 //     preview: true,
 //   },
 //   {
-//     groupId: 2,
-//     url: "url2",
+//     eventId: 2,
+//     url: "url11",
 //     preview: false,
 //   },
 //   {
-//     groupId: 3,
-//     url: "url3",
+//     eventId: 3,
+//     url: "url12",
 //     preview: true,
 //   },
 // ];
-
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await GroupImage.bulkCreate(
+    await EventImage.bulkCreate(
       [
         {
-          groupId: 1,
-          url: "url1",
+          eventId: 1,
+          url: "url10",
           preview: true,
         },
         {
-          groupId: 2,
-          url: "url2",
+          eventId: 2,
+          url: "url11",
           preview: false,
         },
         {
-          groupId: 3,
-          url: "url3",
+          eventId: 3,
+          url: "url12",
           preview: true,
         },
       ],
@@ -49,12 +48,12 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    options.tableName = "GroupImages";
+    options.tableName = "EventImages";
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(
       options,
       {
-        url: { [Op.in]: ["url1", "url2", "url3"] },
+        url: { [Op.in]: ["url10", "url11", "url12"] },
       },
       {}
     );

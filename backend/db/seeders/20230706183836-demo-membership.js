@@ -4,21 +4,41 @@ let options = {};
 if (process.env.NODE_ENV === "production") {
   options.schema = process.env.SCHEMA;
 }
-const statuses = [
-  {
-    status: "active",
-  },
-  {
-    status: "inactive",
-  },
-  {
-    status: "pending",
-  },
-];
+// const statuses = [
+//   {
+//     userId: 1,
+//     groupId: 1,
+//     status: "active",
+//   },
+//   {
+//     userId: 2,
+//     groupId: 2,
+//     status: "inactive",
+//   },
+//   {
+//     userId: 3,
+//     groupId: 3,
+//     status: "pending",
+//   },
+// ];
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await Membership.bulkCreate([], { validate: true });
+    await Membership.bulkCreate([{
+      userId: 1,
+      groupId: 1,
+      status: "active",
+    },
+    {
+      userId: 2,
+      groupId: 2,
+      status: "inactive",
+    },
+    {
+      userId: 3,
+      groupId: 3,
+      status: "pending",
+    },], { validate: true });
   },
 
   async down(queryInterface, Sequelize) {
