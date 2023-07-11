@@ -12,16 +12,22 @@ module.exports = {
     await User.bulkCreate(
       [
         {
+          firstName: "Userone",
+          lastName: "lastname",
           email: "demo@user.io",
           username: "Demo-lition",
           hashedPassword: bcrypt.hashSync("password"),
         },
         {
+          firstName: "Userthree",
+          lastName: "lastname",
           email: "user1@user.io",
           username: "FakeUser1",
           hashedPassword: bcrypt.hashSync("password2"),
         },
         {
+          firstName: "Usertwo",
+          lastName: "lastname",
           email: "user2@user.io",
           username: "FakeUser2",
           hashedPassword: bcrypt.hashSync("password3"),
@@ -37,7 +43,7 @@ module.exports = {
     return queryInterface.bulkDelete(
       options,
       {
-        username: { [Op.in]: ["Demo-lition", "FakeUser1", "FakeUser2"] },
+        username: { [Op.in]: ["Userone", "Usertwo", "Userthree"] },
       },
       {}
     );
