@@ -30,7 +30,7 @@ module.exports = {
         },
       },
       status: {
-        type: Sequelize.ENUM("active", "inactive", "pending"),
+        type: Sequelize.ENUM("member", "co-host", "pending"),
       },
       createdAt: {
         allowNull: false,
