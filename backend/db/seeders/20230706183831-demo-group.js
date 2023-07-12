@@ -12,8 +12,9 @@ module.exports = {
         {
           organizerId: 1,
           name: "Tech-Hooligans",
-          about: "A group of nerds looking for a good time",
-          type: "Fun",
+          about:
+            "A group of nerds looking for a good time blah blah blah blah blah blah blah blah",
+          type: "Online",
           private: false,
           city: "San Francisco",
           state: "CA",
@@ -21,8 +22,9 @@ module.exports = {
         {
           organizerId: 2,
           name: "Lovers and Friends",
-          about: "Locals looking for love and new relationships",
-          type: "Romance",
+          about:
+            "Locals looking for love and new relationships blah blah blah blah blah blah blah blah",
+          type: "Online",
           private: true,
           city: "Seattle",
           state: "WA",
@@ -30,8 +32,9 @@ module.exports = {
         {
           organizerId: 3,
           name: "Exploration Station",
-          about: "Wilderness experts expanding outdoorsy knowledge",
-          type: "Fun",
+          about:
+            "Wilderness experts expanding outdoorsy knowledge blah blah blah blah blah blah blah blah",
+          type: "In person",
           private: false,
           city: "Dallas",
           state: "TX",

@@ -23,29 +23,31 @@ module.exports = {
           },
         },
         name: {
-          type: Sequelize.STRING,
+          type: Sequelize.STRING(60),
         },
         about: {
           type: Sequelize.TEXT,
         },
         type: {
-          type: Sequelize.ENUM("Networking", "Fun", "Romance"),
+          type: Sequelize.ENUM("Online", "In person"),
         },
         private: {
           type: Sequelize.BOOLEAN,
         },
         city: {
           type: Sequelize.STRING,
+          allowNull: false,
         },
         state: {
           type: Sequelize.STRING,
+          allowNull: false,
         },
         createdAt: {
-          allowNull: false,
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
           type: Sequelize.DATE,
         },
         updatedAt: {
-          allowNull: false,
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
           type: Sequelize.DATE,
         },
       },
