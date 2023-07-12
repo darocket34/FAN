@@ -4,23 +4,6 @@ let options = {};
 if (process.env.NODE_ENV === "production") {
   options.schema = process.env.SCHEMA;
 }
-// const statuses = [
-//   {
-//     eventId: 1,
-//     userId: 1,
-//     status: "active",
-//   },
-//   {
-//     eventId: 2,
-//     userId: 2,
-//     status: "inactive",
-//   },
-//   {
-//     eventId: 3,
-//     userId: 3,
-//     status: "pending",
-//   },
-// ];
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -47,7 +30,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    options.tableName = "Attendance";
+    options.tableName = "Attendances";
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(
       options,

@@ -19,6 +19,11 @@ module.exports = (sequelize, DataTypes) => {
     preview: DataTypes.BOOLEAN
   }, {
     sequelize,
+    defaultScope: {
+      attributes: {
+        exclude: ["createdAt", "updatedAt"],
+      },
+    },
     modelName: 'GroupImage',
   });
   return GroupImage;

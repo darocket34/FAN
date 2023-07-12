@@ -6,10 +6,12 @@ module.exports = (sequelize, DataTypes) => {
       Event.hasMany(models.EventImage, {
         foreignKey: "eventId",
         onDelete: "CASCADE",
+        hooks: true
       });
       Event.hasMany(models.Attendance, {
         foreignKey: "eventId",
         onDelete: "CASCADE",
+        hooks: true
       });
     }
   }

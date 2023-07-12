@@ -20,6 +20,7 @@ module.exports = {
           references: {
             model: "Events",
             key: "id",
+            onDelete: 'CASCADE',
           },
         },
         userId: {
@@ -27,6 +28,7 @@ module.exports = {
           references: {
             model: "Users",
             key: "id",
+            onDelete: 'CASCADE',
           },
         },
         status: {
@@ -34,10 +36,12 @@ module.exports = {
         },
         createdAt: {
           allowNull: false,
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
           type: Sequelize.DATE,
         },
         updatedAt: {
           allowNull: false,
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
           type: Sequelize.DATE,
         },
       },

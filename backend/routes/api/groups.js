@@ -130,7 +130,8 @@ router.get("/current", requireAuth, async (req, res) => {
   res.json(groupsArr);
 });
 
-router.get("/:groupId", async (req, res) => {
+// Get Details of a Group By Id
+router.get("/:groupId", async (req, res, next) => {
   const groups = await Group.findAll({
     where: {
       id: req.params.groupId,
@@ -147,13 +148,16 @@ router.get("/:groupId", async (req, res) => {
       },
       {
         model: Venue,
-        // attributes: {
-        // exclude: ["createdAt", "updatedAt"],
-        // }
       },
     ],
   });
 
+  if (groups.length === 0) {
+    const err = new Error("Group not found...");
+    err.status = 404;
+    err.title = "Group does not exist.";
+    return next(err);
+  }
   let groupsArr = [];
   groups.forEach((group) => {
     groupsArr.push(group.toJSON());
@@ -172,7 +176,7 @@ router.get("/:groupId", async (req, res) => {
     };
     delete group.User;
   });
-  console.log(groupsArr[0].name);
+
   const groupObj = {
     id: groupsArr[0].id,
     organizerId: groupsArr[0].organizerId,
@@ -189,7 +193,94 @@ router.get("/:groupId", async (req, res) => {
     Organizer: groupsArr[0].Organizer,
     Venues: groupsArr[0].Venues,
   };
+
   res.json(groupObj);
+});
+
+//Edit a group
+router.put("/:groupId", requireAuth, validateGroup, async (req, res, next) => {
+  const { name, about, type, private, city, state } = req.body;
+  const group = await Group.findByPk(req.params.groupId);
+  if (!group) {
+    const err = new Error("Group not found...");
+    err.status = 404;
+    err.title = "Group does not exist.";
+    return next(err);
+  }
+  if (group.organizerId !== req.user.id) {
+    const err = new Error("Only the Group Organizer can edit this group.");
+    err.status = 401;
+    err.title = "Unauthorized";
+    return next(err);
+  }
+  group.set({
+    name,
+    about,
+    type,
+    private,
+    city,
+    state,
+  });
+  await group.save();
+  res.json(group);
+});
+
+//Add an Image to a group based on the group's id
+router.post("/:groupId/images", requireAuth, async (req, res, next) => {
+  const { url, preview } = req.body;
+  const group = await Group.findByPk(req.params.groupId);
+  const newImg = GroupImage.build({
+    url,
+    preview,
+    groupId: req.params.groupId,
+  });
+
+  if (!group) {
+    const err = new Error("Group not found...");
+    err.status = 404;
+    err.title = "Group does not exist.";
+    return next(err);
+  }
+
+  if (group.organizerId !== req.user.id) {
+    const err = new Error("Only the Group Organizer can edit this group.");
+    err.status = 401;
+    err.title = "Unauthorized";
+    return next(err);
+  }
+
+  await newImg.validate();
+  await newImg.save();
+
+  const img = await GroupImage.findOne({
+    where: {
+      id: newImg.id,
+    },
+    attributes: {
+      exclude: ["groupId", "createdAt", "updatedAt"],
+    },
+  });
+
+  res.json(img);
+});
+
+//Delete a group
+router.delete("/:groupId", requireAuth, async (req, res, next) => {
+  const group = await Group.findByPk(req.params.groupId);
+  if (!group) {
+    const err = new Error("Group not found...");
+    err.status = 404;
+    err.title = "Group does not exist.";
+    return next(err);
+  }
+  if (group.organizerId !== req.user.id) {
+    const err = new Error("Only the Group Organizer can delete this group.");
+    err.status = 401;
+    err.title = "Unauthorized";
+    return next(err);
+  }
+  group.destroy();
+  return res.json({ message: "success" });
 });
 
 module.exports = router;

@@ -20,6 +20,7 @@ module.exports = {
           references: {
             model: "Users",
             key: "id",
+            onDelete: 'CASCADE',
           },
         },
         name: {
@@ -43,10 +44,12 @@ module.exports = {
           allowNull: false,
         },
         createdAt: {
+          allowNull: false,
           defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
           type: Sequelize.DATE,
         },
         updatedAt: {
+          allowNull: false,
           defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
           type: Sequelize.DATE,
         },
