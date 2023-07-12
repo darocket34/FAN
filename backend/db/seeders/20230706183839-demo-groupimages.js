@@ -4,25 +4,6 @@ let options = {};
 if (process.env.NODE_ENV === "production") {
   options.schema = process.env.SCHEMA;
 }
-
-// const images = [
-//   {
-//     groupId: 1,
-//     url: "url1",
-//     preview: true,
-//   },
-//   {
-//     groupId: 2,
-//     url: "url2",
-//     preview: false,
-//   },
-//   {
-//     groupId: 3,
-//     url: "url3",
-//     preview: true,
-//   },
-// ];
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {

@@ -12,7 +12,7 @@ module.exports = {
         {
           venueId: 1,
           groupId: 1,
-          name: "Ice Cream Social",
+          name: "Event1",
           description: "Fun get together with delicious frozen treats",
           type: "Networking",
           capacity: 25,
@@ -23,7 +23,7 @@ module.exports = {
         {
           venueId: 2,
           groupId: 2,
-          name: "Wilderness Exploration",
+          name: "Event2",
           description: "Camp with total strangers and find out who is a creep",
           type: "Fun",
           capacity: 12,
@@ -34,7 +34,7 @@ module.exports = {
         {
           venueId: 3,
           groupId: 3,
-          name: "Speed Dating on the Pier",
+          name: "Event3",
           description: "Get to know some other folks on FAN",
           type: "Romance",
           capacity: 18,

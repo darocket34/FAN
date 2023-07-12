@@ -35,7 +35,7 @@ module.exports = {
     return queryInterface.bulkDelete(
       options,
       {
-        status: { [Op.in]: ["active", "inactive", "pending"] },
+        id: { [Op.or]: [1, 2, 3] },
       },
       {}
     );

@@ -71,7 +71,7 @@ router.get("/", async (req, res) => {
     delete group.GroupImages;
   });
 
-  return res.json(groupsArr);
+  return res.json({Groups: groupsArr});
 });
 
 //Create a group

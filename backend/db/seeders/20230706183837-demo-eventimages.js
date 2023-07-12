@@ -6,23 +6,6 @@ if (process.env.NODE_ENV === "production") {
 }
 /** @type {import('sequelize-cli').Migration} */
 
-// const images = [
-//   {
-//     eventId: 1,
-//     url: "url10",
-//     preview: true,
-//   },
-//   {
-//     eventId: 2,
-//     url: "url11",
-//     preview: false,
-//   },
-//   {
-//     eventId: 3,
-//     url: "url12",
-//     preview: true,
-//   },
-// ];
 module.exports = {
   async up(queryInterface, Sequelize) {
     await EventImage.bulkCreate(
