@@ -6,14 +6,23 @@ module.exports = (sequelize, DataTypes) => {
       EventImage.belongsTo(models.Event, {
         foreignKey: "eventId",
         onDelete: "CASCADE",
-        hooks: true,
+        // hooks: true,
       });
     }
   }
   EventImage.init(
     {
-      eventId: DataTypes.INTEGER,
-      url: DataTypes.STRING,
+      eventId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: "Event",
+          key: "id",
+        },
+      },
+      url: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       preview: DataTypes.BOOLEAN,
     },
     {

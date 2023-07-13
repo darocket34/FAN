@@ -11,14 +11,26 @@ module.exports = (sequelize, DataTypes) => {
       Attendance.belongsTo(models.Event, {
         foreignKey: "eventId",
         onDelete: "CASCADE",
-        hooks: true,
+        // hooks: true,
       });
     }
   }
   Attendance.init(
     {
-      eventId: DataTypes.INTEGER,
-      userId: DataTypes.INTEGER,
+      eventId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: "Event",
+          key: "id",
+        },
+      },
+      userId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: "User",
+          key: "id",
+        },
+      },
       status: DataTypes.ENUM("attending", "waitlist", "pending"),
     },
     {

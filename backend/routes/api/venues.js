@@ -24,7 +24,8 @@ const validateVenue = [
   handleValidationErrors,
 ];
 
-//Edit a venue specicified by its Id
+// ! Edit a venue specicified by its Id
+
 router.put("/:venueId", requireAuth, validateVenue, async (req, res, next) => {
   const { address, city, state, lat, lng } = req.body;
   const venue = await Venue.findByPk(req.params.venueId);

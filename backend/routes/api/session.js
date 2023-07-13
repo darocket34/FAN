@@ -19,7 +19,8 @@ const validateLogin = [
   handleValidationErrors,
 ];
 
-// Log in
+// ! Log in
+
 router.post("/", validateLogin, async (req, res, next) => {
   const { credential, password } = req.body;
 
@@ -55,13 +56,15 @@ router.post("/", validateLogin, async (req, res, next) => {
   });
 });
 
-// Log out
+// ! Log out
+
 router.delete("/", (_req, res) => {
   res.clearCookie("token");
   return res.json({ message: "success" });
 });
 
-// Restore session user
+// ! Restore session user
+
 router.get("/", (req, res) => {
   const { user } = req;
   if (user) {

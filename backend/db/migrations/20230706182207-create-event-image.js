@@ -20,11 +20,12 @@ module.exports = {
           references: {
             model: "Events",
             key: "id",
-            onDelete: 'CASCADE',
+            // onDelete: 'CASCADE',
           },
         },
         url: {
           type: Sequelize.STRING,
+          allowNull: false,
         },
         preview: {
           type: Sequelize.BOOLEAN,

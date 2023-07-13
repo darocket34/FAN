@@ -20,7 +20,7 @@ module.exports = {
           references: {
             model: "Venues",
             key: "id",
-            onDelete: 'CASCADE',
+            // onDelete: 'CASCADE',
           },
         },
         groupId: {
@@ -28,7 +28,7 @@ module.exports = {
           references: {
             model: "Groups",
             key: "id",
-            onDelete: 'CASCADE',
+            // onDelete: 'CASCADE',
           },
         },
         name: {
@@ -36,15 +36,17 @@ module.exports = {
         },
         description: {
           type: Sequelize.TEXT,
+          allowNull: false,
         },
         type: {
-          type: Sequelize.ENUM("Networking", "Fun", "Romance"),
+          type: Sequelize.ENUM("Online", "In person"),
         },
         capacity: {
           type: Sequelize.INTEGER,
         },
         price: {
           type: Sequelize.INTEGER,
+          allowNull: false,
         },
         startDate: {
           type: Sequelize.DATE,

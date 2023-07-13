@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Membership.belongsTo(models.Group, {
         foreignKey: "groupId",
-        onDelete: "CASCADE",
-        hooks: true
+        // onDelete: "CASCADE",
+        // hooks: true,
       });
     }
   }
@@ -23,6 +23,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
+      scopes: {
+        statusOnly: {
+          attributes: {
+            include: "status",
+          },
+        },
+      },
       modelName: "Membership",
     }
   );

@@ -15,7 +15,7 @@ module.exports = {
           status: "attending",
         },
         {
-          eventId: 2,
+          eventId: 1,
           userId: 2,
           status: "waitlist",
         },
