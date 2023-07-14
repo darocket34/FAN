@@ -410,7 +410,7 @@ router.get("/:groupId/events", async (req, res, next) => {
         model: Venue,
         attributes: {
           exclude: [
-            "groupId", //Finish this
+            "groupId", 
             "address",
             "lat",
             "lng",
@@ -628,7 +628,6 @@ router.get("/:groupId/members", async (req, res, next) => {
   }));
 
   if (roleCheck === "host") {
-    console.log("HOST FOUND");
     res.json({ Members: membersAllRes });
   } else {
     return res.json({ Members: membersHostOnlyRes });
@@ -765,7 +764,7 @@ router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
   if (req.user.id === group.organizerId) {
     statusCheck = "organizer";
   }
-  console.log(statusCheck);
+
   if (statusCheck === "member") {
     const err = new Error(
       "Only the Organizer or Co-Host can change a membership"
