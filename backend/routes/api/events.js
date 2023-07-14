@@ -208,7 +208,7 @@ router.get("/:eventId", async (req, res, next) => {
     });
     delete event.EventImages;
   });
-  res.json({ Events: eventsRes });
+  return res.json({ Events: eventsRes });
 });
 
 // ! Add an image to an event based on the event's id
@@ -264,7 +264,7 @@ router.post("/:eventId/images", requireAuth, async (req, res, next) => {
     const err = new Error("Only an attendee can edit this group.");
     err.status = 401;
     err.title = "Unauthorized";
-    next(err);
+    return next(err);
   }
 });
 
@@ -466,7 +466,7 @@ router.get("/:eventId/attendees", async (req, res, next) => {
     });
   });
 
-  if (!req.user) res.json(attendeesNoPendingResArr);
+  if (!req.user) return res.json(attendeesNoPendingResArr);
 
   let membershipArr = [];
   membership.forEach((membership) => {
@@ -480,9 +480,9 @@ router.get("/:eventId/attendees", async (req, res, next) => {
   });
 
   if (organizer === req.user.id || fullView) {
-    res.json(attendeesResArr);
+   return res.json(attendeesResArr);
   } else {
-    res.json(attendeesNoPendingResArr);
+    return res.json(attendeesNoPendingResArr);
   }
 });
 
@@ -620,7 +620,7 @@ router.put("/:eventId/attendance", requireAuth, async (req, res, next) => {
       status: "attending",
     });
     attendance.save();
-    res.json(attendance);
+    return res.json(attendance);
   }
 });
 
@@ -671,7 +671,7 @@ router.delete("/:eventId/attendance", requireAuth, async (req, res, next) => {
   });
 
   if (userId === req.user.id) {
-    currUserAttendance.destroy();
+    await currUserAttendance.destroy();
     return res.json({
       message: "Successfully deleted membership from group",
     });
@@ -683,7 +683,7 @@ router.delete("/:eventId/attendance", requireAuth, async (req, res, next) => {
     err.title = "Unauthorized";
     return next(err);
   } else {
-    currUserAttendance.destroy();
+    await currUserAttendance.destroy();
     return res.json({
       message: "Successfully deleted membership from group",
     });
@@ -719,7 +719,7 @@ router.delete("/:eventId", requireAuth, async (req, res, next) => {
   });
 
   if (confirm) {
-    event.destroy();
+    await event.destroy();
     return res.json({
       message: "Successfully deleted",
     });

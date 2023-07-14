@@ -63,7 +63,7 @@ router.put("/:venueId", requireAuth, validateVenue, async (req, res, next) => {
     lng,
   });
   await venue.save();
-  res.json(venue);
+  return res.json(venue);
 });
 
 module.exports = router;

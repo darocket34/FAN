@@ -53,7 +53,7 @@ router.delete("/:imageId", requireAuth, async (req, res, next) => {
     return next(err);
   } else {
     await image.destroy();
-    res.json({
+    return res.json({
       message: "Successfully Completed",
     });
   }

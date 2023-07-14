@@ -253,7 +253,7 @@ router.put("/:groupId", requireAuth, validateGroup, async (req, res, next) => {
     state,
   });
   await group.save();
-  res.json(group);
+  return res.json(group);
 });
 
 // ! Add an Image to a group based on the group's id
@@ -293,7 +293,7 @@ router.post("/:groupId/images", requireAuth, async (req, res, next) => {
     },
   });
 
-  res.json(img);
+  return res.json(img);
 });
 
 // ! Get all venues for a group specified by its Id
@@ -327,7 +327,7 @@ router.get("/:groupId/venues", requireAuth, async (req, res, next) => {
     venuesArr.push(group.toJSON());
   });
 
-  res.json({ Venues: venues });
+  return res.json({ Venues: venues });
 });
 
 // ! Create a new venue for a group specified by its id
@@ -466,7 +466,7 @@ router.get("/:groupId/events", async (req, res, next) => {
     });
     delete event.EventImages;
   });
-  res.json({ Events: eventsRes });
+  return res.json({ Events: eventsRes });
 });
 
 // ! Create an Event for a Group specified by its id
@@ -504,7 +504,7 @@ router.post(
       const err = Error("Venue does not exist");
       err.status = 404;
       err.title = "Bad request.";
-      next(err);
+      return next(err);
     }
     if (!group) {
       const err = new Error("Group not found...");
@@ -546,7 +546,7 @@ router.post(
       startDate: newEvent.startDate,
       endDate: newEvent.endDate,
     };
-    res.json(eventRes);
+    return res.json(eventRes);
   }
 );
 
@@ -633,7 +633,7 @@ router.get("/:groupId/members", async (req, res, next) => {
   }));
 
   if (roleCheck === "host") {
-    res.json({ Members: membersAllRes });
+    return res.json({ Members: membersAllRes });
   } else {
     return res.json({ Members: membersHostOnlyRes });
   }
@@ -852,7 +852,7 @@ router.delete("/:groupId/membership", requireAuth, async (req, res, next) => {
 
   if (req.user.id === memberId || req.user.id === group.organizerId) {
     await membership.destroy();
-    res.json({
+    return res.json({
       message: "Successfully deleted membership from group",
     });
   } else {
@@ -881,7 +881,7 @@ router.delete("/:groupId", requireAuth, async (req, res, next) => {
     err.title = "Unauthorized";
     return next(err);
   }
-  group.destroy();
+  await group.destroy();
   return res.json({ message: "success" });
 });
 
