@@ -20,7 +20,7 @@ module.exports = {
           status: "waitlist",
         },
         {
-          eventId: 3,
+          eventId: 1,
           userId: 3,
           status: "pending",
         },

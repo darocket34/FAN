@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         // hooks: true,
       });
+      Attendance.belongsTo(models.User, {
+        foreignKey: "userId",
+        // onDelete: "CASCADE",
+        // hooks: true,
+      });
     }
   }
   Attendance.init(
@@ -35,6 +40,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
+      defaultScope: {
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
+        },
+      },
       modelName: "Attendance",
     }
   );
