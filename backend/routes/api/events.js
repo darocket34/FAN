@@ -2,7 +2,7 @@ const express = require("express");
 const { Op } = require("sequelize");
 const { requireAuth } = require("./../../utils/auth");
 const { check } = require("express-validator");
-const { handleValidationErrors } = require("./../../utils/validation");
+const { handleValidationErrors } = require("../../utils/validation");
 const {
   Group,
   User,
@@ -18,24 +18,71 @@ const user = require("../../db/models/user");
 const router = express.Router();
 
 const validateEvent = [
+  check("venueId").exists().withMessage("Venue does not exist"),
   check("name")
     .isLength({ min: 5 })
     .withMessage("Name must be at least 5 characters"),
   check("type")
-    .isIn(["Online", "In person"])
-    .withMessage("Type must be Online or In person"),
-  check("capacity").isNumeric().withMessage("Capacity must be an integer"),
-  check("price").notEmpty().isDecimal().withMessage("Price is invalid"),
+    .isIn(["Online", "In Person"])
+    .withMessage("Type must be 'Online' or 'In Person'"),
+  check("capacity").isInt().withMessage("Capacity must be an integer"),
+  check("price").isDecimal().withMessage("Price is invalid"),
   check("description").notEmpty().withMessage("Description is required"),
-  check("startDate").notEmpty().withMessage("Start date must be in the future"),
-  check("endDate").notEmpty().withMessage("End date is less than start date"),
+  check("startDate").isAfter().withMessage("Start date must be in the future"),
+  check("endDate")
+    .custom((end, { req }) => end > req.body.startDate)
+    .withMessage("End date is less than start date"),
+  handleValidationErrors,
+];
+
+const validateParameters = [
+  check("page")
+    .optional()
+    .isInt({ min: 1 }, {max: 10})
+    .withMessage("Page must be greater than or equal to 1"),
+  check("size")
+    .optional()
+    .isInt({ min: 1, max: 20 })
+    .withMessage("Size must be between 1 and 20"),
+  check("name").optional().isString().withMessage("Name must be a string"),
+  // check("type")
+  //   .optional()
+  //   .isIn(["Online", "In Person"])
+  //   .withMessage("Type must be 'Online' or 'In Person'"),
+  check("startDate")
+    .optional()
+    .isDate()
+    .withMessage("Start date must be a valid datetime"),
   handleValidationErrors,
 ];
 
 // ! Get all events
 
-router.get("/", async (req, res) => {
+router.get("/", validateParameters, async (req, res) => {
+  let query = {
+    where: {},
+  };
+
+  const page = req.query.page === undefined ? 1 : parseInt(req.query.page);
+  const size = req.query.size === undefined ? 20 : parseInt(req.query.size);
+
+  if (page >= 1 && size >= 1) {
+    query.limit = size;
+    query.offset = size * (page - 1);
+  }
+  if (req.query.name) {
+    query.where.name = req.query.name;
+    query.where.name = { [Op.like]: `%${req.query.name}%` };
+  }
+  if (req.query.type) {
+    query.where.type = req.query.type;
+  }
+  if (req.query.startDate) {
+    query.where.startDate = req.query.startDate;
+  }
+
   const events = await Event.findAll({
+    ...query,
     include: [
       {
         model: Group,
@@ -68,18 +115,13 @@ router.get("/", async (req, res) => {
       },
       {
         model: Attendance,
-        where: {
-          status: "attending",
-        },
       },
     ],
-    attributes: {
-      exclude: ["createdAt", "updatedAt"],
-    },
   });
 
   let eventsRes = [];
-  events.forEach((event) => {
+  for(let event of events) {
+    let attendees = await Attendance.count({ where: { status: "attending", eventId: event.id } });
     event.EventImages.forEach((image) => {
       if (image.preview === true) {
         event.previewImage = image.url;
@@ -87,7 +129,6 @@ router.get("/", async (req, res) => {
         event.previewImage = "Sorry... No image preview available.";
       }
     });
-
     eventsRes.push({
       id: event.id,
       groupId: event.groupId,
@@ -96,13 +137,13 @@ router.get("/", async (req, res) => {
       type: event.type,
       startDate: event.startDate,
       endDate: event.endDate,
-      numAttending: event.Attendances.length,
+      numAttending: attendees,
       previewImage: event.previewImage,
       Group: event.Group,
       Venue: event.Venue,
     });
     delete event.EventImages;
-  });
+  };
 
   res.json({ Events: eventsRes });
 });
@@ -477,24 +518,24 @@ router.post("/:eventId/attendance", requireAuth, async (req, res, next) => {
     err.title = "Unauthorized";
     return next(err);
   }
-let attendanceCheck
+  let attendanceCheck;
   const attendance = await Attendance.findOne({
     where: {
       [Op.and]: [{ userId: req.user.id }, { eventId: req.params.eventId }],
     },
   });
- if(!attendance){
-  const response = await Attendance.create({
-    eventId: req.params.eventId,
-    userId: req.user.id,
-    status: "pending",
-  });
-  const responseObj = {
-    userId: response.userId,
-    status: response.status,
-  };
-  return res.json(responseObj);
- }
+  if (!attendance) {
+    const response = await Attendance.create({
+      eventId: req.params.eventId,
+      userId: req.user.id,
+      status: "pending",
+    });
+    const responseObj = {
+      userId: response.userId,
+      status: response.status,
+    };
+    return res.json(responseObj);
+  }
   attendanceCheck = attendance.status;
 
   if (attendanceCheck === "pending") {
@@ -594,7 +635,7 @@ router.delete("/:eventId/attendance", requireAuth, async (req, res, next) => {
     err.title = "Event does not exist.";
     return next(err);
   }
-  
+
   const user = await User.findByPk(userId);
   if (!user) {
     const err = new Error("User not found");
@@ -616,8 +657,6 @@ router.delete("/:eventId/attendance", requireAuth, async (req, res, next) => {
     err.title = "Not found";
     return next(err);
   }
-
-
 
   const currUserAttendance = await Attendance.findOne({
     where: {

@@ -15,13 +15,9 @@ module.exports = (sequelize, DataTypes) => {
       });
       Event.belongsTo(models.Group, {
         foreignKey: "groupId",
-        // onDelete: "CASCADE",
-        // hooks: true,
       });
       Event.belongsTo(models.Venue, {
         foreignKey: "venueId",
-        // onDelete: "CASCADE",
-        // hooks: true,
       });
     }
   }
@@ -35,26 +31,18 @@ module.exports = (sequelize, DataTypes) => {
       },
       venueId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Venue',
-          key: 'id'
-        }
       },
-      groupId: DataTypes.INTEGER,
+      groupId: {
+        type: DataTypes.INTEGER,
+      },
       name: {
         type: DataTypes.STRING,
         validate: {
           len: [5, 100],
         },
-        references: {
-          model: 'Group',
-          key: 'id'
-        }
       },
       description: {
         type: DataTypes.TEXT,
-        allowNull: false,
       },
       type: {
         type: DataTypes.ENUM("Online", "In person"),
@@ -62,7 +50,6 @@ module.exports = (sequelize, DataTypes) => {
       capacity: DataTypes.INTEGER,
       price: {
         type: DataTypes.DECIMAL(6, 2),
-        allowNull: false,
       },
       startDate: {
         type: DataTypes.DATE,

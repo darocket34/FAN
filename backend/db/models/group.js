@@ -6,33 +6,33 @@ module.exports = (sequelize, DataTypes) => {
       Group.hasMany(models.Event, {
         foreignKey: "groupId",
         onDelete: "CASCADE",
-        // hooks: true
+        hooks: true
       });
       Group.hasMany(models.Venue, {
         foreignKey: "groupId",
         onDelete: "CASCADE",
-        // hooks: true
+        hooks: true
       });
       Group.hasMany(models.GroupImage, {
         foreignKey: "groupId",
         onDelete: "CASCADE",
-        // hooks: true
+        hooks: true
       });
       Group.hasMany(models.Membership, {
         foreignKey: "groupId",
-        // onDelete: "CASCADE",
-        // hooks: true
+        onDelete: "CASCADE",
+        hooks: true
       });
       Group.belongsTo(models.User, {
         foreignKey: "organizerId",
-        // onDelete: "CASCADE",
-        // hooks: true
       });
     }
   }
   Group.init(
     {
-      organizerId: DataTypes.INTEGER,
+      organizerId: {
+        type: DataTypes.INTEGER,
+      },
       name: {
         type: DataTypes.STRING(60),
         validate: {

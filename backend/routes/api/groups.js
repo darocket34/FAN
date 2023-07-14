@@ -19,7 +19,6 @@ const user = require("../../db/models/user");
 const router = express.Router();
 
 const validateGroup = [
-  check("venueId").exists().withMessage("Venue does not exist"),
   check("name")
     .isLength({ max: 60 })
     .withMessage("Name must be 60 characters or less"),
@@ -45,17 +44,20 @@ const validateVenue = [
 ];
 
 const validateEvent = [
+  check("venueId").exists().withMessage("Venue does not exist"),
   check("name")
     .isLength({ min: 5 })
     .withMessage("Name must be at least 5 characters"),
   check("type")
-    .isIn(["Online", "In person"])
-    .withMessage("Type must be Online or In person"),
-  check("capacity").isNumeric().withMessage("Capacity must be an integer"),
-  check("price").notEmpty().isDecimal().withMessage("Price is invalid"),
+    .isIn(["Online", "In Person"])
+    .withMessage("Type must be 'Online' or 'In Person'"),
+  check("capacity").isInt().withMessage("Capacity must be an integer"),
+  check("price").isDecimal().withMessage("Price is invalid"),
   check("description").notEmpty().withMessage("Description is required"),
-  check("startDate").notEmpty().withMessage("Start date must be in the future"),
-  check("endDate").notEmpty().withMessage("End date is less than start date"),
+  check("startDate").isAfter().withMessage("Start date must be in the future"),
+  check("endDate")
+    .custom((value, { req }) => value > req.body.startDate)
+    .withMessage("End date is less than start date"),
   handleValidationErrors,
 ];
 
@@ -151,13 +153,17 @@ router.get("/current", requireAuth, async (req, res) => {
     delete group.Memberships;
     delete group.GroupImages;
   });
-
-  res.json(groupsArr);
+  if (groupsArr.length === 0) {
+    return res.status(404).json({
+      message: "No groups found for user",
+    });
+  }
+  return res.json(groupsArr);
 });
 
 // ! Get Details of a Group By Id
 
-router.get("/:groupId", async (req, res, next) => {
+router.get("/:groupId", async (req, res) => {
   const groups = await Group.findAll({
     where: {
       id: req.params.groupId,
@@ -182,10 +188,9 @@ router.get("/:groupId", async (req, res, next) => {
   });
 
   if (groups.length === 0) {
-    const err = new Error("Group not found...");
-    err.status = 404;
-    err.title = "Group does not exist.";
-    return next(err);
+    res.status(404).json({
+      message: "Group couldn't be found",
+    });
   }
   let groupsArr = [];
   groups.forEach((group) => {
@@ -219,7 +224,7 @@ router.get("/:groupId", async (req, res, next) => {
     Venues: groupsArr[0].Venues,
   };
 
-  res.json(groupObj);
+  return res.json(groupObj);
 });
 
 // ! Edit a group
@@ -410,7 +415,7 @@ router.get("/:groupId/events", async (req, res, next) => {
         model: Venue,
         attributes: {
           exclude: [
-            "groupId", 
+            "groupId",
             "address",
             "lat",
             "lng",
