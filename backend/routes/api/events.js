@@ -611,6 +611,9 @@ router.put("/:eventId/attendance", requireAuth, async (req, res, next) => {
     where: {
       [Op.and]: [{ userId: userId }, { eventId: req.params.eventId }],
     },
+    attributes: {
+      exclude: ["udpatedAt", "createdAt"],
+    },
   });
   if (!attendance) {
     const err = new Error(
