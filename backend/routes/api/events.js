@@ -640,7 +640,7 @@ router.put("/:eventId/attendance", requireAuth, async (req, res, next) => {
       id: attendance.id,
       eventId: attendance.eventId,
       userId: attendance.userId,
-      status: attendance.stantus,
+      status: attendance.status,
     };
     res.json(resObj);
   }
