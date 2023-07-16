@@ -308,6 +308,7 @@ router.get("/:groupId/venues", requireAuth, async (req, res, next) => {
   const membership = await Membership.findAll({
     where: {
       userId: req.user.id,
+      groupId: req.params.groupId,
     },
   });
   if (!group) {
@@ -316,18 +317,32 @@ router.get("/:groupId/venues", requireAuth, async (req, res, next) => {
     err.title = "Group does not exist.";
     return next(err);
   }
-  if (group.organizerId !== req.user.id || membership[0].status !== "co-host") {
+
+  if (membership.length > 0) {
+    if (membership[0].status === "co-host") {
+      let venuesArr = [];
+      venues.forEach((group) => {
+        venuesArr.push(group.toJSON());
+      });
+      return res.json({ Venues: venues });
+    } else {
+      const err = new Error("User must be Organizer or Co-Host to access.");
+      err.status = 401;
+      err.title = "Unauthorized";
+      return next(err);
+    }
+  } else if (group.organizerId === req.user.id) {
+    let venuesArr = [];
+    venues.forEach((group) => {
+      venuesArr.push(group.toJSON());
+    });
+    return res.json({ Venues: venues });
+  } else {
     const err = new Error("User must be Organizer or Co-Host to access.");
     err.status = 401;
     err.title = "Unauthorized";
     return next(err);
   }
-  let venuesArr = [];
-  venues.forEach((group) => {
-    venuesArr.push(group.toJSON());
-  });
-
-  return res.json({ Venues: venues });
 });
 
 // ! Create a new venue for a group specified by its id
@@ -349,6 +364,7 @@ router.post(
     const membership = await Membership.findAll({
       where: {
         userId: req.user.id,
+        groupId: req.params.groupId,
       },
     });
 
@@ -359,34 +375,57 @@ router.post(
       return next(err);
     }
 
-    if (
-      group.organizerId !== req.user.id ||
-      membership[0].status !== "co-host"
-    ) {
+     if (membership.length > 0) {
+      if (membership[0].status === "co-host") {
+        const newVenue = await Venue.create({
+          groupId: req.params.groupId,
+          address,
+          city,
+          state,
+          lat,
+          lng,
+        });
+        const newVenueObj = {
+          id: newVenue.id,
+          groupId: Number(newVenue.groupId),
+          address,
+          city,
+          state,
+          lat,
+          lng,
+        };
+        return res.json(newVenueObj);
+      } else {
+        const err = new Error("User must be Organizer or Co-Host to access.");
+        err.status = 401;
+        err.title = "Unauthorized";
+        return next(err);
+      }
+    } else if (group.organizerId === req.user.id) {
+      const newVenue = await Venue.create({
+        groupId: req.params.groupId,
+        address,
+        city,
+        state,
+        lat,
+        lng,
+      });
+      const newVenueObj = {
+        id: newVenue.id,
+        groupId: Number(newVenue.groupId),
+        address,
+        city,
+        state,
+        lat,
+        lng,
+      };
+      return res.json(newVenueObj);
+    } else {
       const err = new Error("User must be Organizer or Co-Host to access.");
       err.status = 401;
       err.title = "Unauthorized";
       return next(err);
     }
-
-    const newVenue = await Venue.create({
-      groupId: req.params.groupId,
-      address,
-      city,
-      state,
-      lat,
-      lng,
-    });
-    const newVenueObj = {
-      id: newVenue.id,
-      groupId: Number(newVenue.groupId),
-      address,
-      city,
-      state,
-      lat,
-      lng,
-    };
-    return res.json(newVenueObj);
   }
 );
 
@@ -690,7 +729,7 @@ router.post("/:groupId/membership", requireAuth, async (req, res, next) => {
     });
 
     const resObj = {
-      member: newMember.id,
+      memberId: newMember.id,
       status: newMember.status,
     };
     return res.json(resObj);
@@ -707,7 +746,7 @@ router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
     err.title = "Group does not exist.";
     return next(err);
   }
-  
+
   const { memberId, status } = req.body;
   if (status === "pending") {
     const err = new Error("Cannot change a membership status to pending");
@@ -715,7 +754,6 @@ router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
     err.title = "Validation Error";
     return next(err);
   }
-
 
   const membership = await Membership.findOne({
     where: {
@@ -798,8 +836,9 @@ router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
     });
     updatedMember.save();
     const resObj = {
-      groupId: req.params.groupId,
-      memberId: updatedMember.id,
+      id: updatedMember.id,
+      groupId: Number(req.params.groupId),
+      memberId: updatedMember.userId,
       status: updatedMember.status,
     };
     return res.json(resObj);
@@ -813,7 +852,7 @@ router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
     updatedMember.save();
     const resObj = {
       id: updatedMember.id,
-      groupId: updatedMember.groupId,
+      groupId: Number(req.params.groupId),
       memberId: updatedMember.userId,
       status: updatedMember.status,
     };

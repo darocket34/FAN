@@ -491,6 +491,16 @@ router.get("/:eventId/attendees", async (req, res, next) => {
 // ! Request to attend an event based on the event Id
 
 router.post("/:eventId/attendance", requireAuth, async (req, res, next) => {
+  // const { userId, status } = req.body;
+  // const statusArr = ["waitlist", "pending", "attending"];
+  // if (!statusArr.includes(status)) {
+  //   const err = new Error(
+  //     "Status must be 'pending', 'waitlist', or 'attending'."
+  //   );
+  //   err.status = 400;
+  //   err.title = "Bad request.";
+  //   return next(err);
+  // }
   const event = await Event.findByPk(req.params.eventId);
   if (!event) {
     const err = new Error("Event not found...");
@@ -520,6 +530,7 @@ router.post("/:eventId/attendance", requireAuth, async (req, res, next) => {
     err.title = "Unauthorized";
     return next(err);
   }
+
   let attendanceCheck;
   const attendance = await Attendance.findOne({
     where: {
@@ -579,20 +590,6 @@ router.put("/:eventId/attendance", requireAuth, async (req, res, next) => {
     return next(err);
   }
 
-  const attendance = await Attendance.findOne({
-    where: {
-      [Op.and]: [{ userId: userId }, { eventId: req.params.eventId }],
-    },
-  });
-  if (!attendance) {
-    const err = new Error(
-      "Attendance between the user and the event does not exist"
-    );
-    err.status = 404;
-    err.title = "Not found";
-    return next(err);
-  }
-
   const event = await Event.findByPk(req.params.eventId);
   if (!event) {
     const err = new Error("Event not found...");
@@ -609,6 +606,20 @@ router.put("/:eventId/attendance", requireAuth, async (req, res, next) => {
       [Op.and]: [{ userId: req.user.id }, { groupId: event.groupId }],
     },
   });
+
+  const attendance = await Attendance.findOne({
+    where: {
+      [Op.and]: [{ userId: userId }, { eventId: req.params.eventId }],
+    },
+  });
+  if (!attendance) {
+    const err = new Error(
+      "Attendance between the user and the event does not exist"
+    );
+    err.status = 404;
+    err.title = "Not found";
+    return next(err);
+  }
 
   if (!membership || membership.status !== "co-host") {
     const err = new Error(
