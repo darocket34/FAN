@@ -636,7 +636,13 @@ router.put("/:eventId/attendance", requireAuth, async (req, res, next) => {
       status: "attending",
     });
     attendance.save();
-    res.json(attendance);
+    const resObj = {
+      id: attendance.id,
+      eventId: attendance.eventId,
+      userId: attendance.userId,
+      status: attendance.stantus,
+    };
+    res.json(resObj);
   }
 });
 
