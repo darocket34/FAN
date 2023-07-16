@@ -38,7 +38,7 @@ const validateEvent = [
 const validateParameters = [
   check("page")
     .optional()
-    .isInt({ min: 1 }, {max: 10})
+    .isInt({ min: 1 }, { max: 10 })
     .withMessage("Page must be greater than or equal to 1"),
   check("size")
     .optional()
@@ -120,8 +120,10 @@ router.get("/", validateParameters, async (req, res) => {
   });
 
   let eventsRes = [];
-  for(let event of events) {
-    let attendees = await Attendance.count({ where: { status: "attending", eventId: event.id } });
+  for (let event of events) {
+    let attendees = await Attendance.count({
+      where: { status: "attending", eventId: event.id },
+    });
     event.EventImages.forEach((image) => {
       if (image.preview === true) {
         event.previewImage = image.url;
@@ -143,7 +145,7 @@ router.get("/", validateParameters, async (req, res) => {
       Venue: event.Venue,
     });
     delete event.EventImages;
-  };
+  }
 
   res.json({ Events: eventsRes });
 });
@@ -208,7 +210,7 @@ router.get("/:eventId", async (req, res, next) => {
     });
     delete event.EventImages;
   });
-  return res.json({ Events: eventsRes });
+  res.json({ Events: eventsRes });
 });
 
 // ! Add an image to an event based on the event's id
@@ -264,7 +266,7 @@ router.post("/:eventId/images", requireAuth, async (req, res, next) => {
     const err = new Error("Only an attendee can edit this group.");
     err.status = 401;
     err.title = "Unauthorized";
-    return next(err);
+    next(err);
   }
 });
 
@@ -446,7 +448,7 @@ router.get("/:eventId/attendees", async (req, res, next) => {
   let attendeesNoPendingResArr = [];
   attendees.forEach((attendee) => {
     attendeesResArr.push({
-      id: attendee.id,
+      id: attendee.User.id,
       firstName: attendee.User.firstName,
       lastName: attendee.User.lastName,
       Attendance: {
@@ -457,7 +459,7 @@ router.get("/:eventId/attendees", async (req, res, next) => {
 
   attendeesNoPending.forEach((attendee) => {
     attendeesNoPendingResArr.push({
-      id: attendee.id,
+      id: attendee.User.id,
       firstName: attendee.User.firstName,
       lastName: attendee.User.lastName,
       Attendance: {
@@ -466,7 +468,7 @@ router.get("/:eventId/attendees", async (req, res, next) => {
     });
   });
 
-  if (!req.user) return res.json(attendeesNoPendingResArr);
+  if (!req.user) res.json(attendeesNoPendingResArr);
 
   let membershipArr = [];
   membership.forEach((membership) => {
@@ -480,9 +482,9 @@ router.get("/:eventId/attendees", async (req, res, next) => {
   });
 
   if (organizer === req.user.id || fullView) {
-   return res.json(attendeesResArr);
+    res.json(attendeesResArr);
   } else {
-    return res.json(attendeesNoPendingResArr);
+    res.json(attendeesNoPendingResArr);
   }
 });
 
@@ -620,7 +622,7 @@ router.put("/:eventId/attendance", requireAuth, async (req, res, next) => {
       status: "attending",
     });
     attendance.save();
-    return res.json(attendance);
+    res.json(attendance);
   }
 });
 
@@ -671,7 +673,7 @@ router.delete("/:eventId/attendance", requireAuth, async (req, res, next) => {
   });
 
   if (userId === req.user.id) {
-    await currUserAttendance.destroy();
+    currUserAttendance.destroy();
     return res.json({
       message: "Successfully deleted membership from group",
     });
@@ -683,7 +685,7 @@ router.delete("/:eventId/attendance", requireAuth, async (req, res, next) => {
     err.title = "Unauthorized";
     return next(err);
   } else {
-    await currUserAttendance.destroy();
+    currUserAttendance.destroy();
     return res.json({
       message: "Successfully deleted membership from group",
     });
@@ -719,7 +721,7 @@ router.delete("/:eventId", requireAuth, async (req, res, next) => {
   });
 
   if (confirm) {
-    await event.destroy();
+    event.destroy();
     return res.json({
       message: "Successfully deleted",
     });

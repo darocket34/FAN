@@ -700,6 +700,14 @@ router.post("/:groupId/membership", requireAuth, async (req, res, next) => {
 // ! Change the status of a membership for a group specified by id
 
 router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
+  const group = await Group.findByPk(req.params.groupId);
+  if (!group) {
+    const err = new Error("Group not found...");
+    err.status = 404;
+    err.title = "Group does not exist.";
+    return next(err);
+  }
+  
   const { memberId, status } = req.body;
   if (status === "pending") {
     const err = new Error("Cannot change a membership status to pending");
@@ -707,6 +715,7 @@ router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
     err.title = "Validation Error";
     return next(err);
   }
+
 
   const membership = await Membership.findOne({
     where: {
@@ -722,13 +731,6 @@ router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
     return next(err);
   }
 
-  const group = await Group.findByPk(req.params.groupId);
-  if (!group) {
-    const err = new Error("Group not found...");
-    err.status = 404;
-    err.title = "Group does not exist.";
-    return next(err);
-  }
   const memberList = await Membership.findAll({
     where: {
       groupId: req.params.groupId,
