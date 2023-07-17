@@ -505,12 +505,10 @@ router.get("/:groupId/events", async (req, res, next) => {
       if (image.preview === true) {
         event.previewImage = image.url;
       }
-    })
-    if (!event.previewImage){
-        event.previewImage = "Sorry... No image preview available.";
-      }
     });
-
+    if (!event.previewImage) {
+      event.previewImage = "Sorry... No image preview available.";
+    }
     eventsRes.push({
       id: event.id,
       groupId: event.groupId,
