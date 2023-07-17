@@ -504,7 +504,9 @@ router.get("/:groupId/events", async (req, res, next) => {
     event.EventImages.forEach((image) => {
       if (image.preview === true) {
         event.previewImage = image.url;
-      } else if (image.preview === false || !image) {
+      }
+    })
+    if (!event.previewImage){
         event.previewImage = "Sorry... No image preview available.";
       }
     });
@@ -752,7 +754,7 @@ router.post("/:groupId/membership", requireAuth, async (req, res, next) => {
     });
 
     const resObj = {
-      memberId: newMember.id,
+      memberId: req.user.id,
       status: newMember.status,
     };
     return res.json(resObj);
