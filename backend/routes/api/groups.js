@@ -602,6 +602,12 @@ router.post(
       startDate: newEvent.startDate,
       endDate: newEvent.endDate,
     };
+
+    await Attendance.create({
+      eventId: newEvent.id,
+      userId: req.user.id,
+      status: "attending",
+    });
     return res.json(eventRes);
   }
 );
@@ -826,8 +832,6 @@ router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
   if (req.user.id === group.organizerId) {
     statusCheck = "organizer";
   }
-  console.log("HELLLO");
-  console.log(statusCheck);
 
   if (statusCheck === "member") {
     const err = new Error(
