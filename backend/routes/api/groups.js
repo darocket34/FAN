@@ -68,6 +68,11 @@ router.get("/", async (req, res) => {
     include: [
       {
         model: Membership,
+        // where: {
+        //   status: {
+        //     [Op.in]: ['member', 'co-host']
+        //   }
+        // }
       },
       {
         model: GroupImage,
@@ -81,7 +86,13 @@ router.get("/", async (req, res) => {
   });
 
   groupsArr.forEach((group) => {
-    group.numMembers = group.Memberships.length;
+    let count = 0;
+    group.Memberships.forEach((membership) => {
+      if (membership.status === "member" || membership.status === "co-host") {
+        count++;
+      }
+    });
+    group.numMembers = count;
 
     group.GroupImages.forEach((image) => {
       if (image.preview === true) {
@@ -111,22 +122,19 @@ router.post("/", requireAuth, validateGroup, async (req, res) => {
     city,
     state,
   });
-
+  await Membership.create({
+    userId: req.user.id,
+    groupId: newGroup.id,
+    status: "co-host",
+  });
   return res.json(newGroup);
 });
 
 // ! Get all groups associated with current user
 
 router.get("/current", requireAuth, async (req, res) => {
-  const { name, about, type, private, city, state } = req.body;
   const currentUserId = req.user.id;
   const groups = await Group.findAll({
-    where: {
-      [Op.or]: [
-        { organizerId: currentUserId },
-        (Membership.userId = currentUserId),
-      ],
-    },
     include: [
       {
         model: Membership,
@@ -136,10 +144,20 @@ router.get("/current", requireAuth, async (req, res) => {
       },
     ],
   });
+
   let groupsArr = [];
   groups.forEach((group) => {
-    groupsArr.push(group.toJSON());
+    if (group.toJSON().organizerId === currentUserId) {
+      groupsArr.push(group.toJSON());
+    } else {
+      group.toJSON().Memberships.forEach((member) => {
+        if (member.userId === currentUserId) {
+          groupsArr.push(group.toJSON());
+        }
+      });
+    }
   });
+
   groupsArr.forEach((group) => {
     group.numMembers = group.Memberships.length;
 
@@ -158,6 +176,7 @@ router.get("/current", requireAuth, async (req, res) => {
       message: "No groups found for user",
     });
   }
+
   return res.json(groupsArr);
 });
 
@@ -375,7 +394,7 @@ router.post(
       return next(err);
     }
 
-     if (membership.length > 0) {
+    if (membership.length > 0) {
       if (membership[0].status === "co-host") {
         const newVenue = await Venue.create({
           groupId: req.params.groupId,
@@ -538,6 +557,7 @@ router.post(
         userId: req.user.id,
       },
     });
+
     const venue = await Venue.findByPk(venueId);
     if (venue === null && venueId !== undefined) {
       const err = Error("Venue does not exist");
@@ -552,10 +572,7 @@ router.post(
       return next(err);
     }
 
-    if (
-      group.organizerId !== req.user.id ||
-      membership[0].status !== "co-host"
-    ) {
+    if (group.organizerId !== req.user.id || membership === undefined) {
       const err = new Error("User must be Organizer or Co-Host to access.");
       err.status = 401;
       err.title = "Unauthorized";
@@ -809,6 +826,8 @@ router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
   if (req.user.id === group.organizerId) {
     statusCheck = "organizer";
   }
+  console.log("HELLLO");
+  console.log(statusCheck);
 
   if (statusCheck === "member") {
     const err = new Error(

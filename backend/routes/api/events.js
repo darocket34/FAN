@@ -70,16 +70,6 @@ router.get("/", validateParameters, async (req, res) => {
     query.limit = size;
     query.offset = size * (page - 1);
   }
-  if (req.query.name) {
-    query.where.name = req.query.name;
-    query.where.name = { [Op.like]: `%${req.query.name}%` };
-  }
-  if (req.query.type) {
-    query.where.type = req.query.type;
-  }
-  if (req.query.startDate) {
-    query.where.startDate = req.query.startDate;
-  }
 
   const events = await Event.findAll({
     ...query,
@@ -491,16 +481,6 @@ router.get("/:eventId/attendees", async (req, res, next) => {
 // ! Request to attend an event based on the event Id
 
 router.post("/:eventId/attendance", requireAuth, async (req, res, next) => {
-  // const { userId, status } = req.body;
-  // const statusArr = ["waitlist", "pending", "attending"];
-  // if (!statusArr.includes(status)) {
-  //   const err = new Error(
-  //     "Status must be 'pending', 'waitlist', or 'attending'."
-  //   );
-  //   err.status = 400;
-  //   err.title = "Bad request.";
-  //   return next(err);
-  // }
   const event = await Event.findByPk(req.params.eventId);
   if (!event) {
     const err = new Error("Event not found...");
@@ -695,7 +675,7 @@ router.delete("/:eventId/attendance", requireAuth, async (req, res, next) => {
   if (userId === req.user.id) {
     currUserAttendance.destroy();
     return res.json({
-      message: "Successfully deleted membership from group",
+      message: "Successfully deleted attendance from the Event",
     });
   } else if (!membership || membership.status !== "co-host") {
     const err = new Error(
@@ -707,7 +687,7 @@ router.delete("/:eventId/attendance", requireAuth, async (req, res, next) => {
   } else {
     currUserAttendance.destroy();
     return res.json({
-      message: "Successfully deleted membership from group",
+      message: "Successfully deleted attendance from the Event",
     });
   }
 });
