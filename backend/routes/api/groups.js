@@ -97,14 +97,14 @@ router.get("/", async (req, res) => {
     group.GroupImages.forEach((image) => {
       if (image.preview === true) {
         group.previewImage = image.url;
-      } else if (image.preview === false || !image) {
-        group.previewImage = "Sorry... No image preview available.";
       }
     });
     delete group.Memberships;
     delete group.GroupImages;
   });
-
+  if (!group.previewImage) {
+    group.previewImage = "Sorry... No image preview available.";
+  }
   return res.json({ Groups: groupsArr });
 });
 
@@ -164,13 +164,14 @@ router.get("/current", requireAuth, async (req, res) => {
     group.GroupImages.forEach((image) => {
       if (image.preview === true) {
         group.previewImage = image.url;
-      } else if (image.preview === false || !image) {
-        group.previewImage = "Sorry... No image preview available.";
       }
     });
     delete group.Memberships;
     delete group.GroupImages;
   });
+  if (!group.previewImage) {
+    group.previewImage = "Sorry... No image preview available.";
+  }
   if (groupsArr.length === 0) {
     return res.status(404).json({
       message: "No groups found for user",
