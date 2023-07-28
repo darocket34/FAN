@@ -178,7 +178,7 @@ router.get("/current", requireAuth, async (req, res) => {
     });
   }
 
-  return res.json(groupsArr);
+  return res.json({Groups: groupsArr});
 });
 
 // ! Get Details of a Group By Id

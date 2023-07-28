@@ -472,9 +472,9 @@ router.get("/:eventId/attendees", async (req, res, next) => {
   });
 
   if (organizer === req.user.id || fullView) {
-    res.json(attendeesResArr);
+    res.json({Attendees: attendeesResArr});
   } else {
-    res.json(attendeesNoPendingResArr);
+    res.json({Attendees: attendeesNoPendingResArr});
   }
 });
 
