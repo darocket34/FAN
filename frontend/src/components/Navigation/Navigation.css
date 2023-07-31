@@ -4,6 +4,7 @@ nav {
     flex-wrap: wrap;
     font-size: 35px;
     justify-content: space-between;
+    align-items: center;
     margin-left: 15px;
     margin-right: 15px;
     min-height: 64px;
@@ -16,8 +17,8 @@ nav {
 
 .hidden {
     display: none;
-    height: 35px;
-    width: 35px;
+    /* height: 35px;
+    width: 35px; */
 }
 
 /* Dropdown Account Profile */
@@ -36,22 +37,52 @@ nav {
     transition: all;
 }
 
-.modal-menu-item {
-    font-size: 10px;
+.modal-menu-link,
+.modal-menu-profile {
+    border: 1px solid lightgray;
+    font-size: 17px;
+    padding: 10px;
+    text-align: center;
+    width: 250px;
 }
 
+ul.profile-dropdown {
+    /* border: 1px solid lightgray; */
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    position: absolute;
+    top: 30px;
+    right: 20px;
+    z-index: 1;
+  }
 
-/* Search */
+  .dropdown-menu {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
 
 button.profile-dropdown {
+    align-self: center;
     background-color: white;
     border: 10px;
     display: flex;
     size: fit-content;
-    /* height: fit-content;
-    width: fit-content; */
     padding: 0px 0px;
 }
+
+button.logout {
+    background-color: rgb(255, 43, 43);
+    border: 1px solid rgb(255, 43, 43);
+    border-radius: 8px;
+    color: white;
+    font-size: 15px;
+    padding: 10px 30px;
+}
+
+/* Search */
+
 
 .searchbarform {
     align-items: center;
@@ -93,7 +124,9 @@ button.searchbar{
     height: 100%;
 }
 
-button.searchbar:hover {
+button.searchbar:hover,
+.modal-menu-link:hover,
+button.logout:hover {
     cursor: pointer;
 }
 
