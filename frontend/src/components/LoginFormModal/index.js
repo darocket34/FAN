@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import * as sessionActions from "../../store/session";
@@ -9,7 +9,9 @@ function LoginFormModal() {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [disableLogin, setDisableLogin] = useState(true);
   const { closeModal } = useModal();
+  const [unavailable, setUnavailable] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,34 +26,48 @@ function LoginFormModal() {
       });
   };
 
+  useEffect(() => {
+    if (credential.length < 4 || password.length < 6) {
+      setDisableLogin(true);
+      setUnavailable('unavailable')
+    } else {
+      setDisableLogin(false);
+      setUnavailable('')
+    }
+  }, [credential, password]);
+
   return (
-    <>
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Username or Email
-          <input
-            type="text"
-            value={credential}
-            onChange={(e) => setCredential(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
+    <div className="login modal">
+      <h1 className="login title">Log In</h1>
+      <form className="login form" onSubmit={handleSubmit}>
+        <input
+          className="login input1"
+          type="text"
+          placeholder="Username or Email"
+          value={credential}
+          onChange={(e) => setCredential(e.target.value)}
+          required
+        />
+        <input
+          className="login input2"
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
         {errors.credential && (
-          <p>{errors.credential}</p>
+          <p className="login error">{errors.credential}</p>
         )}
-        <button type="submit">Log In</button>
+        <button
+          className={`login button ${unavailable}`}
+          type="submit"
+          disabled={disableLogin}
+        >
+          Log In
+        </button>
       </form>
-    </>
+    </div>
   );
 }
 

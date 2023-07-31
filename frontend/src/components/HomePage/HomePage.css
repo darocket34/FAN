@@ -1,0 +1,100 @@
+.homepage {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-top: 80px;
+}
+
+
+/* Section 1 */
+
+div.section1.container {
+    justify-content: space-evenly;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10%;
+    margin-bottom: 50px;
+    width: 80%;
+}
+
+div.section1.info {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 45%;
+}
+
+img.section1 {
+    height: auto;
+    width: 45%;
+}
+
+/* Section 2 */
+
+div.section2.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 25%;
+    margin-bottom: 50px;
+}
+
+.section2.title {
+    font-size: 1.875rem;
+}
+
+
+
+/* Section 3 */
+
+div.section3 {
+    align-content: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-bottom: 40px;
+    width: 80%;
+}
+
+div.section31.container,
+div.section32.container,
+div.section33.container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    text-align: center;
+    width: 30%
+}
+
+.section3.navlink {
+    font-size: 1.25rem;
+    margin: 0 0 12px;
+}
+
+p.subtitle {
+    margin: 0px;
+    width: 80%;
+}
+
+div.section3 img {
+    width: 43%;
+}
+
+/* Section 4 */
+
+div.section4 {
+    justify-content: center;
+    display: flex;
+    width: 33%;
+}
+
+button.section4 {
+    font-size: 20px;
+    height: 40px;
+    width: 33%;
+}

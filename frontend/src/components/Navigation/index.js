@@ -16,9 +16,15 @@ function Navigation({ isLoaded }) {
         </NavLink>
         <SearchBar className="searchBarComponent" />
       </div>
-      {isLoaded && (
-        <ProfileButton className="dropdown profilebutton" user={sessionUser} />
-      )}
+      <div className="nav right div">
+        {" "}
+        {isLoaded && (
+          <ProfileButton
+            className="dropdown profilebutton"
+            user={sessionUser}
+          />
+        )}
+      </div>
     </nav>
   );
 }

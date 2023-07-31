@@ -1,0 +1,20 @@
+h1 {
+    text-align: center;
+}
+
+
+form.login {
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+input.input2 {
+    margin-top: 10px;
+}
+
+button.login {
+    font-size: 17px;
+    margin-top: 40px;
+    height: 40px;
+}

@@ -8,6 +8,7 @@ import SignupFormModal from "../SignupFormModal";
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
+  const [chevron, setChevron] = useState("up");
   const ulRef = useRef();
 
   const openMenu = () => {
@@ -25,8 +26,12 @@ function ProfileButton({ user }) {
     };
 
     document.addEventListener("click", closeMenu);
+    document.addEventListener("click", setChevron('up'));
 
-    return () => document.removeEventListener("click", closeMenu);
+    return () => {
+      document.removeEventListener("click", closeMenu);
+      document.removeEventListener("click", setChevron('down'));
+    }
   }, [showMenu]);
 
   const closeMenu = () => setShowMenu(false);
@@ -41,42 +46,53 @@ function ProfileButton({ user }) {
 
   return (
     <>
-
       <div className="dropdown-menu">
         <button className="profile-dropdown" onClick={openMenu}>
-          <i className="fas fa-user-circle fa-2x" />
+          <div className="profile-dropdown div">
+            <i className="fas fa-user-circle fa-2x" />
+            <i className={`fa-solid fa-chevron-${chevron} fa-2x`} />
+          </div>
         </button>
-          <ul className={ulClassName} ref={ulRef}>
-            {user ? (
-              <>
-                <li className="modal-menu-profile">{user.username}</li>
-                <li className="modal-menu-profile">
+        <ul className={ulClassName} ref={ulRef}>
+          {user ? (
+            <>
+              <div className="modal-menu-profile">
+                <li className="modal-menu-user">{user.username}</li>
+                <li className="modal-menu-user">
                   {user.firstName} {user.lastName}
                 </li>
-                <li className="modal-menu-profile">{user.email}</li>
-                <li className="modal-menu-profile">
-                  <button className='logout' onClick={logout}>Log Out</button>
+                <li className="modal-menu-user">{user.email}</li>
+                <li className="modal-menu-user">
+                  <button className="modal-menu-item" onClick={logout}>
+                    Log Out
+                  </button>
                 </li>
-              </>
-            ) : (
-              <>
+              </div>
+            </>
+          ) : (
+            <>
+            <div className="modal-menu">
+              <button className="modal-menu-item">
                 <OpenModalMenuItem
                   className="modal-menu-item"
                   itemText="Log In"
                   onItemClick={closeMenu}
                   modalComponent={<LoginFormModal />}
                 />
+              </button>
+              <button className="modal-menu-item">
                 <OpenModalMenuItem
                   className="modal-menu-item"
                   itemText="Sign Up"
                   onItemClick={closeMenu}
                   modalComponent={<SignupFormModal />}
                 />
-              </>
-            )}
-          </ul>
-        </div>
-
+              </button>
+              </div>
+            </>
+          )}
+        </ul>
+      </div>
     </>
   );
 }

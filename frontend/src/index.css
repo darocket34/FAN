@@ -1,1 +1,36 @@
 /* TODO Add site wide styles */
+.div#root {
+    display: flex;
+}
+
+button {
+    align-self: center;
+    background-color: rgb(255, 43, 43);
+    border: 1px solid rgb(255, 43, 43);
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: white;
+    width: 50%;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+p.error{
+    color: red;
+}
+
+.unavailable {
+    background-color: gray;
+    border: 1px solid gray;
+    color: white;
+}
+
+.unavailable:hover {
+    cursor: not-allowed;
+}
+
+body {
+    font-size: 16px;
+}
