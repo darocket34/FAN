@@ -105,7 +105,7 @@ router.get("/", async (req, res) => {
   if (!group.previewImage) {
     group.previewImage = "Sorry... No image preview available.";
   }
-  return res.json({ Groups: groupsArr });
+  return res.json({ allGroups: groupsArr });
 });
 
 // ! Create a group

@@ -1,0 +1,67 @@
+/* Header */
+
+div.allgroups.container {
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+    width: 60%;
+}
+
+div.header.links {
+    display: flex;
+    gap: 18px;
+    width: 60%;
+}
+
+a.allevents,
+a.allgroups {
+    color: teal;
+}
+
+a.allevents:hover,
+a.allgroups:hover {
+    cursor: default;
+}
+
+div.listings {
+    align-self: center;
+    width: 60%;
+}
+
+img.listing {
+    height: 9rem;
+    width: 15rem;
+}
+
+.listing.card {
+    display: flex;
+    gap: 3%;
+}
+
+div.additionalInfo {
+    display: flex;
+    gap: 2%;
+}
+
+p.card.title {
+    font-size: 20px;
+    margin: 0;
+}
+
+p.card {
+    font-size: 14px;
+}
+
+hr {
+    border: 1px solid lightgray;
+    margin: 20px;
+}
+
+a.grayout {
+    color: gray;
+    text-decoration: none;
+}
+
+a.grayout:hover{
+    cursor: pointer;
+}

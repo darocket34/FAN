@@ -1,6 +1,10 @@
 /* TODO Add site wide styles */
-.div#root {
+#root {
     display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 80%;
 }
 
 button {
@@ -32,5 +36,8 @@ p.error{
 }
 
 body {
+    display: flex;
+    justify-self: center;
     font-size: 16px;
+    justify-content: center;
 }

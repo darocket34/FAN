@@ -5,6 +5,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import { Route } from "react-router-dom/cjs/react-router-dom.min";
 import HomePage from "./components/HomePage/HomePage";
+import AllListings from "./components/Listings/Listings";
 
 function App() {
   const dispatch = useDispatch();
@@ -16,9 +17,19 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-      {isLoaded && <Switch>
-        <Route exact path='/'><HomePage /></Route>
-        </Switch>}
+      {isLoaded && (
+        <Switch>
+          <Route exact path="/">
+            <HomePage />
+          </Route>
+          <Route exact path='/groups'>
+            <AllListings type='groups'/>
+          </Route>
+          <Route exact path='/events'>
+            <AllListings type='events'/>
+          </Route>
+        </Switch>
+      )}
     </>
   );
 }

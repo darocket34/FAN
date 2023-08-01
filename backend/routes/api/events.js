@@ -137,7 +137,7 @@ router.get("/", validateParameters, async (req, res) => {
     delete event.EventImages;
   }
 
-  res.json({ Events: eventsRes });
+  res.json({ allEvents: eventsRes });
 });
 
 // ! Get details of an event specified by its id
@@ -472,9 +472,9 @@ router.get("/:eventId/attendees", async (req, res, next) => {
   });
 
   if (organizer === req.user.id || fullView) {
-    res.json({Attendees: attendeesResArr});
+    res.json({ Attendees: attendeesResArr });
   } else {
-    res.json({Attendees: attendeesNoPendingResArr});
+    res.json({ Attendees: attendeesNoPendingResArr });
   }
 });
 

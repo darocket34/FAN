@@ -1,6 +1,6 @@
 import "./HomePage.css";
 import { section1img, section31, section32, section33 } from "../../images/";
-// import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   return (
@@ -30,19 +30,18 @@ const HomePage = () => {
       </div>
 
       <div className="section3 feature links container">
-        <div className="section31 link allgroups container">
+        <div className="section31 link seeallgroups container">
           <img src={section31} alt="sec31 img" className="section3 img31" />
-
-          {/*//! ADD REAL LINK */}
-
-          <h3 className="section3 navlink allgroups">See all Groups</h3>
+          <Link className="section3 navlink seeallgroups" to="/groups">
+            See all Groups
+          </Link>
           <p className="section3 subtitle">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
         </div>
 
-        <div className="section32 link findevent container">
+        <div className="section32 link findanevent container">
           <img src={section32} alt="sec32 img" className="section3 img32" />
 
           {/*//! ADD REAL LINK */}
@@ -54,7 +53,7 @@ const HomePage = () => {
           </p>
         </div>
 
-        <div className="section33 link startgroup container">
+        <div className="section33 link startnewgroup container">
           <img src={section33} alt="sec33 img" className="section3 img33" />
 
           {/*//! ADD REAL LINK */}
