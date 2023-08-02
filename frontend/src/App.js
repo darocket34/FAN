@@ -23,10 +23,10 @@ function App() {
             <HomePage />
           </Route>
           <Route exact path='/groups'>
-            <AllListings type='groups'/>
+            <AllListings list='groups'/>
           </Route>
           <Route exact path='/events'>
-            <AllListings type='events'/>
+            <AllListings list='events'/>
           </Route>
         </Switch>
       )}

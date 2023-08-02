@@ -1,9 +1,5 @@
 /* TODO Add site wide styles */
 #root {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-items: center;
     width: 80%;
 }
 
@@ -36,7 +32,9 @@ p.error{
 }
 
 body {
+    align-content: center;
     display: flex;
+    flex-wrap: wrap;
     justify-self: center;
     font-size: 16px;
     justify-content: center;

@@ -16,9 +16,14 @@ function SearchBar() {
           placeholder="Neighborhood, city or zip"
         />
       </div>
-        <button className="searchbar searchbutton">
-          <i className="fas fa-magnifying-glass fa-md search" />
-        </button>
+      <button
+        className="searchbar searchbutton"
+        onClick={() => {
+          alert("Feature Coming Soon");
+        }}
+      >
+        <i className="fas fa-magnifying-glass fa-md search" />
+      </button>
     </form>
   );
 }

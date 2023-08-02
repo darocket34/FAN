@@ -1,16 +1,21 @@
 /* Header */
 
+.listingPage {
+    display: flex;
+    flex-direction: column;
+}
+
 div.allgroups.container {
     display: flex;
     align-self: center;
     flex-direction: column;
-    width: 60%;
+    width: 70%;
 }
 
 div.header.links {
     display: flex;
     gap: 18px;
-    width: 60%;
+    width: 70%;
 }
 
 a.allevents,
@@ -25,12 +30,12 @@ a.allgroups:hover {
 
 div.listings {
     align-self: center;
-    width: 60%;
+    width: 70%;
 }
 
 img.listing {
-    height: 9rem;
-    width: 15rem;
+    height: auto;
+    max-width: 50%;
 }
 
 .listing.card {
@@ -54,7 +59,7 @@ p.card {
 
 hr {
     border: 1px solid lightgray;
-    margin: 20px;
+    margin: 18px;
 }
 
 a.grayout {

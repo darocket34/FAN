@@ -5,7 +5,7 @@ import GroupsList from "./GroupsList";
 import EventsList from "./EventsList";
 import { useState } from "react";
 
-const AllListings = (type) => {
+const AllListings = (list) => {
   const [listEvents, setListEvents] = useState(false);
   const [listGroups, setListGroups] = useState(false);
   const [hideEventsLink, setHideEventsLink] = useState("");
@@ -23,10 +23,10 @@ const AllListings = (type) => {
       setHideGroupsLink("grayout");
       setHideEventsLink("");
     }
-  }, [type]);
+  }, [list]);
 
   return (
-    <>
+    <div className="listingPage">
       <div className="allgroups container">
         <div className="header links">
           <h2 className="allevents link">
@@ -51,7 +51,7 @@ const AllListings = (type) => {
         {listGroups && <GroupsList />}
         {listEvents && <EventsList />}
       </>
-    </>
+    </div>
   );
 };
 

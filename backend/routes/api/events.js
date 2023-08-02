@@ -200,7 +200,8 @@ router.get("/:eventId", async (req, res, next) => {
     });
     delete event.EventImages;
   });
-  res.json({ Events: eventsRes });
+
+  res.json({ singleEvent: eventsRes });
 });
 
 // ! Add an image to an event based on the event's id
