@@ -44,9 +44,9 @@ const HomePage = () => {
         <div className="section32 link findanevent container">
           <img src={section32} alt="sec32 img" className="section3 img32" />
 
-          {/*//! ADD REAL LINK */}
-
-          <h3 className="section3 navlink findevent">Find an event</h3>
+          <Link className="section3 navlink findevent" to="/events">
+            Find an event
+          </Link>
           <p className="section3 subtitle">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua.

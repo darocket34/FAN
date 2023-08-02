@@ -44,7 +44,8 @@ export const loadSingleEvent = (eventId) => async (dispatch) => {
     headers: { "Content-Type": "application/json" },
   });
   if (res.ok) {
-    const event = await res.json();
+    let event = await res.json();
+    event = event.singleEvent[0];
     await dispatch(getSingleEvent(event));
     return event;
   } else {
@@ -66,8 +67,10 @@ const eventsReducer = (state = initialState, action) => {
       });
       return { ...state, allEvents: newEvents };
     case LOAD_SINGLE_EVENT:
-      const event = Object.values(action.event)
-      return { ...state, singleEvent: {...Object.values(...event)[0]}};
+      // const event = {...state}
+      // const singleEvent = Object.values(action.event)
+      // return { singleEvent: {...Object.values(...event)[0]}};
+      return {...state, singleEvent: action.event}
     default:
       return state;
   }

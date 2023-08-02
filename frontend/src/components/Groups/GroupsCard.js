@@ -1,4 +1,4 @@
-import "./Listings.css";
+import "../Listings/Listings.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { loadEvents } from "../../store/events";

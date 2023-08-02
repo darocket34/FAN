@@ -1,0 +1,63 @@
+
+
+/* Upper Section */
+
+div.page.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.fa-chevron-left:before {
+    color: lightgray;
+}
+
+a.upper.toGroups {
+    margin-left: 3px;
+}
+
+.upperSection {
+    display: flex;
+    gap: 3%;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+div.upper.container {
+    width: 50%;
+}
+
+div.text.container {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+img.upper {
+    width: 100%;
+}
+
+div.additionalInfo {
+    width: 100%
+}
+
+button.join {
+    align-self: flex-start;
+    font-size: 1.4rem;
+    height: 40px;
+    width: 200px;
+}
+
+.background {
+    background-color: rgb(240, 240, 240);
+    width: 150%;
+    height: 10000px;
+    position: absolute;
+    left: 0;
+    z-index: -1;
+}
+
+.lower {
+    text-align: left;
+}
+

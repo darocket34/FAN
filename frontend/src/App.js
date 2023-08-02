@@ -6,6 +6,7 @@ import Navigation from "./components/Navigation";
 import { Route } from "react-router-dom/cjs/react-router-dom.min";
 import HomePage from "./components/HomePage/HomePage";
 import AllListings from "./components/Listings/Listings";
+import GroupDetails from "./components/Groups/GroupDetails";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,12 +23,18 @@ function App() {
           <Route exact path="/">
             <HomePage />
           </Route>
-          <Route exact path='/groups'>
-            <AllListings list='groups'/>
+          <Route exact path="/groups">
+            <AllListings list="groups" />
           </Route>
-          <Route exact path='/events'>
-            <AllListings list='events'/>
+          <Route exact path="/events">
+            <AllListings list="events" />
           </Route>
+          <Route exact path="/groups/:groupId">
+            <GroupDetails />
+          </Route>
+          {/* <Route exact path="/groups/:groupId">
+            <EventDetails />
+          </Route> */}
         </Switch>
       )}
     </>

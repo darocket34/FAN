@@ -1,8 +1,8 @@
 import "./Listings.css";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import GroupsList from "./GroupsList";
-import EventsList from "./EventsList";
+import GroupsList from "../Groups/GroupsList";
+import EventsList from "../Events/EventsList";
 import { useState } from "react";
 
 const AllListings = (list) => {

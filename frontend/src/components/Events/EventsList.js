@@ -1,4 +1,4 @@
-import "./Listings.css";
+import "../Listings/Listings.css";
 import { useDispatch, useSelector } from "react-redux";
 import { loadEvents } from "../../store/events";
 import { useEffect } from "react";
@@ -7,7 +7,7 @@ import EventsCard from "./EventsCard";
 const EventsList = () => {
   const events = useSelector((state) => Object.values(state.events.allEvents));
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     dispatch(loadEvents());
   }, [dispatch]);

@@ -18,7 +18,7 @@ const getGroups = (groups) => {
 const getSingleGroup = (group) => {
   return {
     type: LOAD_SINGLE_GROUP,
-    ...group,
+    group,
   };
 };
 

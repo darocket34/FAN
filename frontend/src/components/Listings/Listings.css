@@ -41,6 +41,7 @@ img.listing {
 .listing.card {
     display: flex;
     gap: 3%;
+    width: 100%;
 }
 
 div.additionalInfo {
@@ -60,6 +61,7 @@ p.card {
 hr {
     border: 1px solid lightgray;
     margin: 18px;
+    width: 100%;
 }
 
 a.grayout {

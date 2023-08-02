@@ -1,4 +1,4 @@
-import "./Listings.css";
+import "../Listings/Listings.css";
 import { useDispatch, useSelector } from "react-redux";
 import { loadGroups } from "../../store/groups";
 import { useEffect } from "react";
