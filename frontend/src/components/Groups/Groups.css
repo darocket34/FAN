@@ -7,8 +7,8 @@ div.page.container {
     flex-direction: column;
 }
 
-.fa-chevron-left:before {
-    color: lightgray;
+.fa-chevron-left {
+    align-self: center;
 }
 
 a.upper.toGroups {
@@ -23,6 +23,7 @@ a.upper.toGroups {
 }
 
 div.upper.container {
+    display: flex;
     width: 50%;
 }
 
@@ -34,6 +35,7 @@ div.text.container {
 }
 
 img.upper {
+    align-self: center;
     width: 100%;
 }
 
@@ -77,6 +79,39 @@ p.newErrors {
 }
 
 button.crud {
-    height: 25px;
-    width: 25%;
+    background-color: gray;
+    border: none;
+    height: 30px;
+    list-style-type: none;
+    width: 140px;
+}
+
+button.delete.modal {
+    height: 30px;
+    width: 40%;
+}
+
+a.update {
+    color: white;
+    text-decoration: none;
+}
+
+button.delete.modal.no {
+    background-color: gray;
+    border: none;
+}
+
+div.delete.modal.button.container {
+    display: flex;
+    justify-content: center;
+    gap: 5%;
+}
+
+p.dot {
+    align-self: center;
+    font-size: 30px;
+}
+
+button.upper.update {
+    width: 140px;
 }

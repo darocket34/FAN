@@ -6,6 +6,8 @@ const LOAD_GROUPS = "groups/loadGroups";
 const LOAD_SINGLE_GROUP = "groups/loadSingleGroup";
 const LOAD_EVENTS_BY_GROUPID = "groups/loadEventsByGroupId";
 const CREATE_GROUP = "groups/createGroup";
+const UPDATE_GROUP = 'group/updateGroup'
+const DELETE_GROUP = "groups/deleteGroup";
 
 // Action Creators
 
@@ -34,6 +36,20 @@ const postNewGroup = (newGroup) => {
   return {
     type: CREATE_GROUP,
     newGroup,
+  };
+};
+
+const updateExistingGroup = (group) => {
+  return {
+    type: UPDATE_GROUP,
+    group
+  }
+}
+
+const removeGroup = (groupId) => {
+  return {
+    type: DELETE_GROUP,
+    groupId,
   };
 };
 
@@ -100,6 +116,37 @@ export const createNewGroup = (newGroup) => async (dispatch) => {
   }
 };
 
+export const updateGroup = (group) => async (dispatch) => {
+  const res = await csrfFetch(`/api/groups/${group.id}/update`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(group),
+  });
+  if (res.ok) {
+    const group = await res.json();
+    await dispatch(updateExistingGroup(group));
+    return group;
+  } else {
+    const { errors } = await res.json();
+    return errors;
+  }
+};
+
+export const deleteGroup = (groupId) => async (dispatch) => {
+  const res = await csrfFetch(`/api/groups/${groupId}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+  });
+  if (res.ok) {
+    const group = await res.json();
+    await dispatch(removeGroup(groupId));
+    return;
+  } else {
+    const { errors } = await res.json();
+    return errors;
+  }
+};
+
 // Reducers
 
 const initialState = { allGroups: {}, singleGroup: {} };
@@ -120,6 +167,13 @@ const groupsReducer = (state = initialState, action) => {
       return { ...state, numEvents: sum };
     case CREATE_GROUP:
       state = { ...state, allGroups: action.newGroup };
+      return state
+      case UPDATE_GROUP:
+        state = {...state, allGroups: action.group}
+    case DELETE_GROUP:
+      const newState = { ...state };
+      delete newState[action.reportId];
+      return newState;
     default:
       return state;
   }

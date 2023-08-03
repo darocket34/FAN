@@ -266,7 +266,8 @@ router.get("/:groupId", async (req, res) => {
 
 // ! Edit a group
 
-router.put("/:groupId", requireAuth, validateGroup, async (req, res, next) => {
+router.put("/:groupId/update", requireAuth, validateGroup, async (req, res, next) => {
+  
   const { name, about, type, private, city, state } = req.body;
   const group = await Group.findByPk(req.params.groupId);
   if (!group) {

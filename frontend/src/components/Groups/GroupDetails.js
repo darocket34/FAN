@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loadSingleGroup } from "../../store/groups";
-import { Link } from "react-router-dom";
+import { loadSingleGroup, deleteGroup } from "../../store/groups";
+import { Link, useHistory } from "react-router-dom";
 import EventsCard from "../Events/EventsCard";
+import DeleteGroupModal from "./DeleteGroupModal";
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import "./Groups.css";
 
 const GroupDetails = () => {
   const { groupId } = useParams();
+  const history = useHistory();
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   const [isOrganizer, setIsOrganizer] = useState(false);
@@ -83,9 +86,28 @@ const GroupDetails = () => {
                 )}
                 {isOrganizer && (
                   <div className="crud container">
-                    <button className="upper crud" disabled={true}>Create Event</button>
-                    <button className="upper crud" disabled={true}>Update</button>
-                    <button className="upper crud" disabled={true}>Delete</button>
+                    <button className="upper crud create" disabled={true}>
+                      Create Event
+                    </button>
+
+                    <Link
+                      to={`/groups/${group?.id}/update`}
+                      className="upper crud update group"
+                    >
+                      <button className="upper crud update">Update</button>
+                    </Link>
+                    {/* <button className="upper crud update" onClick={() => <Link
+                      className="upper crud update group"
+                      to={`/groups/${group?.id}/update`}
+                    ></Link>}>Update</button> */}
+
+                    <button className="upper crud delete reference-button">
+                      <OpenModalMenuItem
+                        className="modal-menu-item"
+                        itemText="Delete"
+                        modalComponent={<DeleteGroupModal group={group} />}
+                      />
+                    </button>
                   </div>
                 )}
               </div>

@@ -7,7 +7,7 @@ import { loadSingleGroup } from "../../store/groups";
 
 const GroupsCard = ({ group }) => {
   const dispatch = useDispatch();
-  let numEvents = group.Events.length;
+  let numEvents = group.Events?.length;
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     dispatch(loadEvents()).then(() => setIsLoaded(true)).then(() => loadSingleGroup(group.id));

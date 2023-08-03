@@ -16,9 +16,6 @@ const EventDetails = () => {
   const currGroup = groups.filter((group) => group.id === event.groupId);
   const group = currGroup[0];
 
-  console.log(typeof event.endDate)
-
-
   useEffect(() => {
     dispatch(loadSingleEvent(eventId))
       .then(() => setIsLoadedEvents(true))
