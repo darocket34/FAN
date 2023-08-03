@@ -6,6 +6,7 @@ import {
   loadSingleGroup,
   updateGroup,
 } from "../../store/groups";
+import "./Groups.css"
 
 const GroupForm = ({ group, formType }) => {
   const history = useHistory();
@@ -19,7 +20,7 @@ const GroupForm = ({ group, formType }) => {
   const [state, setState] = useState(group?.state);
   const [cityState, setCityState] = useState(`${group?.city}, ${group?.state}`);
   const sessionUser = useSelector((state) => state.session.user);
-  
+
   useEffect(() => {
     if (group) {
       dispatch(loadSingleGroup(group?.id));
@@ -157,7 +158,7 @@ const GroupForm = ({ group, formType }) => {
             value={type}
             onChange={(e) => setType(e.target.value)}
           >
-            <option value="">Select</option>
+            <option value="" className="gray">Select</option>
             <option value="Online">Online</option>
             <option value="In person">In Person</option>
           </select>
@@ -171,7 +172,7 @@ const GroupForm = ({ group, formType }) => {
             value={visibility}
             onChange={(e) => setVisibility(e.target.value)}
           >
-            <option value="">Select</option>
+            <option value="" className="gray">Select</option>
             <option value="true">Private</option>
             <option value="false">Public</option>
           </select>

@@ -50,14 +50,12 @@ const validateVenue = [
 ];
 
 const validateEvent = [
-  check("venueId").exists().withMessage("Venue does not exist"),
   check("name")
     .isLength({ min: 5 })
     .withMessage("Name must be at least 5 characters"),
   check("type")
     .isIn(["Online", "In Person"])
     .withMessage("Type must be 'Online' or 'In Person'"),
-  check("capacity").isInt().withMessage("Capacity must be an integer"),
   check("price").isDecimal().withMessage("Price is invalid"),
   check("description").notEmpty().withMessage("Description is required"),
   check("startDate").isAfter().withMessage("Start date must be in the future"),
@@ -267,7 +265,7 @@ router.get("/:groupId", async (req, res) => {
 // ! Edit a group
 
 router.put("/:groupId/update", requireAuth, validateGroup, async (req, res, next) => {
-  
+
   const { name, about, type, private, city, state } = req.body;
   const group = await Group.findByPk(req.params.groupId);
   if (!group) {

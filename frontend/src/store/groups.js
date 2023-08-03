@@ -172,7 +172,7 @@ const groupsReducer = (state = initialState, action) => {
         state = {...state, allGroups: action.group}
     case DELETE_GROUP:
       const newState = { ...state };
-      delete newState[action.reportId];
+      delete newState[action.groupId];
       return newState;
     default:
       return state;

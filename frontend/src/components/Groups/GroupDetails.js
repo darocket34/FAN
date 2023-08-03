@@ -86,20 +86,17 @@ const GroupDetails = () => {
                 )}
                 {isOrganizer && (
                   <div className="crud container">
-                    <button className="upper crud create" disabled={true}>
+                    <Link to={`/groups/${group?.id}/events`} className="upper crud create event">
+                    <button className="upper crud create">
                       Create Event
                     </button>
-
+                    </Link>
                     <Link
                       to={`/groups/${group?.id}/update`}
                       className="upper crud update group"
                     >
                       <button className="upper crud update">Update</button>
                     </Link>
-                    {/* <button className="upper crud update" onClick={() => <Link
-                      className="upper crud update group"
-                      to={`/groups/${group?.id}/update`}
-                    ></Link>}>Update</button> */}
 
                     <button className="upper crud delete reference-button">
                       <OpenModalMenuItem

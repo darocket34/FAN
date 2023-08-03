@@ -29,7 +29,7 @@ const HomePage = () => {
       </div>
 
       <div className="section2 container">
-        <h2 className="section2 title">How F.A.N works</h2>
+        <h2 className="section2 title">How F.A.N. works</h2>
         <p className="section2 subtitle">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua.

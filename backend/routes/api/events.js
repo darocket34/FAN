@@ -151,8 +151,13 @@ router.get("/:eventId", async (req, res, next) => {
     include: [
       {
         model: Group,
+        include: [
+          {
+            model: User
+          }
+        ],
         attributes: {
-          exclude: ["organizerId", "about", "type", "createdAt", "updatedAt"],
+          exclude: ["about", "type", "createdAt", "updatedAt"],
         },
       },
       {
