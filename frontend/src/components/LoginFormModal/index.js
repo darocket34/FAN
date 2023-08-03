@@ -4,6 +4,7 @@ import { useModal } from "../../context/Modal";
 import { useHistory } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import "./LoginForm.css";
+import { Link } from "react-router-dom";
 
 function LoginFormModal() {
   const history = useHistory();
@@ -19,7 +20,8 @@ function LoginFormModal() {
     e.preventDefault();
     setErrors({});
     return dispatch(sessionActions.login({ credential, password }))
-      .then(closeModal).then(history.push("/"))
+      .then(closeModal)
+      .then(history.push("/"))
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {
@@ -31,10 +33,10 @@ function LoginFormModal() {
   useEffect(() => {
     if (credential.length < 4 || password.length < 6) {
       setDisableLogin(true);
-      setUnavailable('unavailable')
+      setUnavailable("unavailable");
     } else {
       setDisableLogin(false);
-      setUnavailable('')
+      setUnavailable("");
     }
   }, [credential, password]);
 
@@ -67,6 +69,15 @@ function LoginFormModal() {
           disabled={disableLogin}
         >
           Log In
+        </button>
+        <button
+          className="demo user link"
+          onClick={() => {
+            setCredential("FakeUser1");
+            setPassword("password1");
+          }}
+        >
+          Demo User
         </button>
       </form>
     </div>

@@ -15,6 +15,7 @@ const GroupsList = () => {
   return (
     <div className="listings">
       {Object.values(groups).map((group) => {
+        console.log(group)
         return <GroupsCard key={group.id} group={group} />;
       })}
     </div>

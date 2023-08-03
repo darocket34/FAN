@@ -1,8 +1,15 @@
 import "./HomePage.css";
 import { section1img, section31, section32, section33 } from "../../images/";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const HomePage = () => {
+  const [disable, setDisable] = useState(true);
+  const sessionUser = useSelector((state) => state.session.user);
+  useEffect(() => {
+    if (sessionUser) setDisable(false);
+  }, [sessionUser, disable]);
   return (
     <div className="homepage">
       <div className="section1 container">
@@ -56,9 +63,17 @@ const HomePage = () => {
         <div className="section33 link startnewgroup container">
           <img src={section33} alt="sec33 img" className="section3 img33" />
 
-          {/*//! ADD REAL LINK */}
-
-          <h3 className="section3 navlink startgroup">Start a new group</h3>
+          <Link
+            className={`section3 navlink startgroup ${
+              disable ? "grayout" : ""
+            }`}
+            to="/groups/new"
+            onClick={(e) => {
+              if (disable) e.preventDefault();
+            }}
+          >
+            Start a new group
+          </Link>
           <p className="section3 subtitle">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua.

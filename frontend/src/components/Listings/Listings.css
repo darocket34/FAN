@@ -35,13 +35,25 @@ div.listings {
 
 img.listing {
     height: auto;
+    max-height: 180px;
     max-width: 50%;
 }
 
 .listing.card {
+    align-items: center;
     display: flex;
     gap: 3%;
     width: 100%;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+a.listing {
+    color: black;
+    text-decoration: none;
+}
+.listing.card:hover {
+    cursor: pointer;
 }
 
 div.additionalInfo {
@@ -56,6 +68,7 @@ p.card.title {
 
 p.card {
     font-size: 14px;
+    word-wrap: break-word;
 }
 
 hr {

@@ -2,37 +2,44 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loadSingleGroup } from "../../store/groups";
-import { loadEvents } from "../../store/events";
 import { Link } from "react-router-dom";
 import EventsCard from "../Events/EventsCard";
 import "./Groups.css";
 
 const GroupDetails = () => {
   const { groupId } = useParams();
+  const dispatch = useDispatch();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isOrganizer, setIsOrganizer] = useState(false);
   const today = new Date();
-  const currGroup = useSelector((state) =>
-    Object.values(state.groups.singleGroup)
+  const currGroup = useSelector((state) => state.groups.singleGroup?.[groupId]);
+  const user = useSelector((state) => state.session.user);
+  const group = { ...currGroup };
+  const numEvents = group.Events?.length;
+
+  const groupEvents = group.Events?.filter(
+    (event) => event.groupId === group.id
   );
-  const group = currGroup[0];
-  const events = useSelector((state) => Object.values(state.events.allEvents));
-  const groupEvents = events.filter((event) => event.groupId === group.id);
-  const pastGroupEvents = groupEvents.filter((event) => {
+
+  const pastGroupEvents = groupEvents?.filter((event) => {
     const start = new Date(event.startDate);
     return start < today;
   });
-  const futureGroupEvents = groupEvents.filter((event) => {
+
+  const futureGroupEvents = group.Events?.filter((event) => {
     const start = new Date(event.startDate);
     return start > today;
   });
-  const numEvents = groupEvents.length;
-  const dispatch = useDispatch();
-  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    dispatch(loadSingleGroup(groupId))
-      .then(() => dispatch(loadEvents()))
-      .then(() => setIsLoaded(true));
-  }, [dispatch, groupId]);
+    dispatch(loadSingleGroup(groupId)).then(() => setIsLoaded(true));
+  }, []);
+
+  useEffect(() => {
+    if (user && user.id === group.organizerId) {
+      setIsOrganizer(true);
+    }
+  }, [isOrganizer, user, group]);
 
   return (
     <>
@@ -55,21 +62,32 @@ const GroupDetails = () => {
                 ></img>
               </div>
               <div className="upper text container">
-                <h1 className="upper title">{group.name}</h1>
+                <h1 className="upper title">{group?.name}</h1>
                 <p className="upper location">
-                  {group.city}, {group.state}
+                  {group?.city}, {group?.state}
                 </p>
                 <div className="upper additionalInfo">
-                  <p className="upper numEvents">{numEvents} Events</p>
+                  <p className="upper numEvents">
+                    {numEvents && numEvents} Events
+                  </p>
                   <p className="upper dot">·</p>
-                  <p className="Upper private">
-                    {group.private === false ? "Public" : "Private"}
+                  <p className="upper private">
+                    {group?.private === false ? "Public" : "Private"}
                   </p>
                 </div>
                 <p className="upper organizer">
-                  {group.Organizer.firstName} {group.Organizer.lastName}
+                  {group?.Organizer?.firstName} {group?.Organizer?.lastName}
                 </p>
-                <button className="upper join">Join this group</button>
+                {!isOrganizer && (
+                  <button className="upper join">Join this group</button>
+                )}
+                {isOrganizer && (
+                  <div className="crud container">
+                    <button className="upper crud" disabled={true}>Create Event</button>
+                    <button className="upper crud" disabled={true}>Update</button>
+                    <button className="upper crud" disabled={true}>Delete</button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -78,26 +96,40 @@ const GroupDetails = () => {
             <div className="lower text container">
               <h1 className="lower title">Organizer</h1>
               <p className="lower organizer">
-                {group.Organizer.firstName} {group.Organizer.lastName}
+                {group?.Organizer?.firstName} {group?.Organizer?.lastName}
               </p>
               <h1 className="lower title">What we're about</h1>
-              <p className="lower about">{group.about}</p>
-              {futureGroupEvents && (
-                <h1 className="lower title">
-                  Upcoming Events ({futureGroupEvents.length})
-                </h1>
-              )}
-              {futureGroupEvents &&
-                futureGroupEvents.map((event) => {
-                  return <EventsCard key={event.id} event={event} />;
-                })}
-              <h1 className="lower title">
-                Past Events ({pastGroupEvents.length})
-              </h1>
-              {pastGroupEvents &&
-                pastGroupEvents.map((event) => {
-                  return <EventsCard key={event.id} event={event} />;
-                })}
+              <p className="lower about">{group?.about}</p>
+              <div className="future container">
+                {futureGroupEvents.length > 0 && (
+                  <h1 className="lower title">
+                    Upcoming Events ({futureGroupEvents?.length})
+                  </h1>
+                )}
+                {futureGroupEvents.length > 0 &&
+                  futureGroupEvents.map((event) => {
+                    return (
+                      <div className="lower card">
+                        <EventsCard key={event.id} event={event} />
+                      </div>
+                    );
+                  })}
+              </div>
+              <div className="past container">
+                {pastGroupEvents.length > 0 && (
+                  <h1 className="lower title">
+                    Past Events ({pastGroupEvents?.length})
+                  </h1>
+                )}
+                {pastGroupEvents.length > 0 &&
+                  pastGroupEvents.map((event) => {
+                    return (
+                      <div className="lower card">
+                        <EventsCard key={event.id} event={event} />
+                      </div>
+                    );
+                  })}
+              </div>
             </div>
           </div>
         </>

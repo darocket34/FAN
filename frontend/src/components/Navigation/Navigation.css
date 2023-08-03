@@ -25,6 +25,14 @@ nav {
     display: none;
 }
 
+a.startNewGroup {
+    align-self: center;
+    color: teal;
+    font-size: 15px;
+    margin-right: 20px;
+    text-decoration: none;
+}
+
 /* Dropdown Account Profile */
 
 .fa-chevron-up,

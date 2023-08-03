@@ -18,3 +18,13 @@ button.login {
     margin-top: 40px;
     height: 40px;
 }
+
+button.demo {
+    background-color: white;
+    border: none;
+    color: teal;
+    font-size: 20px;
+    margin-top: 25px;
+    text-decoration: underline;
+    width: 100%;
+}

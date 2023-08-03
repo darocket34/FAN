@@ -1,0 +1,96 @@
+a.upper.toEvents {
+    margin-left: 3px;
+}
+
+.upper.event.title {
+    text-align: left;
+}
+
+.upperSection.event.container {
+    flex-direction: row;
+}
+
+.upper.event.card.container {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    gap: 5%;
+}
+
+.lowerSection.event.container {
+    display: flex;
+    flex-direction: row;
+    gap: 3%;
+    margin-top: 25px;
+}
+
+.lower.event.additionalInfo.card.container {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    width: 100%;
+}
+.lower.event.details.maincontainer {
+    align-items: flex-start;
+    box-sizing: content-box;
+    display: flex;
+    flex-direction: column;
+    gap: 33px;
+    height: 100%;
+    width: 100%;
+}
+
+.lower.event.dates.container {
+    
+}
+
+.lower.group.event.container {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.lower.group.card.info {
+    display: flex;
+    flex-direction: column;
+}
+
+.lower.group.group.layout {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.lower.event.text {
+    margin: 0;
+    width: 100%;
+}
+
+p.text.location {
+    padding-top: 10px;
+}
+
+i {
+    color: lightgray;
+}
+
+p.dot {
+    margin: 0;
+}
+
+.icon.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 30px;
+    margin-left: 20px;
+    width: 10%;
+}
+
+i.fa-map-pin {
+    margin-left: 5px;
+}

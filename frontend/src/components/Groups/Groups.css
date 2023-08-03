@@ -61,3 +61,22 @@ button.join {
     text-align: left;
 }
 
+.lower.container {
+    width: 70%;
+}
+
+p.newErrors {
+    color: red;
+    text-decoration: underline;
+}
+
+.crud.container {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+}
+
+button.crud {
+    height: 25px;
+    width: 25%;
+}

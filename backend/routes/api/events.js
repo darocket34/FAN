@@ -127,6 +127,7 @@ router.get("/", validateParameters, async (req, res) => {
       venueId: event.venueId,
       name: event.name,
       type: event.type,
+      description: event.description,
       startDate: event.startDate,
       endDate: event.endDate,
       numAttending: attendees,

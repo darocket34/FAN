@@ -20,6 +20,8 @@ const router = express.Router();
 
 const validateGroup = [
   check("name")
+    .notEmpty()
+    .withMessage("Name is required")
     .isLength({ max: 60 })
     .withMessage("Name must be 60 characters or less"),
   check("about")
@@ -28,9 +30,13 @@ const validateGroup = [
   check("type")
     .isIn(["Online", "In person"])
     .withMessage("Type must be 'Online' or 'In person'"),
-  check("private").isBoolean().withMessage("Private must be a boolean"),
-  check("city").notEmpty().withMessage("City is required"),
-  check("state").notEmpty().withMessage("State is required"),
+  check("private").isBoolean().withMessage("Please select an option"),
+  check("city")
+    .notEmpty()
+    .withMessage("City is required. Please use format 'City, State'"),
+  check("state")
+    .notEmpty()
+    .withMessage("State is required. Please use format 'City, State'"),
   handleValidationErrors,
 ];
 
@@ -77,6 +83,12 @@ router.get("/", async (req, res) => {
       {
         model: GroupImage,
       },
+      {
+        model: User,
+      },
+      {
+        model: Event,
+      },
     ],
   });
 
@@ -110,7 +122,7 @@ router.get("/", async (req, res) => {
 
 // ! Create a group
 
-router.post("/", requireAuth, validateGroup, async (req, res) => {
+router.post("/", requireAuth, validateGroup, async (req, res, next) => {
   const { name, about, type, private, city, state } = req.body;
   const currentUserId = req.user.id;
   const newGroup = await Group.create({
@@ -122,6 +134,7 @@ router.post("/", requireAuth, validateGroup, async (req, res) => {
     city,
     state,
   });
+
   await Membership.create({
     userId: req.user.id,
     groupId: newGroup.id,
@@ -178,7 +191,7 @@ router.get("/current", requireAuth, async (req, res) => {
     });
   }
 
-  return res.json({Groups: groupsArr});
+  return res.json({ Groups: groupsArr });
 });
 
 // ! Get Details of a Group By Id
@@ -203,6 +216,9 @@ router.get("/:groupId", async (req, res) => {
       },
       {
         model: Venue,
+      },
+      {
+        model: Event,
       },
     ],
   });
@@ -242,6 +258,7 @@ router.get("/:groupId", async (req, res) => {
     GroupImages: groupsArr[0].GroupImages,
     Organizer: groupsArr[0].Organizer,
     Venues: groupsArr[0].Venues,
+    Events: groupsArr[0].Events,
   };
 
   return res.json(groupObj);

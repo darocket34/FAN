@@ -7,6 +7,9 @@ import { Route } from "react-router-dom/cjs/react-router-dom.min";
 import HomePage from "./components/HomePage/HomePage";
 import AllListings from "./components/Listings/Listings";
 import GroupDetails from "./components/Groups/GroupDetails";
+import EventDetails from "./components/Events/EventDetails";
+import PageNotFound from "./components/PageNotFound/PageNotFound";
+import CreateGroup from "./components/Groups/CreateGroup";
 
 function App() {
   const dispatch = useDispatch();
@@ -29,12 +32,18 @@ function App() {
           <Route exact path="/events">
             <AllListings list="events" />
           </Route>
-          <Route exact path="/groups/:groupId">
+          <Route exact path='/groups/new'>
+            <CreateGroup />
+          </Route>
+          <Route exact path='/groups/:groupId'>
             <GroupDetails />
           </Route>
-          {/* <Route exact path="/groups/:groupId">
+          <Route exact path="/events/:eventId">
             <EventDetails />
-          </Route> */}
+          </Route>
+          <Route>
+            <PageNotFound />
+          </Route>
         </Switch>
       )}
     </>

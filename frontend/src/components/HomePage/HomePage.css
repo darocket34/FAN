@@ -61,15 +61,21 @@ div.section33.container {
     align-items: center;
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
     text-align: center;
-    width: 30%
+    width: 30%;
 }
 
 .section3.navlink {
+    color: teal;
     font-size: 1.25rem;
     margin: 0 0 12px;
     text-decoration: none;
+}
+
+.navlink.grayout,
+.navlink.grayout:hover {
+    color: gray;
+    cursor: default;
 }
 
 p.subtitle {
@@ -78,6 +84,7 @@ p.subtitle {
 
 div.section3 img {
     width: 43%;
+    height: 50%;
 }
 
 /* Section 4 */
