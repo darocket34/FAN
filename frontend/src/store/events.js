@@ -88,7 +88,7 @@ export const createNewEvent = (newEvent, groupId) => async (dispatch) => {
 };
 
 export const deleteEvent = (eventId) => async (dispatch) => {
-  const res = await csrfFetch(`/api/event/${eventId}`, {
+  const res = await csrfFetch(`/api/events/${eventId}`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
   });

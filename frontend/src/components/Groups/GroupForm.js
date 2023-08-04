@@ -6,7 +6,7 @@ import {
   loadSingleGroup,
   updateGroup,
 } from "../../store/groups";
-import "./Groups.css"
+import "./Groups.css";
 
 const GroupForm = ({ group, formType }) => {
   const history = useHistory();
@@ -19,7 +19,12 @@ const GroupForm = ({ group, formType }) => {
   const [city, setCity] = useState(group?.city);
   const [state, setState] = useState(group?.state);
   const [cityState, setCityState] = useState(`${group?.city}, ${group?.state}`);
+  const [imgUrl, setImgUrl] = useState(group?.previewImage);
   const sessionUser = useSelector((state) => state.session.user);
+
+  if (formType === "update" && sessionUser.id !== group?.organizerId) {
+    history.push("/unauthorized");
+  }
 
   useEffect(() => {
     if (group) {
@@ -34,6 +39,7 @@ const GroupForm = ({ group, formType }) => {
     setVisibility(group?.private);
     setCity(group?.city);
     setState(group?.state);
+    setImgUrl(group?.imgUrl);
     setCityState(`${group?.city}, ${group?.state}`);
     if (!group) setCityState("");
   }, [group]);
@@ -49,6 +55,7 @@ const GroupForm = ({ group, formType }) => {
       type,
       city,
       state,
+      url: imgUrl,
       private: visibility,
     };
     if (group) {
@@ -63,6 +70,11 @@ const GroupForm = ({ group, formType }) => {
         private: visibility,
       };
     }
+    // const imgUrlArr = imgUrl.split('.')
+    // const imgUrlEnding = imgUrlArr[imgUrlArr.length - 1]
+    // if(imgUrlEnding !== 'jpg' || imgUrlEnding !== 'jpeg' || imgUrlEnding !== 'png'){
+    //   setNewErrors()
+    // }
 
     if (formType === "update") {
       try {
@@ -158,7 +170,9 @@ const GroupForm = ({ group, formType }) => {
             value={type}
             onChange={(e) => setType(e.target.value)}
           >
-            <option value="" className="gray">Select</option>
+            <option value="" className="gray">
+              Select
+            </option>
             <option value="Online">Online</option>
             <option value="In person">In Person</option>
           </select>
@@ -172,14 +186,22 @@ const GroupForm = ({ group, formType }) => {
             value={visibility}
             onChange={(e) => setVisibility(e.target.value)}
           >
-            <option value="" className="gray">Select</option>
+            <option value="" className="gray">
+              Select
+            </option>
             <option value="true">Private</option>
             <option value="false">Public</option>
           </select>
           <p className="form subtitle">
             Please add an image url for your group!
           </p>
-          <input type="url" className="form img url" placeholder="Image Url" />
+          <input
+            type="url"
+            className="form img url"
+            placeholder="Image Url"
+            value={imgUrl}
+            onChange={(e) => setImgUrl(e.target.value)}
+          />
           <hr></hr>
           {group && (
             <button className="form submit" type="submit">

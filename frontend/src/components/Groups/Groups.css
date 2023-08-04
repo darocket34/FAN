@@ -32,6 +32,7 @@ div.text.container {
     display: flex;
     flex-direction: column;
     margin: 0;
+    z-index: 1;
 }
 
 img.upper {
@@ -51,12 +52,16 @@ button.join {
 }
 
 .background {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
     background-color: rgb(240, 240, 240);
-    width: 150%;
-    height: 10000px;
+    width: 100%;
+    height: fit-content;
+    padding-bottom: 300px;
     position: absolute;
     left: 0;
-    z-index: -1;
 }
 
 .lower {
@@ -116,6 +121,7 @@ button.upper.update {
     width: 140px;
 }
 
-
-
-
+.lower.event.text.container {
+    margin-top: 30px;
+    width: 80%;
+}

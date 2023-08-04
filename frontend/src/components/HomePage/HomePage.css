@@ -27,6 +27,11 @@ img.section1 {
     width: 45%;
 }
 
+i.standout {
+    color: rgb(255,43,43);
+    font-weight: bold;
+}
+
 /* Section 2 */
 
 div.section2.container {
@@ -66,7 +71,7 @@ div.section33.container {
 }
 
 .section3.navlink {
-    color: teal;
+    color: #008080;
     font-size: 1.25rem;
     margin: 0 0 12px;
     text-decoration: none;

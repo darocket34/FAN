@@ -217,6 +217,7 @@ router.get("/:groupId", async (req, res) => {
       },
       {
         model: Event,
+        include: [{ model: EventImage }],
       },
     ],
   });
@@ -264,33 +265,37 @@ router.get("/:groupId", async (req, res) => {
 
 // ! Edit a group
 
-router.put("/:groupId/update", requireAuth, validateGroup, async (req, res, next) => {
-
-  const { name, about, type, private, city, state } = req.body;
-  const group = await Group.findByPk(req.params.groupId);
-  if (!group) {
-    const err = new Error("Group not found...");
-    err.status = 404;
-    err.title = "Group does not exist.";
-    return next(err);
+router.put(
+  "/:groupId/edit",
+  requireAuth,
+  validateGroup,
+  async (req, res, next) => {
+    const { name, about, type, private, city, state } = req.body;
+    const group = await Group.findByPk(req.params.groupId);
+    if (!group) {
+      const err = new Error("Group not found...");
+      err.status = 404;
+      err.title = "Group does not exist.";
+      return next(err);
+    }
+    if (group.organizerId !== req.user.id) {
+      const err = new Error("Only the Group Organizer can edit this group.");
+      err.status = 401;
+      err.title = "Unauthorized";
+      return next(err);
+    }
+    group.set({
+      name,
+      about,
+      type,
+      private,
+      city,
+      state,
+    });
+    await group.save();
+    return res.json(group);
   }
-  if (group.organizerId !== req.user.id) {
-    const err = new Error("Only the Group Organizer can edit this group.");
-    err.status = 401;
-    err.title = "Unauthorized";
-    return next(err);
-  }
-  group.set({
-    name,
-    about,
-    type,
-    private,
-    city,
-    state,
-  });
-  await group.save();
-  return res.json(group);
-});
+);
 
 // ! Add an Image to a group based on the group's id
 

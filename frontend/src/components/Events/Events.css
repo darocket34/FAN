@@ -18,10 +18,12 @@ a.upper.toEvents {
 }
 
 .lowerSection.event.container {
+    justify-items: center;
     display: flex;
     flex-direction: row;
     gap: 3%;
     margin-top: 25px;
+    width: 80%;
 }
 
 .lower.event.additionalInfo.card.container {
@@ -70,6 +72,10 @@ a.upper.toEvents {
     width: 100%;
 }
 
+/* .lower.event.description {
+    padding-bottom: 500px;
+} */
+
 p.text.location {
     padding-top: 10px;
 }
@@ -94,5 +100,3 @@ p.dot {
 i.fa-map-pin {
     margin-left: 5px;
 }
-
-

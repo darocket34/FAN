@@ -15,7 +15,7 @@ const HomePage = () => {
       <div className="section1 container">
         <div className="section1 info">
           <h1 className="section1 title">
-            Make <b>Friends</b>, Do <b>Activites</b>, Start <b>Networking</b>
+            Make <i className="standout">Friends</i>, Do <i className="standout">Activites</i>, Start <i className="standout">Networking</i>
           </h1>
           <p className="section1 subtitle">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -29,7 +29,7 @@ const HomePage = () => {
       </div>
 
       <div className="section2 container">
-        <h2 className="section2 title">How F.A.N. works</h2>
+        <h2 className="section2 title">How <i className="standout">F.A.N.</i> works</h2>
         <p className="section2 subtitle">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua.

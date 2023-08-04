@@ -60,7 +60,7 @@ const GroupDetails = () => {
               <div className="upper img container">
                 <img
                   className="upper img"
-                  src="https://i.imgur.com/ye8yURO.jpeg"
+                  src={group?.GroupImages[0]?.url}
                   alt="hike img"
                 ></img>
               </div>
@@ -92,7 +92,7 @@ const GroupDetails = () => {
                     </button>
                     </Link>
                     <Link
-                      to={`/groups/${group?.id}/update`}
+                      to={`/groups/${group?.id}/edit`}
                       className="upper crud update group"
                     >
                       <button className="upper crud update">Update</button>
@@ -111,7 +111,7 @@ const GroupDetails = () => {
             </div>
           </div>
           <div className="lowerSection container">
-            <div className="lowerSection background"></div>
+            <div className="lowerSection background">
             <div className="lower text container">
               <h1 className="lower title">Organizer</h1>
               <p className="lower organizer">
@@ -148,7 +148,7 @@ const GroupDetails = () => {
                       </div>
                     );
                   })}
-              </div>
+              </div></div>
             </div>
           </div>
         </>

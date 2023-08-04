@@ -22,7 +22,7 @@ const GroupsCard = ({ group }) => {
             <div className="listing card">
               <img
                 className="listing img"
-                src="https://i.imgur.com/ye8yURO.jpeg"
+                src={group.previewImage}
                 alt="hike img"
               ></img>
               <div className="card text">

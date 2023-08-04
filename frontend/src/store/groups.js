@@ -6,7 +6,7 @@ const LOAD_GROUPS = "groups/loadGroups";
 const LOAD_SINGLE_GROUP = "groups/loadSingleGroup";
 const LOAD_EVENTS_BY_GROUPID = "groups/loadEventsByGroupId";
 const CREATE_GROUP = "groups/createGroup";
-const UPDATE_GROUP = 'group/updateGroup'
+const UPDATE_GROUP = "group/updateGroup";
 const DELETE_GROUP = "groups/deleteGroup";
 
 // Action Creators
@@ -42,9 +42,9 @@ const postNewGroup = (newGroup) => {
 const updateExistingGroup = (group) => {
   return {
     type: UPDATE_GROUP,
-    group
-  }
-}
+    group,
+  };
+};
 
 const removeGroup = (groupId) => {
   return {
@@ -106,10 +106,21 @@ export const createNewGroup = (newGroup) => async (dispatch) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(newGroup),
   });
+
   if (res.ok) {
     const group = await res.json();
-    await dispatch(postNewGroup(group));
+    console.log(group)
+    const imgObj = { groupId: group.id, url: newGroup.url, preview: true };
+    const ImgRes = await csrfFetch(`/api/groups/${group.id}/images`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(imgObj),
+    });
+    console.log(imgObj)
+    if(ImgRes.ok) {
+      await dispatch(postNewGroup(group));
     return group;
+    }
   } else {
     const { errors } = await res.json();
     return errors;
@@ -117,7 +128,7 @@ export const createNewGroup = (newGroup) => async (dispatch) => {
 };
 
 export const updateGroup = (group) => async (dispatch) => {
-  const res = await csrfFetch(`/api/groups/${group.id}/update`, {
+  const res = await csrfFetch(`/api/groups/${group.id}/edit`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(group),
@@ -167,9 +178,9 @@ const groupsReducer = (state = initialState, action) => {
       return { ...state, numEvents: sum };
     case CREATE_GROUP:
       state = { ...state, allGroups: action.newGroup };
-      return state
-      case UPDATE_GROUP:
-        state = {...state, allGroups: action.group}
+      return state;
+    case UPDATE_GROUP:
+      state = { ...state, allGroups: action.group };
     case DELETE_GROUP:
       const newState = { ...state };
       delete newState[action.groupId];
