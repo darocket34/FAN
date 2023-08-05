@@ -5,7 +5,7 @@ import { csrfFetch } from "./csrf";
 const LOAD_EVENTS = "events/loadEvents";
 const LOAD_SINGLE_EVENT = "events/loadSingleEvent";
 const CREATE_EVENT = "events/createEvent";
-const DELETE_EVENT = 'events/deleteEvent'
+const DELETE_EVENT = "events/deleteEvent";
 
 // Action Creators
 
@@ -33,9 +33,9 @@ const postNewEvent = (newEvent) => {
 const removeEvent = (eventId) => {
   return {
     type: DELETE_EVENT,
-    eventId
-  }
-}
+    eventId,
+  };
+};
 
 // Thunk Action Creators
 
@@ -71,19 +71,79 @@ export const loadSingleEvent = (eventId) => async (dispatch) => {
 };
 
 export const createNewEvent = (newEvent, groupId) => async (dispatch) => {
-  const res = await csrfFetch(`/api/groups/${groupId}/events`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(newEvent),
-  });
-  if (res.ok) {
-    const event = await res.json();
-    console.log('first')
-    await dispatch(postNewEvent(event));
-    return event;
+  let newImgErrors = {};
+  var errCollector = {};
+  var newEventId = 0;
+
+  if (newEvent.url) {
+    const imgUrlArr = newEvent.url.split(".");
+    const imgUrlEnding = imgUrlArr[imgUrlArr.length - 1];
+    if (
+      imgUrlEnding !== "jpg" &&
+      imgUrlEnding !== "jpeg" &&
+      imgUrlEnding !== "png"
+    ) {
+      newImgErrors = { url: "Image Url must be a .jpg, .jpeg, or .png" };
+    }
   } else {
-    const { errors } = await res.json();
-    return errors;
+    newImgErrors = { url: "Image Url is required" };
+  }
+  try {
+    const res = await csrfFetch(`/api/groups/${groupId}/events`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newEvent),
+    });
+    var freshEvent = await res.json();
+    newEventId = freshEvent.id;
+    try {
+      const imgObj = {
+        eventId: freshEvent.id,
+        url: newEvent.url,
+        preview: true,
+      };
+      const imgRes = await csrfFetch(`/api/events/${freshEvent.id}/images`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(imgObj),
+      });
+      if (imgRes.ok && res.ok && !newImgErrors.url) {
+        console.log('IMG POSTED', newImgErrors)
+        await dispatch(postNewEvent(freshEvent));
+        return freshEvent;
+      }
+      // else {
+      //   console.log("NOTHING TO SEE HERE");
+      //   const imgRes = await csrfFetch(`/api/"/event-images"/${imgRes.id}`, {
+      //     method: "DELETE",
+      //     headers: { "Content-Type": "application/json" }
+      //   });
+      //   errCollector = { errors: { ...newImgErrors } };
+      //   return {errCollector};
+      // }
+    } catch (err1) {
+      console.log("RIGHT SIDE RES", err1);
+      await dispatch(deleteEvent(newEventId));
+      const { errors } = await err1.json();
+      errCollector = {errors: {...newImgErrors, ...errors} };
+      return {...errCollector};
+    }
+  } catch (err) {
+    console.log("RIGHT SIDE ERR", err);
+    if (err) {
+      const { errors } = await err.json()
+      console.log("RIGHT SIDE EVENT", freshEvent);
+      console.log("RIGHT SIDE ERRCollector", errCollector);
+      console.log("RIGHT SIDE ERRORS", errors);
+      console.log("RIGHT SIDE NEWEVENTID", newEventId);
+      if (newEventId) await dispatch(deleteEvent(newEventId));
+      errCollector = { errors: {...errors, ...newImgErrors } };
+      return { ...errCollector };
+    } else {
+      if (newEventId) await dispatch(deleteEvent(newEventId));
+      errCollector = { errors: { ...newImgErrors } };
+      return { ...errCollector };
+    }
   }
 };
 
@@ -122,11 +182,10 @@ const eventsReducer = (state = initialState, action) => {
     case CREATE_EVENT:
       state = { ...state, allEvents: action.newEvent };
       return state;
-      case DELETE_EVENT:
-        const newState = {...state};
-        console.log(newState)
-        delete newState[action.eventId]
-        return newState;
+    case DELETE_EVENT:
+      const newState = { ...state };
+      delete newState[action.eventId];
+      return newState;
     default:
       return state;
   }

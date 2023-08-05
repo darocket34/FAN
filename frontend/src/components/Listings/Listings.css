@@ -28,24 +28,39 @@ a.allgroups:hover {
     cursor: default;
 }
 
+div.event.description.container{
+
+}
+
+div.event.card.text.container {
+    align-self: flex-start;
+}
+
 div.listings {
     align-self: center;
     width: 70%;
 }
 
 img.listing {
-    height: auto;
-    max-height: 180px;
-    max-width: 50%;
+    align-self: center;
+    height: 100%;
+    max-height: 240px;
+    max-width: 100%;
 }
 
 .listing.card {
     align-items: center;
     display: flex;
-    gap: 3%;
+    gap: 1%;
     width: 100%;
     word-break: break-all;
     word-wrap: break-word;
+}
+
+p.event.card.startDate {
+    color: teal;
+    font-weight: bold;
+    margin-top: 0;
 }
 
 a.listing {
@@ -63,13 +78,17 @@ div.additionalInfo {
 }
 
 p.card.title {
-    font-size: 20px;
+    font-size: 30px;
     margin: 0;
 }
 
 p.card {
-    font-size: 14px;
+    font-size: 17px;
     word-wrap: break-word;
+}
+
+p.location.card {
+    font-weight: bold;
 }
 
 hr {
@@ -78,7 +97,7 @@ hr {
     width: 100%;
 }
 
-a.grayout {
+.grayout {
     color: gray;
     text-decoration: none;
 }

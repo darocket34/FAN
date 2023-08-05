@@ -3,18 +3,36 @@ a.upper.toEvents {
 }
 
 .upper.event.title {
+    font-size: 35px;
+    margin-top: 14px;
+    margin-bottom: 5px;
     text-align: left;
+}
+
+p.upper.organizer {
+    margin-top: 0;
+    margin-bottom: 20px;
 }
 
 .upperSection.event.container {
     flex-direction: row;
 }
 
+.upper.event.img.container {
+    max-width: 60%;
+    max-height: 400px;
+}
+
+.upper.event.img {
+    max-height: 100%;
+}
+
 .upper.event.card.container {
     display: flex;
     flex-direction: column;
-    width: 50%;
     gap: 5%;
+    height: 100%;
+    width: 50%;
 }
 
 .lowerSection.event.container {
@@ -43,6 +61,10 @@ a.upper.toEvents {
     gap: 33px;
     height: 100%;
     width: 100%;
+}
+
+img.lower.group {
+    width: 100px;
 }
 
 .lower.event.dates.container {

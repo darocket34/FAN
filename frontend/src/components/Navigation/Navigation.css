@@ -58,6 +58,7 @@ a.startNewGroup {
 
 .modal-menu-profile,
 .modal-menu {
+    align-items: center;
     background-color: white;
     border: 1px solid lightgray;
     border-radius: 7px;
@@ -65,9 +66,10 @@ a.startNewGroup {
     flex-direction: column;
     font-size: 17px;
     padding: 10px;
-    align-items: center;
+    position: relative;
     text-align: center;
     width: 200px;
+    /* z-index: 1; */
 }
 
 .modal-menu-item {
@@ -75,7 +77,9 @@ a.startNewGroup {
     font-size: 17px;
     margin: 5px 5px;
     padding: 10px;
+    position: relative;
     text-align: center;
+    z-index: 1;
     width: 150px;
 }
 

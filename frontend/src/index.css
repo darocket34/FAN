@@ -10,7 +10,6 @@ button {
     border-radius: 8px;
     box-sizing: border-box;
     color: white;
-    width: 50%;
 }
 
 button:hover {
@@ -35,7 +34,17 @@ body {
     align-content: center;
     display: flex;
     flex-wrap: wrap;
+    font-family: 'Nunito', sans-serif;
     justify-self: center;
     font-size: 16px;
     justify-content: center;
 }
+
+h1,
+.title {
+    font-weight: bold;
+}
+/* ! Options
+font-family: 'Merriweather', serif;
+font-family: 'Nunito', sans-serif;
+font-family: 'Roboto Slab', serif; */

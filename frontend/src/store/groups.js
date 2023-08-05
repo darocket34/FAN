@@ -109,14 +109,12 @@ export const createNewGroup = (newGroup) => async (dispatch) => {
 
   if (res.ok) {
     const group = await res.json();
-    console.log(group)
     const imgObj = { groupId: group.id, url: newGroup.url, preview: true };
     const ImgRes = await csrfFetch(`/api/groups/${group.id}/images`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(imgObj),
     });
-    console.log(imgObj)
     if(ImgRes.ok) {
       await dispatch(postNewGroup(group));
     return group;

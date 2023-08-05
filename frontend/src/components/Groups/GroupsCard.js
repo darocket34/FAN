@@ -10,33 +10,41 @@ const GroupsCard = ({ group }) => {
   let numEvents = group.Events?.length;
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
-    dispatch(loadEvents()).then(() => setIsLoaded(true)).then(() => loadSingleGroup(group.id));
+    dispatch(loadEvents())
+      .then(() => setIsLoaded(true))
+      .then(() => loadSingleGroup(group.id));
   }, [dispatch, isLoaded]);
 
   return (
     <>
       {isLoaded && (
-        <div key={`${isLoaded && group.id}`}>
-          <hr></hr>
+        <>
+        <hr></hr>
+        <div
+          key={`${isLoaded && group.id}`}
+          className="listing master container"
+        >
           <Link className="listing link" to={`/groups/${isLoaded && group.id}`}>
             <div className="listing card">
-              <img
-                className="listing img"
-                src={group.previewImage}
-                alt="hike img"
-              ></img>
-              <div className="card text">
+              <div className="listing img container">
+                <img
+                  className="listing img"
+                  src={group.previewImage}
+                  alt="hike img"
+                />
+              </div>
+              <div className="groups card text container">
                 <p className="card title">{isLoaded && group.name}</p>
-                <p className="card location">
+                <p className="card location grayout">
                   {isLoaded && group.city}, {isLoaded && group.state}
                 </p>
                 <p className="card about">{isLoaded && group.about}</p>
-                <div className="card additionalInfo">
-                  <p className="card numEvents">
+                <div className="card additionalInfo container">
+                  <p className="card numEvents grayout">
                     {isLoaded && numEvents} Events
                   </p>
-                  <p className="card dot">·</p>
-                  <p className="card private">
+                  <p className="card dot grayout">·</p>
+                  <p className="card private grayout">
                     {isLoaded && group.private === false ? "Public" : "Private"}
                   </p>
                 </div>
@@ -44,6 +52,7 @@ const GroupsCard = ({ group }) => {
             </div>
           </Link>
         </div>
+        </>
       )}
     </>
   );

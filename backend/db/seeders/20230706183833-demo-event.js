@@ -25,7 +25,7 @@ module.exports = {
           groupId: 2,
           name: "Event2",
           description: "Camp with total strangers and find out who is a creep",
-          type: "In person",
+          type: "In Person",
           capacity: 12,
           price: 40,
           startDate: "2023-08-21",

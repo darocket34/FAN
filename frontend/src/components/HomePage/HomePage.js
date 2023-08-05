@@ -7,9 +7,11 @@ import { useSelector } from "react-redux";
 const HomePage = () => {
   const [disable, setDisable] = useState(true);
   const sessionUser = useSelector((state) => state.session.user);
+
   useEffect(() => {
-    if (sessionUser) setDisable(false);
+    sessionUser ? setDisable(false) : setDisable(true);
   }, [sessionUser, disable]);
+
   return (
     <div className="homepage">
       <div className="section1 container">

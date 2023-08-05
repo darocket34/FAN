@@ -5,9 +5,9 @@ import { useEffect } from "react";
 import EventsCard from "./EventsCard";
 
 const EventsList = () => {
-  const events = useSelector((state) => Object.values(state.events.allEvents));
+  const events = useSelector((state) => state.events.allEvents);
   const dispatch = useDispatch();
-  console.log(events)
+
   useEffect(() => {
     dispatch(loadEvents());
   }, [dispatch]);

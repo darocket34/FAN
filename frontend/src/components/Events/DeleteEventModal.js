@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { deleteEvent } from "../../store/events";
 import { useModal } from "../../context/Modal";
@@ -10,6 +10,7 @@ const DeleteEventModal = ({ eventId }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { closeModal } = useModal();
+  const sessionUser = useSelector((state => state.session.user));
 
   const handleDelete = async (e) => {
     e.preventDefault();
@@ -17,12 +18,15 @@ const DeleteEventModal = ({ eventId }) => {
     history.push("/events");
   };
 
-
+  if (!sessionUser) {
+    closeModal()
+    history.push("/");
+  }
 
   return (
     <>
       <div className="delete modal container">
-        <h1 className="delete modal title">{`Are you sure you want to delete this group?`}</h1>
+        <h1 className="delete modal title">{`Are you sure you want to delete this event?`}</h1>
         <div className="delete modal button container">
           <button className="delete modal yes" onClick={handleDelete}>
             Yes (Delete Event)

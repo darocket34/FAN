@@ -1,22 +1,14 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { createNewEvent } from "../../store/events";
+import { createNewEvent, deleteEvent } from "../../store/events";
 
 const EventForm = ({ event }) => {
-  // const event = {
-  //   name: "Tennis Group First Meet and Greet",
-  //   type: "Online",
-  //   price: 18.59,
-  //   description: "The first meet and greet for our group! Come say hello!",
-  //   startDate: "2023-08-15 00:18:00.000 +00:00",
-  //   endDate: "2023-08-15 15:30:00.000 +00:00",
-  // };
-
   const history = useHistory();
   const dispatch = useDispatch();
   const { groupId } = useParams();
   const [newErrors, setNewErrors] = useState({});
+  const [newImgErrors, setNewImgErrors] = useState({});
   //   const [venueId, setVenueId] = useState(event?.venueId);
   const [name, setName] = useState(event?.name);
   const [type, setType] = useState(event?.type);
@@ -65,15 +57,43 @@ const EventForm = ({ event }) => {
       description,
       startDate,
       endDate,
+      url,
     };
 
+    // if (url) {
+    //   const imgUrlArr = url.split(".");
+    //   const imgUrlEnding = imgUrlArr[imgUrlArr.length - 1];
+    //   if (
+    //     imgUrlEnding !== "jpg" &&
+    //     imgUrlEnding !== "jpeg" &&
+    //     imgUrlEnding !== "png"
+    //   ) {
+    //     setNewImgErrors({
+    //       url: "Image Url must be a .jpg, .jpeg, or .png",
+    //     });
+    //   }
+    // } else {
+    //   setNewImgErrors({ url: "Image Url is required" });
+    // }
+
     try {
-      const res = await dispatch(createNewEvent(newEvent, groupId));
-      history.push(`/events/${res.id}`);
+      const response = await dispatch(createNewEvent(newEvent, groupId));
+      if (response && !response.errors) {
+        history.push(`/events/${response.id}`);
+      }
+      console.log("RES LEFT SIDE NO ERRORS", response);
+      const { errors } = response;
+      console.log("RES LEFT SIDE ERRORS", errors);
+      if (response && response.errors) {
+        setNewErrors(errors);
+      }
     } catch (err) {
       if (err) {
-        const { errors } = await err.json();
+        console.log("ERR LEFT SIDE", err);
+        const { errors } = err;
+        console.log("ERRORS LEFT SIDE", errors);
         setNewErrors(errors);
+        console.log("newERRORS LEFT SIDE", errors);
       }
     }
   };
@@ -104,7 +124,7 @@ const EventForm = ({ event }) => {
           >
             <option value="">Select</option>
             <option value="Online">Online</option>
-            <option value="In person">In Person</option>
+            <option value="In Person">In Person</option>
           </select>
           <p className="form subtitle">Is this event private or public?</p>
           {newErrors?.private && (
@@ -126,7 +146,7 @@ const EventForm = ({ event }) => {
             type="text"
             className="form price"
             placeholder="$0"
-            value={'$' + (price !== undefined ? `${price}` :  "0")}
+            value={"$" + (price !== undefined ? `${price}` : "0")}
             onChange={(e) => setPrice(e.target.value.slice(1))}
           />
           <hr></hr>
@@ -155,7 +175,13 @@ const EventForm = ({ event }) => {
             Please add an image url for your event!
           </p>
           {newErrors?.url && <p className="newErrors">{newErrors?.url}</p>}
-          <input type="url" className="form img url" placeholder="Image Url" />
+          <input
+            type="text"
+            className="form img url"
+            placeholder="Image Url"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+          />
           <hr></hr>
           <p className="form subtitle">Give a description for the event</p>
           {newErrors?.description && (

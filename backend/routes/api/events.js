@@ -28,7 +28,11 @@ const validateEvent = [
   check("capacity").isInt().withMessage("Capacity must be an integer"),
   check("price").isDecimal().withMessage("Price is invalid"),
   check("description").notEmpty().withMessage("Description is required"),
-  check("startDate").isAfter().withMessage("Start date must be in the future"),
+  check("startDate")
+    .exists()
+    .withMessage("Start Date is Required")
+    .isAfter()
+    .withMessage("Start date must be in the future"),
   check("endDate")
     .custom((end, { req }) => end > req.body.startDate)
     .withMessage("End date is less than start date"),
@@ -153,8 +157,11 @@ router.get("/:eventId", async (req, res, next) => {
         model: Group,
         include: [
           {
-            model: User
-          }
+            model: User,
+          },
+          {
+            model: GroupImage,
+          },
         ],
         attributes: {
           exclude: ["about", "type", "createdAt", "updatedAt"],
@@ -216,10 +223,26 @@ router.post("/:eventId/images", requireAuth, async (req, res, next) => {
   const { url, preview } = req.body;
   if (!url) {
     const err = new Error("Image not found...");
+    err.errors = {url: "Image Url is required"};
     err.status = 400;
     err.title = "Please enter valid image url.";
     return next(err);
+  } else {
+    const imgUrlArr = url.split(".");
+    const imgUrlEnding = imgUrlArr[imgUrlArr.length - 1];
+    if (
+      imgUrlEnding !== "jpg" &&
+      imgUrlEnding !== "jpeg" &&
+      imgUrlEnding !== "png"
+    ) {
+      const err = new Error("Invalid Image Type");
+      err.errors.url = "Image Url must be a .jpg, .jpeg, or .png";
+      err.status = 400;
+      err.title = "Please enter valid image url.";
+      return next(err);
+    }
   }
+
   const event = await Event.findByPk(req.params.eventId, {
     include: [
       {
@@ -703,6 +726,7 @@ router.delete("/:eventId/attendance", requireAuth, async (req, res, next) => {
 
 router.delete("/:eventId", requireAuth, async (req, res, next) => {
   const event = await Event.findByPk(req.params.eventId);
+  const group = await Group.findByPk(event.groupId);
   if (!event) {
     const err = new Error("Event not found...");
     err.status = 404;
@@ -710,24 +734,36 @@ router.delete("/:eventId", requireAuth, async (req, res, next) => {
     return next(err);
   }
 
-  const membership = await Membership.findAll();
+  // const membership = await Membership.findAll();
   const currUser = req.user.id;
-  let confirm = false;
+  // let confirm = false;
 
-  membership.forEach((member) => {
-    const memberId = member.userId;
-    const memberStatus = member.status;
-    const groupId = member.groupId;
-    if (
-      currUser === memberId &&
-      memberStatus === "co-host" &&
-      groupId === event.groupId
-    ) {
-      confirm = true;
-    }
-  });
+  // membership.forEach((member) => {
+  //   const memberId = member.userId;
+  //   const memberStatus = member.status;
+  //   const groupId = member.groupId;
+  //   if (                                         //!Add to confirm via membership
+  //     currUser === memberId &&
+  //     memberStatus === "co-host" &&
+  //     groupId === event.groupId
+  //   ) {
+  //     confirm = true;
+  //   }
+  // });
 
-  if (confirm) {
+  // if (confirm) {
+  //   event.destroy();
+  //   return res.json({
+  //     message: "Successfully deleted",
+  //   });
+  // } else {
+  //   const err = new Error("User must be Organizer or Co-Host to access.");
+  //   err.status = 401;
+  //   err.title = "Unauthorized";
+  //   return next(err);
+  // }
+
+  if (currUser === group.organizerId) {
     event.destroy();
     return res.json({
       message: "Successfully deleted",

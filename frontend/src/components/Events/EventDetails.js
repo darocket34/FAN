@@ -14,29 +14,36 @@ const EventDetails = () => {
   const [isLoadedEvents, setIsLoadedEvents] = useState(false);
   // const [isLoadedGroups, setIsLoadedGroups] = useState(false);
   const [isOrganizer, setIsOrganizer] = useState(false);
-  const event = useSelector((state) => state.events?.singleEvent);
+  const event = useSelector((state) => state?.events?.singleEvent);
+  const [eventImgUrl, setEventImgUrl] = useState("");
+  const [groupImgUrl, setGroupImgUrl] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   // const groups = useSelector((state) => Object.values(state.groups?.allGroups));
   const user = useSelector((state) => state.session.user);
   // const currGroup = groups.filter((group) => group.id === event.groupId);
   // const group = currGroup[0];
 
   useEffect(() => {
-    // const fetchAll = async () => {
-    // await Promise.all([
     dispatch(loadSingleEvent(eventId));
-    // dispatch(loadGroups()),
-    // ]);
     setIsLoadedEvents(true);
-    // setIsLoadedGroups(true);
-    // };
-    // fetchAll();
-  }, [dispatch, eventId]);
+  }, [dispatch, eventId, isLoadedEvents]);
+
+  useEffect(() => {
+    if (event?.EventImages?.length > 0) {
+      setEventImgUrl(event?.EventImages[0].url);
+      setGroupImgUrl(event?.Group?.GroupImages[0].url);
+      setStartDate(event?.startDate?.split("T")[0]);
+      setEndDate(event?.endDate?.split("T")[0]);
+      setStartTime(event?.startDate?.split("T")[1]);
+      setEndTime(event?.endDate?.split("T")[1]);
+    }
+  }, [event]);
   // if (user && event?.Group?.organizerId && user?.id === event?.Group?.organizerId) {
   //   setIsOrganizer(true);
   // }
-  // useEffect(() => {
-
-  // }, [isOrganizer, user, event]);
 
   return (
     <>
@@ -50,7 +57,7 @@ const EventDetails = () => {
                 Events
               </Link>
               <h1 className="upper event title">{event?.name}</h1>
-              <p className="upper organizer">
+              <p className="upper organizer grayout">
                 Hosted By {event?.Group?.User?.firstName}{" "}
                 {event?.Group?.User?.lastName}
               </p>
@@ -61,7 +68,7 @@ const EventDetails = () => {
                   <div className="upper event img container">
                     <img
                       className="upper event img"
-                      src="https://i.imgur.com/ye8yURO.jpeg"
+                      src={eventImgUrl}
                       alt="event main"
                     ></img>
                   </div>
@@ -71,7 +78,7 @@ const EventDetails = () => {
                         <img
                           className="lower group card"
                           alt="group preview image"
-                          src={event?.Group?.previewImage}
+                          src={groupImgUrl}
                         />
                         <div className="lower group card info">
                           <div className="lower group card title">
@@ -99,11 +106,11 @@ const EventDetails = () => {
                                 Start
                               </p>
                               <p className="lower event text additionalInfo dates startdateactual start">
-                                {event?.startDate?.split("T")[0]}
+                                {startDate && startDate}
                               </p>
                               <p className="card dot">·</p>
                               <p className="lower event text additionalInfo dates starttimeactual start">
-                                {event?.startDate?.split("T")[1]}
+                                {startTime && startTime}
                               </p>
                             </div>
                             <div className="lower event text additionalInfo dates dates end">
@@ -111,11 +118,11 @@ const EventDetails = () => {
                                 End
                               </p>
                               <p className="lower event text additionalInfo dates enddateactual end">
-                                {event?.endDate?.split("T")[0]}
+                                {endDate && endDate}
                               </p>
                               <p className="card dot">·</p>
                               <p className="lower event text additionalInfo dates endtimeactual end">
-                                {event?.endDate?.split("T")[1]}
+                                {endTime && endTime}
                               </p>
                             </div>
                           </div>

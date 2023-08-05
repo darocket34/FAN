@@ -1,46 +1,44 @@
 import { Link } from "react-router-dom";
 import "../Listings/Listings.css";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { loadEvents } from "../../store/events";
+import { useEffect, useState } from "react";
 
-const EventsCard = ({ event }) => {
-  const dispatch = useDispatch();
-  // const events = useSelector((state) => Object.values(state.events.allEvents));
-  // let newEvent = {};
+const EventsCard = ({ event, city, state }) => {
+  const [imgUrl, setImgUrl] = useState(event?.previewImage);
+  const [cityLocation, setCityLocation] = useState(event?.Group?.city);
+  const [stateLocation, setStateLocation] = useState(event?.Group?.state);
 
-  // if (!event.Venue) {
-  //   newEvent = {
-  //     ...events.filter((currEvent) => event.venueId === currEvent.venueId)[0],
-  //   };
-  // }
-
-  // useEffect(() => {
-  //   dispatch(loadEvents());
-  // }, []);
-  console.log(event)
-
+  useEffect(() => {
+    console.log(event);
+    if (event.EventImages && event.EventImages[0]) {
+      setImgUrl(event?.EventImages[0].url);
+    }
+    if (city) {
+      setCityLocation(city);
+    }
+    if (state) {
+      setStateLocation(state);
+    }
+  });
   return (
-    <div key={`${event.id}`}>
+    <div key={`${event?.id}`}>
       <hr></hr>
-      <Link className="listing link" to={`/events/${event.id}`}>
+      <Link className="listing link" to={`/events/${event?.id}`}>
         <div className="listing card">
-          <div className="listing img container"></div>
-          <img
-            className="listing img"
-            src={event?.previewImage || event.EventImages[0].url}
-            alt="hike img"
-          ></img>
-          <div className="event card text">
-            <p className="event card startDate">{event.startDate}</p>
-            <p className="event card title">{event.name}</p>
-            <p className="event card location">
-              {event.Group?.city},{" "}
-              {event.Group?.state}
+          <div className="listing img container">
+          {imgUrl && (
+            <img className="listing img" src={imgUrl} alt="hike img" />
+          )}</div>
+          <div className="event card text container">
+            <p className="event card startDate">{event?.startDate}</p>
+            <p className="event card title">{event?.name}</p>
+            <p className="event card location grayout">
+              {cityLocation}, {stateLocation}
             </p>
-            {<p className="event card description">{event.description}</p>}
           </div>
         </div>
+          <div className="event card description container">
+            {<p className="event card description">{event?.description}</p>}
+          </div>
       </Link>
     </div>
   );
