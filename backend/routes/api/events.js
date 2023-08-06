@@ -253,12 +253,14 @@ router.post("/:eventId/images", requireAuth, async (req, res, next) => {
       },
     ],
   });
+
   if (!event) {
     const err = new Error("Event not found...");
     err.status = 404;
     err.title = "Event does not exist.";
     return next(err);
   }
+  
   const currUser = req.user.id;
   let confirm = false;
 

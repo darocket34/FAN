@@ -74,6 +74,7 @@ export const createNewEvent = (newEvent, groupId) => async (dispatch) => {
   let newImgErrors = {};
   var errCollector = {};
   var newEventId = 0;
+  // var newImageId = 0;
 
   if (newEvent.url) {
     const imgUrlArr = newEvent.url.split(".");
@@ -102,32 +103,46 @@ export const createNewEvent = (newEvent, groupId) => async (dispatch) => {
         url: newEvent.url,
         preview: true,
       };
-      const imgRes = await csrfFetch(`/api/events/${freshEvent.id}/images`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(imgObj),
-      });
-      if (imgRes.ok && res.ok && !newImgErrors.url) {
-        await dispatch(postNewEvent(freshEvent));
-        return freshEvent;
+      if (newEvent.url.length > 255) {
+        newImgErrors = { url: "Image url must be less than 255 characters" };
+      } else {
+        const imgRes = await csrfFetch(`/api/events/${freshEvent.id}/images`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(imgObj),
+        });
+        // const newImage = await imgRes.json();
+        // newImageId = newImage.id;
+        if (imgRes.ok && res.ok && !newImgErrors.url) {
+          await dispatch(postNewEvent(freshEvent));
+          return freshEvent;
+        }
       }
     } catch (err1) {
       await dispatch(deleteEvent(newEventId));
       const { errors } = await err1.json();
-      errCollector = {errors: {...newImgErrors, ...errors} };
-      return {...errCollector};
+      errCollector = { errors: { ...newImgErrors, ...errors } };
+      return { ...errCollector };
     }
   } catch (err) {
     if (err) {
-      const { errors } = await err.json()
+      const { errors } = await err.json();
       if (newEventId) await dispatch(deleteEvent(newEventId));
-      errCollector = { errors: {...errors, ...newImgErrors } };
+      errCollector = { errors: { ...errors, ...newImgErrors } };
       return { ...errCollector };
     } else {
       if (newEventId) await dispatch(deleteEvent(newEventId));
       errCollector = { errors: { ...newImgErrors } };
       return { ...errCollector };
     }
+  }
+  if (newImgErrors.url) {
+    await dispatch(deleteEvent(newEventId));
+    // await csrfFetch(`/api/group-images/${newImageId}`, {
+    //   method: "DELETE",
+    //   headers: { "Content-Type": "application/json" },
+    // });
+    return { errors: { ...newImgErrors } };
   }
 };
 
@@ -137,7 +152,7 @@ export const deleteEvent = (eventId) => async (dispatch) => {
     headers: { "Content-Type": "application/json" },
   });
   if (res.ok) {
-    const event = await res.json();
+    // const event = await res.json();
     await dispatch(removeEvent(eventId));
     return;
   } else {

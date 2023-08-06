@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       groupId: {
         type: DataTypes.INTEGER,
       },
-      url: DataTypes.STRING,
+      url: DataTypes.STRING(255),
       preview: DataTypes.BOOLEAN,
     },
     {

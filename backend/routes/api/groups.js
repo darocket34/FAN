@@ -322,7 +322,7 @@ router.post("/:groupId/images", requireAuth, async (req, res, next) => {
   const newImg = GroupImage.build({
     url,
     preview,
-    groupId: req.params.groupId,
+    groupId: group.id,
   });
 
   if (!group) {

@@ -22,7 +22,7 @@ const EventsList = () => {
       {Object.values(eventsListSorted).map((event) => {
         return (
           <Fragment key={event.id}>
-            <hr />
+            <hr key={event.id * 400}/>
             <EventsCard key={event.id} event={event} />
           </Fragment>
         );

@@ -104,10 +104,12 @@ export const createNewGroup = (newGroup) => async (dispatch) => {
   let newImgErrors = {};
   var errCollector = {};
   var newGroupId = 0;
+  // var newImageId = 0;
 
   if (newGroup.url) {
     const imgUrlArr = newGroup.url.split(".");
     const imgUrlEnding = imgUrlArr[imgUrlArr.length - 1];
+
     if (
       imgUrlEnding !== "jpg" &&
       imgUrlEnding !== "jpeg" &&
@@ -134,19 +136,24 @@ export const createNewGroup = (newGroup) => async (dispatch) => {
         url: newGroup.url,
         preview: true,
       };
-      const imgRes = await csrfFetch(`/api/groups/${freshGroup.id}/images`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(imgObj),
-      });
-      if (imgRes.ok && res.ok && !newImgErrors.url) {
-        await dispatch(postNewGroup(freshGroup));
-        return freshGroup;
+      if (newGroup.url.length > 255) {
+        newImgErrors = { url: "Image url must be less than 255 characters" };
+      } else {
+        const imgRes = await csrfFetch(`/api/groups/${freshGroup.id}/images`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(imgObj),
+        });
+        // const newImage = await imgRes.json();
+        // newImageId = newImage.id;
+        if (imgRes.ok && res.ok && !newImgErrors.url) {
+          await dispatch(postNewGroup(freshGroup));
+          return freshGroup;
+        }
       }
     } catch (err1) {
       await dispatch(deleteGroup(newGroupId));
-      const  errors  = await err1.json();
-      console.log(errors)
+      const errors = await err1.json();
       errCollector = { errors: { ...newImgErrors, ...errors } };
       return { ...errCollector };
     }
@@ -161,6 +168,14 @@ export const createNewGroup = (newGroup) => async (dispatch) => {
       errCollector = { errors: { ...newImgErrors } };
       return { ...errCollector };
     }
+  }
+  if (newImgErrors.url) {
+    await dispatch(deleteGroup(newGroupId));
+    // await csrfFetch(`/api/group-images/${newImageId}`, {
+    //   method: "DELETE",
+    //   headers: { "Content-Type": "application/json" },
+    // });
+    return { errors: { ...newImgErrors } };
   }
 };
 
@@ -179,8 +194,8 @@ export const updateGroup = (group) => async (dispatch) => {
   } catch (err) {
     if (err) {
       const { errors } = await err.json();
-      console.log(errors)
-      return {errors: {...errors}};
+      console.log(errors);
+      return { errors: { ...errors } };
     }
   }
 };
@@ -191,7 +206,7 @@ export const deleteGroup = (groupId) => async (dispatch) => {
     headers: { "Content-Type": "application/json" },
   });
   if (res.ok) {
-    const group = await res.json();
+    // const group = await res.json();
     await dispatch(removeGroup(groupId));
     return;
   } else {
@@ -223,6 +238,7 @@ const groupsReducer = (state = initialState, action) => {
       return state;
     case UPDATE_GROUP:
       state = { ...state, allGroups: action.group };
+      return state;
     case DELETE_GROUP:
       const newState = { ...state };
       delete newState[action.groupId];
