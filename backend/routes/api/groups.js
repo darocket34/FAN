@@ -31,12 +31,8 @@ const validateGroup = [
     .isIn(["Online", "In person"])
     .withMessage("Type must be 'Online' or 'In person'"),
   check("private").isBoolean().withMessage("Please select an option"),
-  check("city")
-    .notEmpty()
-    .withMessage("City is required."),
-  check("state")
-    .notEmpty()
-    .withMessage("State is required."),
+  check("city").notEmpty().withMessage("City is required."),
+  check("state").notEmpty().withMessage("State is required."),
   handleValidationErrors,
 ];
 
@@ -303,7 +299,7 @@ router.post("/:groupId/images", requireAuth, async (req, res, next) => {
   const { url, preview } = req.body;
   if (!url) {
     const err = new Error("Image not found...");
-    err.errors = {url: "Image Url is required"};
+    err.errors = { url: "Image Url is required" };
     err.status = 400;
     err.title = "Please enter valid image url.";
     return next(err);
@@ -342,7 +338,7 @@ router.post("/:groupId/images", requireAuth, async (req, res, next) => {
     return next(err);
   }
 
-  await newImg.validate();
+  // await newImg.validate();
   await newImg.save();
 
   const img = await GroupImage.findOne({

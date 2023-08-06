@@ -139,14 +139,14 @@ export const createNewGroup = (newGroup) => async (dispatch) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(imgObj),
       });
-      console.log(imgRes);
       if (imgRes.ok && res.ok && !newImgErrors.url) {
         await dispatch(postNewGroup(freshGroup));
         return freshGroup;
       }
     } catch (err1) {
       await dispatch(deleteGroup(newGroupId));
-      const { errors } = await err1.json();
+      const  errors  = await err1.json();
+      console.log(errors)
       errCollector = { errors: { ...newImgErrors, ...errors } };
       return { ...errCollector };
     }

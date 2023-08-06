@@ -12,7 +12,7 @@ const EventForm = ({ event }) => {
   const [name, setName] = useState(event?.name);
   const [type, setType] = useState(event?.type);
   const [visibility, setVisibility] = useState(event?.visibility);
-  const [price, setPrice] = useState();
+  const [price, setPrice] = useState(event?.price || 0);
   const [description, setDescription] = useState(event?.description);
   const [startDate, setStartDate] = useState(event?.startDate);
   const [endDate, setEndDate] = useState(event?.endDate);
