@@ -7,14 +7,12 @@ import { loadSingleGroup } from "../../store/groups";
 const UpdateGroup = () => {
   const { groupId } = useParams();
   const dispatch = useDispatch();
-  const group = useSelector(
-    (state) => Object.values(state.groups.singleGroup)[0]
-  );
-
+  const group = useSelector((state) => state.groups.singleGroup[groupId]);
+  console.log(group);
   useEffect(() => {
     dispatch(loadSingleGroup(groupId));
   }, [dispatch]);
-  
+
   return <>{group && <GroupForm group={group} formType="update" />}</>;
 };
 

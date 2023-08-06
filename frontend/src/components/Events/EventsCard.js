@@ -6,9 +6,13 @@ const EventsCard = ({ event, city, state }) => {
   const [imgUrl, setImgUrl] = useState(event?.previewImage);
   const [cityLocation, setCityLocation] = useState(event?.Group?.city);
   const [stateLocation, setStateLocation] = useState(event?.Group?.state);
+  const [displayDate, setDisplayDate] = useState(
+    event?.startDate?.toString().slice(0, 11)
+  );
+  const [localTime, setLocalTime] = useState("");
+  // const [dateUTC, setDateUTC] = useState('')
 
   useEffect(() => {
-    console.log(event);
     if (event.EventImages && event.EventImages[0]) {
       setImgUrl(event?.EventImages[0].url);
     }
@@ -18,27 +22,39 @@ const EventsCard = ({ event, city, state }) => {
     if (state) {
       setStateLocation(state);
     }
+    if (event.startDate) {
+      const dateUTC = new Date(event.startDate);
+      const time = dateUTC.toLocaleTimeString("en-US")
+      setLocalTime(time);
+    }
   });
+
   return (
     <div key={`${event?.id}`}>
-      <hr></hr>
-      <Link className="listing link" to={`/events/${event?.id}`}>
-        <div className="listing card">
-          <div className="listing img container">
-          {imgUrl && (
-            <img className="listing img" src={imgUrl} alt="hike img" />
-          )}</div>
+      <Link className="listing event link" to={`/events/${event?.id}`}>
+        <div className="listing event card">
+          <div className="listing event img container">
+            {imgUrl && (
+              <img className="listing event img" src={imgUrl} alt="hike img" />
+            )}
+          </div>
           <div className="event card text container">
-            <p className="event card startDate">{event?.startDate}</p>
+            <div className="event card time container">
+              <p className="event card startDate">
+                {displayDate && displayDate}
+              </p>
+              <p className="event card startDate"> · </p>
+              <p className="event card startDate">{localTime && localTime}</p>
+            </div>
             <p className="event card title">{event?.name}</p>
             <p className="event card location grayout">
               {cityLocation}, {stateLocation}
             </p>
           </div>
         </div>
-          <div className="event card description container">
-            {<p className="event card description">{event?.description}</p>}
-          </div>
+        <div className="event card description container">
+          {<p className="event card description">{event?.description}</p>}
+        </div>
       </Link>
     </div>
   );

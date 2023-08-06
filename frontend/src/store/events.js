@@ -108,34 +108,18 @@ export const createNewEvent = (newEvent, groupId) => async (dispatch) => {
         body: JSON.stringify(imgObj),
       });
       if (imgRes.ok && res.ok && !newImgErrors.url) {
-        console.log('IMG POSTED', newImgErrors)
         await dispatch(postNewEvent(freshEvent));
         return freshEvent;
       }
-      // else {
-      //   console.log("NOTHING TO SEE HERE");
-      //   const imgRes = await csrfFetch(`/api/"/event-images"/${imgRes.id}`, {
-      //     method: "DELETE",
-      //     headers: { "Content-Type": "application/json" }
-      //   });
-      //   errCollector = { errors: { ...newImgErrors } };
-      //   return {errCollector};
-      // }
     } catch (err1) {
-      console.log("RIGHT SIDE RES", err1);
       await dispatch(deleteEvent(newEventId));
       const { errors } = await err1.json();
       errCollector = {errors: {...newImgErrors, ...errors} };
       return {...errCollector};
     }
   } catch (err) {
-    console.log("RIGHT SIDE ERR", err);
     if (err) {
       const { errors } = await err.json()
-      console.log("RIGHT SIDE EVENT", freshEvent);
-      console.log("RIGHT SIDE ERRCollector", errCollector);
-      console.log("RIGHT SIDE ERRORS", errors);
-      console.log("RIGHT SIDE NEWEVENTID", newEventId);
       if (newEventId) await dispatch(deleteEvent(newEventId));
       errCollector = { errors: {...errors, ...newImgErrors } };
       return { ...errCollector };

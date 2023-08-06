@@ -19,8 +19,12 @@ div.section1.info {
     align-items: center;
     display: flex;
     flex-direction: column;
-    text-align: center;
+    text-align: left;
     width: 45%;
+}
+
+.section1.title {
+    text-align: left;
 }
 
 img.section1 {
@@ -103,6 +107,12 @@ div.section4 {
 
 button.section4 {
     font-size: 20px;
-    height: 40px;
-    width: auto;
+    height: 50px;
+    width: 150px;
+}
+
+li.modal {
+    font-family: 'Nunito', sans-serif;
+    font-size: 20px;
+    list-style-type: none;
 }

@@ -1,4 +1,4 @@
-h1 {
+h1.login {
     text-align: center;
 }
 
@@ -13,10 +13,17 @@ input.input2 {
     margin-top: 10px;
 }
 
+input.input1,
+input.input2 {
+    font-size: 20px;
+    height: 30px;
+}
+
 button.login {
-    font-size: 17px;
+    font-size: 22px;
     margin-top: 40px;
     height: 40px;
+    width: 100%;
 }
 
 button.demo {

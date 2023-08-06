@@ -11,6 +11,7 @@ import "./Groups.css";
 const GroupDetails = () => {
   const { groupId } = useParams();
   const dispatch = useDispatch();
+  const history = useHistory();
   const [isLoaded, setIsLoaded] = useState(false);
   const [isOrganizer, setIsOrganizer] = useState(false);
   const today = new Date();
@@ -32,22 +33,25 @@ const GroupDetails = () => {
     const start = new Date(event.startDate);
     return start > today;
   });
-
-  useEffect(() => {
-    dispatch(loadSingleGroup(groupId)).then(() => setIsLoaded(true));
-  }, []);
-
   useEffect(() => {
     if (user && user.id === group.organizerId) {
       setIsOrganizer(true);
     }
   }, [user, group]);
 
+  useEffect(() => {
+    dispatch(loadSingleGroup(groupId))
+      .then(() => setIsLoaded(true))
+      .catch(() => {
+        history.push("/pagenotfound");
+      });
+  }, []);
+
   return (
     <>
       {isLoaded && (
         <>
-          <div key='topContainer' className="detail page container">
+          <div key="topContainer" className="detail page container">
             <div className="upper groups link container">
               <i className="fa-solid fa-chevron-left fa-xs"></i>
               <i className="fa-solid fa-chevron-left fa-xs"></i>
@@ -63,8 +67,9 @@ const GroupDetails = () => {
                   alt="hike img"
                 ></img>
               </div>
-              <div className="upper text container">
-                <h1 className="upper groups title">{group?.name}</h1>
+              <div className="upper details text container">
+                <div className="upper textbox">
+                  <h1 className="upper groups title">{group?.name}</h1>
                 <p className="upper location grayout">
                   {group?.city}, {group?.state}
                 </p>
@@ -78,10 +83,16 @@ const GroupDetails = () => {
                   </p>
                 </div>
                 <p className="upper organizer grayout">
-                  {group?.Organizer?.firstName} {group?.Organizer?.lastName}
+                  Organized by {group?.Organizer?.firstName} {group?.Organizer?.lastName}
                 </p>
+                </div>
                 {!isOrganizer && (
-                  <button className="upper join">Join this group</button>
+                  <button
+                    className="upper join"
+                    onClick={() => alert("Feature coming soon...")}
+                  >
+                    Join this group
+                  </button>
                 )}
                 {isOrganizer && (
                   <div className="crud container">
@@ -100,7 +111,7 @@ const GroupDetails = () => {
                       <button className="upper crud update">Update</button>
                     </Link>
 
-                    <button className="upper crud delete reference-button">
+                    <button className="upper crud delete referencebutton">
                       <OpenModalMenuItem
                         className="modal-menu-item"
                         itemText="Delete"
@@ -112,52 +123,55 @@ const GroupDetails = () => {
               </div>
             </div>
           </div>
-          <div key='bottomContainer' className="lowerSection container">
+          <div key="bottomContainer" className="lowerSection container">
             <div className="lowerSection background">
               <div className="lower text container">
-                <h1 className="lower title">Organizer</h1>
-                <p className="lower organizer">
+                <h1 className="lower title organizer">Organizer</h1>
+                <p className="lower subtitle organizer grayout">
                   {group?.Organizer?.firstName} {group?.Organizer?.lastName}
                 </p>
                 <h1 className="lower title">What we're about</h1>
-                <p className="lower about">{group?.about}</p>
+                <p className="lower subtitle about">{group?.about}</p>
                 <>
-                <div className="future container">
-                  {futureGroupEvents.length > 0 && (
-                    <h1 className="lower title">
-                      Upcoming Events ({futureGroupEvents?.length})
-                    </h1>
-                  )}
-                  {futureGroupEvents.length > 0 &&
-                    futureGroupEvents.map((event) => {
-                      return (
-                        <div key='futureGroupCard' className="lower card">
-                          <EventsCard
-                            key={event?.id}
-                            event={event}
-                            city={group?.city}
-                            state={group?.state}
-                          />
-                        </div>
-                      );
-                    })}
-                </div>
-                <div className="past container">
-                  {pastGroupEvents.length > 0 && (
-                    <h1 className="lower title">
-                      Past Events ({pastGroupEvents?.length})
-                    </h1>
-                  )}
-                  {pastGroupEvents.length > 0 &&
-                    pastGroupEvents.map((event) => {
-                      return (
-                        <div key='pastGroupCard' className="lower card">
-                          <EventsCard key={event.id} event={event} />
-                        </div>
-                      );
-                    })}
-                </div>
-              </>
+                  <div className="future container">
+                    {!futureGroupEvents.length && !pastGroupEvents.length && (
+                      <h1 className="lower title noevents">No Upcoming Events</h1>
+                    )}
+                    {futureGroupEvents.length > 0 && (
+                      <h1 className="lower title">
+                        Upcoming Events ({futureGroupEvents?.length})
+                      </h1>
+                    )}
+                    {futureGroupEvents.length > 0 &&
+                      futureGroupEvents.map((event) => {
+                        return (
+                          <div key="futureGroupCard" className="lower card individual container">
+                            <EventsCard
+                              key={event?.id}
+                              event={event}
+                              city={group?.city}
+                              state={group?.state}
+                            />
+                          </div>
+                        );
+                      })}
+                  </div>
+                  <div className="past container">
+                    {pastGroupEvents.length > 0 && (
+                      <h1 className="lower title">
+                        Past Events ({pastGroupEvents?.length})
+                      </h1>
+                    )}
+                    {pastGroupEvents.length > 0 &&
+                      pastGroupEvents.map((event) => {
+                        return (
+                          <div key="pastGroupCard" className="lower card">
+                            <EventsCard key={event.id} event={event} />
+                          </div>
+                        );
+                      })}
+                  </div>
+                </>
               </div>
             </div>
           </div>

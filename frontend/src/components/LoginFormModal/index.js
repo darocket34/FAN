@@ -44,6 +44,9 @@ function LoginFormModal() {
     <div className="login modal">
       <h1 className="login title">Log In</h1>
       <form className="login form" onSubmit={handleSubmit}>
+        {errors.credential && (
+          <p className="login error">{errors.credential}</p>
+        )}
         <input
           className="login input1"
           type="text"
@@ -60,9 +63,7 @@ function LoginFormModal() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        {errors.credential && (
-          <p className="login error">{errors.credential}</p>
-        )}
+
         <button
           className={`login button ${unavailable}`}
           type="submit"

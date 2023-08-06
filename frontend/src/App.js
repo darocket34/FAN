@@ -53,7 +53,7 @@ function App() {
           <Route exact path='/unauthorized'>
             <Unauthorized />
           </Route>
-          <Route>
+          <Route path='/'>
             <PageNotFound />
           </Route>
         </Switch>

@@ -20,6 +20,7 @@ div.header.links {
 
 a.allevents,
 a.allgroups {
+    font-size: 30px;
     color: teal;
 }
 
@@ -38,7 +39,7 @@ div.event.card.text.container {
 
 div.listings {
     align-self: center;
-    width: 70%;
+    width: 75%;
 }
 
 img.listing {
@@ -46,6 +47,13 @@ img.listing {
     height: 100%;
     max-height: 240px;
     max-width: 100%;
+}
+
+img.listing.event {
+    align-self: center;
+    height: 100%;
+    max-height: 200px;
+    max-width: 90%;
 }
 
 .listing.card {
@@ -57,8 +65,15 @@ img.listing {
     word-wrap: break-word;
 }
 
+div.event.card.time.container{
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
 p.event.card.startDate {
     color: teal;
+    font-size: 20px;
     font-weight: bold;
     margin-top: 0;
 }

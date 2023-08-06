@@ -301,6 +301,27 @@ router.put(
 
 router.post("/:groupId/images", requireAuth, async (req, res, next) => {
   const { url, preview } = req.body;
+  if (!url) {
+    const err = new Error("Image not found...");
+    err.errors = {url: "Image Url is required"};
+    err.status = 400;
+    err.title = "Please enter valid image url.";
+    return next(err);
+  } else {
+    const imgUrlArr = url.split(".");
+    const imgUrlEnding = imgUrlArr[imgUrlArr.length - 1];
+    if (
+      imgUrlEnding !== "jpg" &&
+      imgUrlEnding !== "jpeg" &&
+      imgUrlEnding !== "png"
+    ) {
+      const err = new Error("Invalid Image Type");
+      err.errors.url = "Image Url must be a .jpg, .jpeg, or .png";
+      err.status = 400;
+      err.title = "Please enter valid image url.";
+      return next(err);
+    }
+  }
   const group = await Group.findByPk(req.params.groupId);
   const newImg = GroupImage.build({
     url,
@@ -314,7 +335,6 @@ router.post("/:groupId/images", requireAuth, async (req, res, next) => {
     err.title = "Group does not exist.";
     return next(err);
   }
-
   if (group.organizerId !== req.user.id) {
     const err = new Error("Only the Group Organizer can edit this group.");
     err.status = 401;

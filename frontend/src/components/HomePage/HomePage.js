@@ -1,23 +1,31 @@
 import "./HomePage.css";
 import { section1img, section31, section32, section33 } from "../../images/";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
+import SignupFormModal from "../SignupFormModal";
 
 const HomePage = () => {
   const [disable, setDisable] = useState(true);
+  const [showMenu, setShowMenu] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
+  const ulRef = useRef();
 
   useEffect(() => {
     sessionUser ? setDisable(false) : setDisable(true);
   }, [sessionUser, disable]);
+
+
 
   return (
     <div className="homepage">
       <div className="section1 container">
         <div className="section1 info">
           <h1 className="section1 title">
-            Make <i className="standout">Friends</i>, Do <i className="standout">Activites</i>, Start <i className="standout">Networking</i>
+            Make <i className="standout">Friends</i>, Do{" "}
+            <i className="standout">Activites</i>, Start{" "}
+            <i className="standout">Networking</i>
           </h1>
           <p className="section1 subtitle">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -31,7 +39,9 @@ const HomePage = () => {
       </div>
 
       <div className="section2 container">
-        <h2 className="section2 title">How <i className="standout">F.A.N.</i> works</h2>
+        <h2 className="section2 title">
+          How <i className="standout">F.A.N.</i> works
+        </h2>
         <p className="section2 subtitle">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -83,9 +93,17 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="section4 joinmeetup">
-        <button className="section4 joinfan">Join F.A.N.</button>
-      </div>
+      {!sessionUser && (
+        <div className="section4 joinfan">
+          <button className="section4 joinfan">
+            <OpenModalMenuItem
+              className="homepage joinfan button section4"
+              itemText="Join F.A.N."
+              modalComponent={<SignupFormModal />}
+            />
+          </button>
+        </div>
+      )}
     </div>
   );
 };

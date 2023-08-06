@@ -5,8 +5,9 @@ import { useEffect } from "react";
 import GroupsCard from "./GroupsCard";
 
 const GroupsList = () => {
-  const groups = useSelector((state) => Object.values(state.groups.allGroups));
   const dispatch = useDispatch();
+  const groupsObj = useSelector((state) => state.groups.allGroups);
+  const groups = Object.values(groupsObj);
 
   useEffect(() => {
     dispatch(loadGroups());

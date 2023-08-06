@@ -22,29 +22,29 @@ const GroupsCard = ({ group }) => {
         <hr></hr>
         <div
           key={`${isLoaded && group.id}`}
-          className="listing master container"
+          className="listing master groupslist container"
         >
-          <Link className="listing link" to={`/groups/${isLoaded && group.id}`}>
-            <div className="listing card">
-              <div className="listing img container">
+          <Link className="listing groupslist link" to={`/groups/${isLoaded && group.id}`}>
+            <div className="listing groupslist card">
+              <div className="listing img groupslist  container">
                 <img
-                  className="listing img"
+                  className="listing groupslist img"
                   src={group.previewImage}
                   alt="hike img"
                 />
               </div>
-              <div className="groups card text container">
-                <p className="card title">{isLoaded && group.name}</p>
-                <p className="card location grayout">
+              <div className="groups card groupslist text container">
+                <p className="card groupslist title">{isLoaded && group.name}</p>
+                <p className="card groupslist location grayout">
                   {isLoaded && group.city}, {isLoaded && group.state}
                 </p>
-                <p className="card about">{isLoaded && group.about}</p>
+                <p className="card groupslist about">{isLoaded && group.about}</p>
                 <div className="card additionalInfo container">
                   <p className="card numEvents grayout">
                     {isLoaded && numEvents} Events
                   </p>
-                  <p className="card dot grayout">·</p>
-                  <p className="card private grayout">
+                  <p className="card groupslist dot grayout">·</p>
+                  <p className="card groupslist private grayout">
                     {isLoaded && group.private === false ? "Public" : "Private"}
                   </p>
                 </div>

@@ -74,7 +74,8 @@ a.startNewGroup {
 
 .modal-menu-item {
     border-radius: 7px;
-    font-size: 17px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 20px;
     margin: 5px 5px;
     padding: 10px;
     position: relative;

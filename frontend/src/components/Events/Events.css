@@ -19,8 +19,8 @@ p.upper.organizer {
 }
 
 .upper.event.img.container {
-    max-width: 60%;
-    max-height: 400px;
+    max-width: 50%;
+    max-height: 350px;
 }
 
 .upper.event.img {
@@ -31,17 +31,28 @@ p.upper.organizer {
     display: flex;
     flex-direction: column;
     gap: 5%;
-    height: 100%;
-    width: 50%;
+    justify-content: space-between;
+    height: 350px;
 }
 
 .lowerSection.event.container {
-    justify-items: center;
+    justify-content: space-between;
     display: flex;
     flex-direction: row;
     gap: 3%;
+    height: fit-content;
+    justify-items: center;
     margin-top: 25px;
     width: 80%;
+}
+
+.lower.event.details.container{
+    display: flex;
+    gap: 20px;
+}
+
+.lowerSection.event.background {
+    justify-self: center;
 }
 
 .lower.event.additionalInfo.card.container {
@@ -49,6 +60,7 @@ p.upper.organizer {
     display: flex;
     flex-direction: row;
     gap: 15px;
+    justify-self: flex-end;
     padding-top: 15px;
     padding-bottom: 15px;
     width: 100%;
@@ -58,23 +70,28 @@ p.upper.organizer {
     box-sizing: content-box;
     display: flex;
     flex-direction: column;
-    gap: 33px;
+    gap: 20px;
     height: 100%;
     width: 100%;
 }
 
 img.lower.group {
-    width: 100px;
+    width: 150px;
+    max-height: 100px;
 }
 
-.lower.event.dates.container {
-
+p.event.card.description {
+    max-height: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre-wrap;
 }
 
 .lower.group.event.container {
     background-color: white;
     display: flex;
     flex-direction: column;
+    padding: 15px;
     width: 100%;
 }
 
@@ -83,23 +100,45 @@ img.lower.group {
     flex-direction: column;
 }
 
-.lower.group.group.layout {
+.lower.group.layout {
     display: flex;
     flex-direction: row;
     gap: 15px;
 }
 
+.lower.group.event.container {
+padding: 0;
+}
+
 .lower.event.text {
+    align-self: center;
     margin: 0;
     width: 100%;
 }
+p.lower.event.text.dates {
+    width: 50px;
+}
+p.card.dot.event.additionalInfo{
+    align-self: flex-start;
+}
 
-/* .lower.event.description {
-    padding-bottom: 500px;
-} */
+p.lower.event.startdateactual,
+p.lower.event.starttimeactual,
+p.lower.event.enddateactual,
+p.lower.event.endtimeactual {
+    color: teal;
+    text-wrap: nowrap;
+}
 
-p.text.location {
-    padding-top: 10px;
+p.lower.group.event.card,
+div.lower.group.event.card {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+div.lower.group.event.container {
+    padding: 20px;
 }
 
 i {
@@ -121,4 +160,74 @@ p.dot {
 
 i.fa-map-pin {
     margin-left: 5px;
+}
+
+i.fa-2x.events.details {
+    align-self: center;
+}
+
+.form.price.container{
+    position:relative;
+}
+
+.form.price.dollarsign{
+    position:absolute;
+    left:8px;
+    top:5px;
+}
+
+.form.price.input{
+    padding:0px 0px 0px 18px;
+    border:solid 1px #ccc;
+    border-radius:5px;
+    width:
+}
+
+input.form {
+    height: 30px;
+}
+
+form.create.event{
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+div.event.form.master.container{
+    justify-content: center;
+    display: flex;
+}
+
+select.form.event {
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    width: 100px;
+}
+
+input.form.startdate,
+input.form.enddate {
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+input.form.event.img.url,
+textarea.form.event.description,
+input.event.name {
+    margin-top: 5px;
+}
+
+p.form.subtitle.event.price {
+    margin-bottom: 5px;
+}
+
+button.event.form.create.submit {
+    align-self: flex-start;
+    /* box-shadow: 4px 3px 1px gray; */
+    font-size: 18px;
+    height: 50px;
+    margin-top: 20px;
+    width: 130px;
 }

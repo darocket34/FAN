@@ -15,7 +15,7 @@ const EventsList = () => {
   return (
     <div className="listings">
       {Object.values(events).map((event) => {
-        return <EventsCard key={event.id} event={event} />
+        return <><hr /><EventsCard key={event.id} event={event} /></>
       })}
     </div>
   );

@@ -19,16 +19,19 @@ const GroupForm = ({ group, formType }) => {
   const [visibility, setVisibility] = useState(group?.private);
   const [city, setCity] = useState(group?.city);
   const [state, setState] = useState(group?.state);
-  const [cityState, setCityState] = useState(`${group?.city}, ${group?.state}`);
-  const [imgUrl, setImgUrl] = useState(group?.GroupImages[0].url);
+  const [url, setUrl] = useState(group?.GroupImages[0].url);
   const sessionUser = useSelector((state) => state.session.user);
-  const currGroup = useSelector(
-    (state) => Object.values(state.groups.singleGroup)[0]
-  );
+  const currGroup = useSelector((state) => state.groups.singleGroup);
 
   useEffect(() => {
     if (!group && formType === "update") {
-      dispatch(loadSingleGroup(groupId));
+      dispatch(loadSingleGroup(groupId)).then(() => {
+        if (sessionUser?.id !== currGroup?.organizerId) {
+          history.push("/unauthorized").catch(() => {
+            history.push("/pagenotfound");
+          });
+        }
+      });
     }
   }, []);
 
@@ -39,12 +42,7 @@ const GroupForm = ({ group, formType }) => {
     setVisibility(group?.private);
     setCity(group?.city);
     setState(group?.state);
-    setImgUrl(group?.imgUrl);
-    setCityState(`${group?.city}, ${group?.state}`);
-    if (formType === "update" && sessionUser?.id !== currGroup?.organizerId) {
-      history.push("/unauthorized");
-    }
-    if (!group) setCityState("");
+    setUrl(group?.GroupImages[0].url);
   }, [group]);
 
   const handleSubmit = async (e) => {
@@ -58,7 +56,7 @@ const GroupForm = ({ group, formType }) => {
       type,
       city,
       state,
-      url: imgUrl,
+      url,
       private: visibility,
     };
     if (group) {
@@ -70,32 +68,40 @@ const GroupForm = ({ group, formType }) => {
         type,
         city,
         state,
+        url,
         private: visibility,
       };
     }
-    // const imgUrlArr = imgUrl.split('.')
-    // const imgUrlEnding = imgUrlArr[imgUrlArr.length - 1]
-    // if(imgUrlEnding !== 'jpg' || imgUrlEnding !== 'jpeg' || imgUrlEnding !== 'png'){
-    //   setNewErrors()
-    // }
 
     if (formType === "update") {
       try {
-        const res = await dispatch(updateGroup(group));
-        history.push(`/groups/${group.id}`);
+        const resUpdate = await dispatch(updateGroup(group));
+        if (resUpdate && !resUpdate.errors) {
+          history.push(`/groups/${group.id}`);
+        }
+        const { errors } = resUpdate;
+        if (resUpdate && resUpdate.errors) {
+          setNewErrors(errors);
+        }
       } catch (err) {
         if (err) {
-          const { errors } = await err.json();
+          const { errors } = err;
           setNewErrors(errors);
         }
       }
     } else {
       try {
-        const res = await dispatch(createNewGroup(newGroup));
-        history.push(`/groups/${res.id}`);
+        const resCreate = await dispatch(createNewGroup(newGroup));
+        if (resCreate && !resCreate.errors) {
+          history.push(`/groups/${resCreate.id}`);
+        }
+        const { errors } = resCreate;
+        if (resCreate && resCreate.errors) {
+          setNewErrors(errors);
+        }
       } catch (err) {
         if (err) {
-          const { errors } = await err.json();
+          const { errors } = err;
           setNewErrors(errors);
         }
       }
@@ -122,15 +128,21 @@ const GroupForm = ({ group, formType }) => {
               <p className="newErrors">{newErrors?.state}</p>
             )}
             <input
-              className="form location"
-              name="location"
-              placeholder="City, State"
-              value={cityState}
+              className="form group location city"
+              name="city"
+              placeholder="City"
+              value={city}
               onChange={(e) => {
-                const [newCity, newState] = e.target.value.split(", ");
-                setCity(newCity);
-                setState(newState);
-                setCityState(e.target.value);
+                setCity(e.target.value);
+              }}
+            />
+            <input
+              className="form group location state"
+              name="state"
+              placeholder="State"
+              value={state}
+              onChange={(e) => {
+                setState(e.target.value);
               }}
             />
             <hr></hr>
@@ -205,12 +217,13 @@ const GroupForm = ({ group, formType }) => {
             <p className="form subtitle">
               Please add an image url for your group!
             </p>
+            {newErrors?.url && <p className="newErrors">{newErrors?.url}</p>}
             <input
               type="url"
               className="form img url"
               placeholder="Image Url"
-              value={imgUrl}
-              onChange={(e) => setImgUrl(e.target.value)}
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
             />
             <hr></hr>
             {group && (

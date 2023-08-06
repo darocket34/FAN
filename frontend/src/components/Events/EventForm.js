@@ -1,27 +1,43 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { createNewEvent, deleteEvent } from "../../store/events";
+import { createNewEvent } from "../../store/events";
+import { loadSingleGroup } from "../../store/groups";
 
 const EventForm = ({ event }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { groupId } = useParams();
   const [newErrors, setNewErrors] = useState({});
-  const [newImgErrors, setNewImgErrors] = useState({});
   //   const [venueId, setVenueId] = useState(event?.venueId);
   const [name, setName] = useState(event?.name);
   const [type, setType] = useState(event?.type);
   //   const [capacity, setCapacity] = useState(event?.capacity);
   const [visibility, setVisibility] = useState(event?.visibility);
-  const [price, setPrice] = useState(event?.price);
+  const [price, setPrice] = useState();
   const [description, setDescription] = useState(event?.description);
   const [startDate, setStartDate] = useState(event?.startDate);
   const [endDate, setEndDate] = useState(event?.endDate);
   const [url, setUrl] = useState(event?.url);
+  const [isGroupLoaded, setIsGroupLoaded] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
+  const group = useSelector((state) => state?.groups?.singleGroup[groupId]);
   //   const [newStartDate, setNewStartDate] = useState('')
   //   const [newEndDate, setNewEndDate] = useState('')
+
+  useEffect(() => {
+    dispatch(loadSingleGroup(groupId))
+      .then(() => {
+        setIsGroupLoaded(true);
+      })
+      .then(() => {
+        if (group) {
+          if (!sessionUser || sessionUser.id !== group.organizerId) {
+            history.push("/unauthorized");
+          }
+        }
+      });
+  }, [dispatch, isGroupLoaded]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,7 +47,7 @@ const EventForm = ({ event }) => {
     const newStartYear = newStart[3];
     const startMonth = newStart[1];
     const newStartDay = newStart[2];
-    const newStartTime = newStart[4];
+    const newStartTime = newStart[4].slice(0, 5);
 
     const testStartDate = new Date(
       `${newStartYear} ${startMonth} ${newStartDay}`
@@ -42,13 +58,15 @@ const EventForm = ({ event }) => {
     const newEndYear = newEnd[3];
     const endMonth = newEnd[1];
     const newEndDay = newEnd[2];
-    const newEndTime = newEnd[4];
+    const newEndTime = newEnd[4].slice(0, 5);
 
     const testEndDate = new Date(`${newEndYear} ${endMonth} ${newEndDay}`);
     const newEndMonth = testEndDate.getMonth() + 1;
 
-    setStartDate(`${newStartYear}-${newStartMonth}-${newStartDay}`);
-    setEndDate(`${newEndYear}-${newEndMonth}-${newEndDay}`);
+    setStartDate(
+      `${newStartYear}-${newStartMonth}-${newStartDay} ${newStartTime}`
+    );
+    setEndDate(`${newEndYear}-${newEndMonth}-${newEndDay} ${newEndTime}`);
 
     const newEvent = {
       name,
@@ -60,54 +78,32 @@ const EventForm = ({ event }) => {
       url,
     };
 
-    // if (url) {
-    //   const imgUrlArr = url.split(".");
-    //   const imgUrlEnding = imgUrlArr[imgUrlArr.length - 1];
-    //   if (
-    //     imgUrlEnding !== "jpg" &&
-    //     imgUrlEnding !== "jpeg" &&
-    //     imgUrlEnding !== "png"
-    //   ) {
-    //     setNewImgErrors({
-    //       url: "Image Url must be a .jpg, .jpeg, or .png",
-    //     });
-    //   }
-    // } else {
-    //   setNewImgErrors({ url: "Image Url is required" });
-    // }
-
     try {
       const response = await dispatch(createNewEvent(newEvent, groupId));
       if (response && !response.errors) {
         history.push(`/events/${response.id}`);
       }
-      console.log("RES LEFT SIDE NO ERRORS", response);
       const { errors } = response;
-      console.log("RES LEFT SIDE ERRORS", errors);
       if (response && response.errors) {
         setNewErrors(errors);
       }
     } catch (err) {
       if (err) {
-        console.log("ERR LEFT SIDE", err);
         const { errors } = err;
-        console.log("ERRORS LEFT SIDE", errors);
         setNewErrors(errors);
-        console.log("newERRORS LEFT SIDE", errors);
       }
     }
   };
 
   return (
     <>
-      <div>
+      <div className="event form master container">
         <form className="create event" onSubmit={handleSubmit}>
-          <h1 className="form title">Create an event for </h1>
-          <hr></hr>
+          <h1 className="form title">Create an event for {group?.name && group?.name}</h1>
           <p className="form subtitle">What is the name of your event?</p>
           {newErrors?.name && <p className="newErrors">{newErrors?.name}</p>}
           <input
-            className="form name"
+            className="form event name"
             name="name"
             placeholder="Event Name"
             value={name}
@@ -117,7 +113,7 @@ const EventForm = ({ event }) => {
           <p className="form subtitle">Is this an in person or online event?</p>
           {newErrors?.type && <p className="newErrors">{newErrors?.type}</p>}
           <select
-            className="form type"
+            className="form event type"
             name="type"
             value={type}
             onChange={(e) => setType(e.target.value)}
@@ -131,7 +127,7 @@ const EventForm = ({ event }) => {
             <p className="newErrors">{newErrors?.private}</p>
           )}
           <select
-            className="form private"
+            className="form event private"
             name="visibility"
             value={visibility}
             onChange={(e) => setVisibility(e.target.value)}
@@ -140,15 +136,18 @@ const EventForm = ({ event }) => {
             <option value="true">Private</option>
             <option value="false">Public</option>
           </select>
-          <p className="form subtitle">What is the price for your event?</p>
+          <p className="form subtitle event price">What is the price for your event?</p>
           {newErrors?.price && <p className="newErrors">{newErrors?.price}</p>}
+          <div className="form price container">
+            <span className="form price dollarsign">$</span>
           <input
             type="text"
-            className="form price"
-            placeholder="$0"
-            value={"$" + (price !== undefined ? `${price}` : "0")}
-            onChange={(e) => setPrice(e.target.value.slice(1))}
+            className="form event price input"
+            placeholder="0"
+            value={price && price}
+            onChange={(e) => setPrice(e.target.value)}
           />
+          </div>
           <hr></hr>
           <p className="form subtitle">When does your event start?</p>
           {newErrors?.startDate && (
@@ -177,7 +176,7 @@ const EventForm = ({ event }) => {
           {newErrors?.url && <p className="newErrors">{newErrors?.url}</p>}
           <input
             type="text"
-            className="form img url"
+            className="form event img url"
             placeholder="Image Url"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
@@ -188,7 +187,7 @@ const EventForm = ({ event }) => {
             <p className="newErrors">{newErrors?.description}</p>
           )}
           <textarea
-            className="form description"
+            className="form event description"
             name="description"
             rows="9"
             cols="50"
@@ -197,7 +196,7 @@ const EventForm = ({ event }) => {
             onChange={(e) => setDescription(e.target.value)}
           />
 
-          <button className="form submit" type="submit">
+          <button className="form event create submit" type="submit">
             Create event
           </button>
         </form>

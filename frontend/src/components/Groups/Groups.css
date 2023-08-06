@@ -13,6 +13,7 @@ div.page.container {
 
 h1.upper.title.groups {
     margin: 0;
+    margin-bottom: 15px;
     text-align: left;
 }
 
@@ -21,6 +22,11 @@ a.upper.toGroups {
 }
 
 div.upper.text.container > p {
+    margin: 0;
+}
+
+p.upper {
+    align-self: center;
     margin: 0;
 }
 
@@ -41,11 +47,18 @@ div.text.container {
     display: grid;
     flex-direction: column;
     margin-left: 5px;
-    width: 100%;
+    word-wrap: normal;
+    width: calc(80%);
 }
 
 img.upper {
     align-self: center;
+    min-width: 500px;
+    max-width: 600px;
+}
+
+div.upper.img.container {
+    max-width: 600px;
     width: 100%;
 }
 
@@ -54,7 +67,8 @@ div.additionalInfo {
 }
 
 button.upper.join {
-    justify-self: flex-end;
+    justify-self: flex-start;
+    align-self: flex-end;
     font-size: 1.4rem;
     height: 40px;
     width: 200px;
@@ -81,12 +95,28 @@ button.upper.join {
     width: 70%;
 }
 
+h1.lower.title {
+    margin: 0px;
+}
+
+h1.lower.title {
+    margin: 20px 0;
+    margin-bottom: 15px;
+}
+
+p.lower.subtitle.about {
+    margin: 0;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
 p.newErrors {
     color: red;
     text-decoration: underline;
 }
 
 .crud.container {
+    align-self: flex-end;
     display: flex;
     gap: 5px;
     width: 100%;
@@ -95,6 +125,7 @@ p.newErrors {
 button.crud {
     background-color: gray;
     border: none;
+    font-size: 20px;
     height: 30px;
     list-style-type: none;
     width: 140px;
@@ -140,4 +171,36 @@ button.upper.update {
     height: 100%;
     justify-content: flex-start;
     width: 80%;
+}
+
+div.lower.card {
+    background-color: white;
+    border-radius: 25px;
+    padding: 20px;
+    width: 600px;
+}
+
+button.upper.crud.referencebutton {
+align-items: center;
+justify-content: center;
+display: flex;
+}
+
+div.lower.card.individual {
+    margin-top: 20px;
+}
+
+input.form.group.location {
+    width: 100px;
+}
+
+p.card.groupslist.about {
+    display: inline-block;
+    max-height: 140px;
+    overflow: hidden;
+    text-overflow: clip;
+    word-wrap: break-word;
+    word-break: break-all;
+    /* white-space: nowrap; */
+    /* width: calc(90%); */
 }
