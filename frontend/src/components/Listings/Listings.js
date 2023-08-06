@@ -8,20 +8,20 @@ import { useState } from "react";
 const AllListings = (list) => {
   const [listEvents, setListEvents] = useState(false);
   const [listGroups, setListGroups] = useState(false);
-  const [hideEventsLink, setHideEventsLink] = useState("");
-  const [hideGroupsLink, setHideGroupsLink] = useState("");
+  const [hideEventsLink, setHideEventsLink] = useState("allevents link");
+  const [hideGroupsLink, setHideGroupsLink] = useState("allgroups link");
 
   useEffect(() => {
     if (window.location.toString().includes("groups")) {
       setListGroups(true);
       setListEvents(false);
-      setHideEventsLink("grayout");
-      setHideGroupsLink("");
+      setHideEventsLink("grayoutHeader");
+      setHideGroupsLink("allgroups link");
     } else if (window.location.toString().includes("events")) {
       setListEvents(true);
       setListGroups(false);
-      setHideGroupsLink("grayout");
-      setHideEventsLink("");
+      setHideGroupsLink("grayoutHeader");
+      setHideEventsLink("allevents link");
     }
   }, [list]);
 
@@ -30,12 +30,12 @@ const AllListings = (list) => {
       <div className="allgroups container">
         <div className="header links">
           <h2 className="allevents link">
-            <Link className={`allevents link ${hideEventsLink}`} to="/events/">
+            <Link className={hideEventsLink} to="/events/">
               Events
             </Link>
           </h2>
           <h2 className="allgroups link">
-            <Link className={`allgroups link ${hideGroupsLink}`} to="/groups/">
+            <Link className={hideGroupsLink} to="/groups/">
               Groups
             </Link>
           </h2>

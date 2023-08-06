@@ -10,7 +10,7 @@ const DeleteEventModal = ({ eventId }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { closeModal } = useModal();
-  const sessionUser = useSelector((state => state.session.user));
+  const sessionUser = useSelector((state) => state.session.user);
 
   const handleDelete = async (e) => {
     e.preventDefault();
@@ -19,14 +19,17 @@ const DeleteEventModal = ({ eventId }) => {
   };
 
   if (!sessionUser) {
-    closeModal()
+    closeModal();
     history.push("/");
   }
 
   return (
     <>
       <div className="delete modal container">
-        <h1 className="delete modal title">{`Are you sure you want to delete this event?`}</h1>
+        <h1 className="delete modal title"> Confirm Delete</h1>
+        <h2 className="delete modal title">
+          Are you sure you want to remove this event?
+        </h2>
         <div className="delete modal button container">
           <button className="delete modal yes" onClick={handleDelete}>
             Yes (Delete Event)

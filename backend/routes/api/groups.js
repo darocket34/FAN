@@ -33,10 +33,10 @@ const validateGroup = [
   check("private").isBoolean().withMessage("Please select an option"),
   check("city")
     .notEmpty()
-    .withMessage("City is required. Please use format 'City, State'"),
+    .withMessage("City is required."),
   check("state")
     .notEmpty()
-    .withMessage("State is required. Please use format 'City, State'"),
+    .withMessage("State is required."),
   handleValidationErrors,
 ];
 

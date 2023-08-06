@@ -119,14 +119,14 @@ export const createNewGroup = (newGroup) => async (dispatch) => {
     newImgErrors = { url: "Image Url is required" };
   }
 
-  try{
+  try {
     const res = await csrfFetch("/api/groups/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newGroup),
     });
     var freshGroup = await res.json();
-    newGroupId = freshGroup.id
+    newGroupId = freshGroup.id;
 
     try {
       const imgObj = {
@@ -134,27 +134,27 @@ export const createNewGroup = (newGroup) => async (dispatch) => {
         url: newGroup.url,
         preview: true,
       };
-        const imgRes = await csrfFetch(`/api/groups/${freshGroup.id}/images`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(imgObj),
-        });
-        console.log(imgRes)
-        if(imgRes.ok && res.ok && !newImgErrors.url) {
-          await dispatch(postNewGroup(freshGroup));
+      const imgRes = await csrfFetch(`/api/groups/${freshGroup.id}/images`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(imgObj),
+      });
+      console.log(imgRes);
+      if (imgRes.ok && res.ok && !newImgErrors.url) {
+        await dispatch(postNewGroup(freshGroup));
         return freshGroup;
-        }
+      }
     } catch (err1) {
-      await dispatch(deleteGroup(newGroupId))
-      const {errors} = await err1.json()
-      errCollector = {errors: {...newImgErrors, ...errors}}
-      return {...errCollector}
+      await dispatch(deleteGroup(newGroupId));
+      const { errors } = await err1.json();
+      errCollector = { errors: { ...newImgErrors, ...errors } };
+      return { ...errCollector };
     }
   } catch (err) {
     if (err) {
-      const { errors } = await err.json()
+      const { errors } = await err.json();
       if (newGroupId) await dispatch(deleteGroup(newGroupId));
-      errCollector = { errors: {...errors, ...newImgErrors } };
+      errCollector = { errors: { ...errors, ...newImgErrors } };
       return { ...errCollector };
     } else {
       if (newGroupId) await dispatch(deleteGroup(newGroupId));
@@ -162,24 +162,26 @@ export const createNewGroup = (newGroup) => async (dispatch) => {
       return { ...errCollector };
     }
   }
-
-
-
-}
+};
 
 export const updateGroup = (group) => async (dispatch) => {
-  const res = await csrfFetch(`/api/groups/${group.id}/edit`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(group),
-  });
-  if (res.ok) {
-    const group = await res.json();
-    await dispatch(updateExistingGroup(group));
-    return group;
-  } else {
-    const { errors } = await res.json();
-    return errors;
+  try {
+    const res = await csrfFetch(`/api/groups/${group.id}/edit`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(group),
+    });
+    if (res.ok) {
+      const group = await res.json();
+      await dispatch(updateExistingGroup(group));
+      return group;
+    }
+  } catch (err) {
+    if (err) {
+      const { errors } = await err.json();
+      console.log(errors)
+      return {errors: {...errors}};
+    }
   }
 };
 

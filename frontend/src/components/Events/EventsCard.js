@@ -10,7 +10,6 @@ const EventsCard = ({ event, city, state }) => {
     event?.startDate?.toString().slice(0, 11)
   );
   const [localTime, setLocalTime] = useState("");
-  // const [dateUTC, setDateUTC] = useState('')
 
   useEffect(() => {
     if (event.EventImages && event.EventImages[0]) {
@@ -24,13 +23,25 @@ const EventsCard = ({ event, city, state }) => {
     }
     if (event.startDate) {
       const dateUTC = new Date(event.startDate);
-      const time = dateUTC.toLocaleTimeString("en-US")
+      const rawTime = dateUTC.toLocaleTimeString("en-US");
+      const rawDate = dateUTC.toLocaleDateString("en-US").split("/");
+      let hoursMin = rawTime.split(" ")[0].slice(0, 5);
+      if (hoursMin[4] === ":") hoursMin = hoursMin.slice(0, 4);
+      const amPm = rawTime.split(" ")[1];
+      const time = `${hoursMin} ${amPm}`;
+      let month = rawDate[0];
+      const year = rawDate[2];
+      let day = rawDate[1];
+      if (month.length === 1) month = `0${month}`;
+      if (day.length === 1) day = `0${day}`;
+      const fulldate = `${year}-${month}-${day}`;
       setLocalTime(time);
+      setDisplayDate(fulldate);
     }
-  });
+  }, [city, event.EventImages, event.startDate, state]);
 
   return (
-    <div key={`${event?.id}`}>
+    <div key={`${event?.city}`}>
       <Link className="listing event link" to={`/events/${event?.id}`}>
         <div className="listing event card">
           <div className="listing event img container">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
@@ -10,10 +10,11 @@ function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
 
   return (
-    <nav>
+    <>
+     <nav>
       <div className="nav left div">
         <NavLink exact to="/" className="logo link">
-          <img src={fanLogo} className="logo" />
+          <img src={fanLogo} alt="F.A.N. Logo" className="logo" />
         </NavLink>
         <SearchBar className="searchBarComponent" />
       </div>
@@ -31,6 +32,9 @@ function Navigation({ isLoaded }) {
         )}
       </div>
     </nav>
+    <hr className="nav border line"></hr>
+    </>
+
   );
 }
 

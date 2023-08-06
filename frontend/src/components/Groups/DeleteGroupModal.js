@@ -18,7 +18,8 @@ const DeleteGroupModal = ({ group }) => {
   return (
     <>
       <div className="delete modal container">
-        <h1 className="delete modal title">{`Are you sure you want to delete ${group.name}?`}</h1>
+        <h1 className="delete modal title"> Confirm Delete</h1>
+        <h2 className="delete modal title">Are you sure you want to remove this group?</h2>
         <div className="delete modal button container">
           <button className="delete modal yes" onClick={handleDelete}>
             Yes (Delete Group)

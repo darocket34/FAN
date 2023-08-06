@@ -24,7 +24,7 @@ function SignupFormModal() {
       !firstName ||
       !lastName ||
       !password ||
-      !confirmPassword
+      !confirmPassword || username.length < 4 || password.length < 6
     ) {
       setDisableLogin(true);
       setUnavailable("unavailable");
@@ -50,6 +50,7 @@ function SignupFormModal() {
         .then(closeModal)
         .catch(async (res) => {
           const data = await res.json();
+          console.log(data)
           if (data && data.errors) {
             setErrors(data.errors);
           }
@@ -64,26 +65,9 @@ function SignupFormModal() {
   return (
     <>
       <h1 className="signup title">Sign Up</h1>
-      {errors.email && <p className="signup error">{errors.email}</p>}
+
       <form className="signup form" onSubmit={handleSubmit}>
-        <input
-          className="signup email"
-          placeholder="Email"
-          type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        {errors.username && <p className="signup error">{errors.username}</p>}
-        <input
-          className="signup username"
-          placeholder="Username"
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        {errors.firstName && <p className="signup error">{errors.firstName}</p>}
+      {errors.firstName && <p className="signup error">{errors.firstName}</p>}
         <input
           className="signup firstname"
           placeholder="First Name"
@@ -101,10 +85,28 @@ function SignupFormModal() {
           onChange={(e) => setLastName(e.target.value)}
           required
         />
+         {errors.email && <p className="signup error">{errors.email}</p>}
+        <input
+          className="signup email"
+          placeholder="Email"
+          type="text"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        {errors.username && <p className="signup error">{errors.username}</p>}
+        <input
+          className="signup username"
+          placeholder="Username (4+ Characters)"
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
         {errors.password && <p className="signup error">{errors.password}</p>}
         <input
           className="signup password"
-          placeholder="Password"
+          placeholder="Password (6+ Characters)"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}

@@ -19,8 +19,9 @@ p.upper.organizer {
 }
 
 .upper.event.img.container {
-    max-width: 50%;
-    max-height: 350px;
+    width: 60%;
+    max-width: calc(60%);
+    max-height: 450px;
 }
 
 .upper.event.img {
@@ -33,13 +34,13 @@ p.upper.organizer {
     gap: 5%;
     justify-content: space-between;
     height: 350px;
+    width: 40%;
 }
 
 .lowerSection.event.container {
-    justify-content: space-between;
+    justify-content: center;
     display: flex;
     flex-direction: row;
-    gap: 3%;
     height: fit-content;
     justify-items: center;
     margin-top: 25px;
@@ -61,8 +62,9 @@ p.upper.organizer {
     flex-direction: row;
     gap: 15px;
     justify-self: flex-end;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    padding-left: 40px;
     width: 100%;
 }
 .lower.event.details.maincontainer {
@@ -82,8 +84,8 @@ img.lower.group {
 
 p.event.card.description {
     max-height: 120px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow: auto;
+    text-overflow: clip;
     white-space: pre-wrap;
 }
 
@@ -115,9 +117,14 @@ padding: 0;
     margin: 0;
     width: 100%;
 }
-p.lower.event.text.dates {
-    width: 50px;
+
+
+
+p.lower.event.text.dates.label {
+    width: 60px;
 }
+
+
 p.card.dot.event.additionalInfo{
     align-self: flex-start;
 }
@@ -127,7 +134,28 @@ p.lower.event.starttimeactual,
 p.lower.event.enddateactual,
 p.lower.event.endtimeactual {
     color: teal;
-    text-wrap: nowrap;
+    font-weight: bold;
+    width: 200px;
+}
+
+.upper.crud.update.reference-button {
+    font-family: 'Nunito', sans-serif;
+    font-size: 20px;
+}
+
+p.lower.groupname.event.card {
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+
+p.lower.event.text.details.location{
+    margin-left: 7px;
+}
+
+.lower.datebox {
+    width: fit-content;
 }
 
 p.lower.group.event.card,
@@ -139,6 +167,7 @@ div.lower.group.event.card {
 
 div.lower.group.event.container {
     padding: 20px;
+    padding-left: 40px;
 }
 
 i {
@@ -172,15 +201,14 @@ i.fa-2x.events.details {
 
 .form.price.dollarsign{
     position:absolute;
-    left:8px;
-    top:5px;
+    left:7px;
+    top:14px;
 }
 
 .form.price.input{
     padding:0px 0px 0px 18px;
     border:solid 1px #ccc;
     border-radius:5px;
-    width:
 }
 
 input.form {

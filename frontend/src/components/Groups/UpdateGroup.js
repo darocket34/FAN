@@ -8,7 +8,7 @@ const UpdateGroup = () => {
   const { groupId } = useParams();
   const dispatch = useDispatch();
   const group = useSelector((state) => state.groups.singleGroup[groupId]);
-  console.log(group);
+
   useEffect(() => {
     dispatch(loadSingleGroup(groupId));
   }, [dispatch]);

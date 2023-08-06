@@ -51,17 +51,16 @@ div.section2.container {
     font-size: 1.875rem;
 }
 
-
-
 /* Section 3 */
 
 div.section3 {
-    align-content: center;
+    align-self: center;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-evenly;
     margin-bottom: 40px;
+    width: 70%
 }
 
 div.section31.container,
@@ -80,11 +79,15 @@ div.section33.container {
     margin: 0 0 12px;
     text-decoration: none;
 }
+.section3.navlink:hover {
+    text-decoration: underline;
+}
 
 .navlink.grayout,
 .navlink.grayout:hover {
     color: gray;
     cursor: default;
+    text-decoration: none;
 }
 
 p.subtitle {

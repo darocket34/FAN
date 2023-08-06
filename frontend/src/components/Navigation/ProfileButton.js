@@ -5,6 +5,7 @@ import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function ProfileButton({ user }) {
   const history = useHistory();
@@ -60,11 +61,19 @@ function ProfileButton({ user }) {
           {user ? (
             <>
               <div className="modal-menu-profile">
-                <li className="modal-menu-user">{user.username}</li>
+                <li className="modal-menu-user firstname">Hello, {user.firstName}.</li>
+                <li className="modal-menu-user email">{user.email}</li>
                 <li className="modal-menu-user">
-                  {user.firstName} {user.lastName}
+                  <Link className="modal-menu-item dropdown groups" to='/groups'>
+                    View Groups
+                  </Link>
                 </li>
-                <li className="modal-menu-user">{user.email}</li>
+                <li className="modal-menu-user">
+                  <Link className="modal-menu-item dropdown groups" to='/events'>
+                    View Events
+                  </Link>
+                </li>
+                <hr></hr>
                 <li className="modal-menu-user">
                   <button className="modal-menu-item" onClick={logout}>
                     Log Out

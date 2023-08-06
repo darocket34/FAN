@@ -5,9 +5,14 @@ nav {
     font-size: 35px;
     justify-content: space-between;
     margin-top: 20px;
-    margin-bottom: 60px;
+    margin-bottom: 0px;
     margin-left: -5%;
     width: 110%;
+}
+
+hr.nav.border.line{
+    margin-bottom: 80px;
+    width: calc(100%);
 }
 
 img.logo {
@@ -125,6 +130,15 @@ button.profile-dropdown:hover {
     cursor: pointer;
     transform: scale(115%);
     transition: all;
+}
+
+li.modal-menu-user.email {
+    margin-bottom: 15px;
+}
+
+a.modal-menu-item.dropdown.groups{
+    color: teal;
+    text-decoration: none;
 }
 
 /* Search */

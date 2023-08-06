@@ -5,11 +5,30 @@
     flex-direction: column;
 }
 
+.grayout {
+    color: gray;
+    text-decoration: none;
+}
+
+a.grayout:hover{
+    cursor: pointer;
+}
+
+.grayoutHeader {
+    color: gray;
+    font-size: 30px;
+    text-decoration: none;
+}
+
+a.grayoutHeader:hover{
+    cursor: pointer;
+}
+
 div.allgroups.container {
     display: flex;
     align-self: center;
     flex-direction: column;
-    width: 70%;
+    width: 75%;
 }
 
 div.header.links {
@@ -29,10 +48,6 @@ a.allgroups:hover {
     cursor: default;
 }
 
-div.event.description.container{
-
-}
-
 div.event.card.text.container {
     align-self: flex-start;
 }
@@ -45,6 +60,7 @@ div.listings {
 img.listing {
     align-self: center;
     height: 100%;
+    width: 100%;
     max-height: 240px;
     max-width: 100%;
 }
@@ -110,13 +126,4 @@ hr {
     border: 1px solid lightgray;
     margin: 18px;
     width: 100%;
-}
-
-.grayout {
-    color: gray;
-    text-decoration: none;
-}
-
-a.grayout:hover{
-    cursor: pointer;
 }

@@ -23,17 +23,16 @@ const GroupForm = ({ group, formType }) => {
   const sessionUser = useSelector((state) => state.session.user);
   const currGroup = useSelector((state) => state.groups.singleGroup);
 
-  useEffect(() => {
-    if (!group && formType === "update") {
-      dispatch(loadSingleGroup(groupId)).then(() => {
-        if (sessionUser?.id !== currGroup?.organizerId) {
-          history.push("/unauthorized").catch(() => {
-            history.push("/pagenotfound");
-          });
-        }
-      });
+  if (group && formType === "update") {
+    if (sessionUser?.id !== group?.organizerId || !sessionUser?.id) {
+      history.push("/unauthorized");
     }
-  }, []);
+  }
+  useEffect(() => {
+    if (group && formType === "update") {
+      dispatch(loadSingleGroup(groupId));
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     setName(group?.name);
@@ -115,13 +114,15 @@ const GroupForm = ({ group, formType }) => {
           <form className="create group" onSubmit={handleSubmit}>
             <p className="topLine">BECOME AN ORGANIZER</p>
             <h1 className="form title">
-              Fill out the information below to get started!
+              {!group && "Start a New Group"}
+              {group && "Update your Group"}
             </h1>
+
             <hr></hr>
             <h1 className="form title">Where is this Group's base?</h1>
             <p className="form subtitle">
-              F.A.N groups meet both in person and online. Setting the location
-              will allow us to connect you with locals in your area.
+              F.A.N groups meet locally, in person, and online. We'll connect
+              you with people in your area
             </p>
             {newErrors?.city && <p className="newErrors">{newErrors?.city}</p>}
             {newErrors?.state && (
@@ -139,34 +140,35 @@ const GroupForm = ({ group, formType }) => {
             <input
               className="form group location state"
               name="state"
-              placeholder="State"
+              placeholder="STATE"
               value={state}
               onChange={(e) => {
                 setState(e.target.value);
               }}
             />
             <hr></hr>
-            <h1 className="form title">What will you name the Group?</h1>
+            <h1 className="form title">What will your group's name be?</h1>
             <p className="form subtitle">
-              Pick a fun name to grab folks attention and also give a clue as to
-              what the group is about. This can always be changed in the future.
+              Choose a name that will give people a clear idea of what the group
+              is about. Feel free to get creative! You can edit this later if
+              you change your mind.
             </p>
             {newErrors?.name && <p className="newErrors">{newErrors?.name}</p>}
             <input
               className="form name"
               name="name"
-              placeholder="Group Name"
+              placeholder="What is your group name?"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
             <hr></hr>
-            <h1 className="form title">Give a description for the group</h1>
+            <h1 className="form title">Describe the purpose of your group.</h1>
             <p className="form subtitle">
-              Think about what you want people to see when we promote your group
-              to others.
-              <li>What is the group's focus?</li>
-              <li>Who should join?</li>
-              <li>What kind of events will you hold?</li>
+              People will see this when we promote your group, but you'll be
+              able to add to it later, too.
+              <li>1. What's the purpose of the group?</li>
+              <li>2. Who should join?</li>
+              <li>3. What will you do at your events?</li>
             </p>
             {newErrors?.about && (
               <p className="newErrors">{newErrors?.about}</p>
@@ -176,14 +178,14 @@ const GroupForm = ({ group, formType }) => {
               name="about"
               rows="9"
               cols="50"
-              placeholder="Give a brief description with a minimum of 30 characters."
+              placeholder="Please write at least 30 characters"
               value={about}
               onChange={(e) => setAbout(e.target.value)}
             />
             <hr></hr>
             <h1 className="form title">Almost there!</h1>
             <p className="form subtitle">
-              Is this an in person or online group?
+              Is this an in-person or online group?
             </p>
             {newErrors?.type && <p className="newErrors">{newErrors?.type}</p>}
             <select
@@ -214,17 +216,21 @@ const GroupForm = ({ group, formType }) => {
               <option value="true">Private</option>
               <option value="false">Public</option>
             </select>
-            <p className="form subtitle">
-              Please add an image url for your group!
-            </p>
+            {!formType && (
+              <p className="form subtitle">
+                Please add an image URL for your group below:
+              </p>
+            )}
             {newErrors?.url && <p className="newErrors">{newErrors?.url}</p>}
-            <input
-              type="url"
-              className="form img url"
-              placeholder="Image Url"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-            />
+            {!formType && (
+              <input
+                type="url"
+                className="form img url"
+                placeholder="Image Url"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+              />
+            )}
             <hr></hr>
             {group && (
               <button className="form submit" type="submit">

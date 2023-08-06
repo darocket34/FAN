@@ -9,10 +9,8 @@ const EventForm = ({ event }) => {
   const dispatch = useDispatch();
   const { groupId } = useParams();
   const [newErrors, setNewErrors] = useState({});
-  //   const [venueId, setVenueId] = useState(event?.venueId);
   const [name, setName] = useState(event?.name);
   const [type, setType] = useState(event?.type);
-  //   const [capacity, setCapacity] = useState(event?.capacity);
   const [visibility, setVisibility] = useState(event?.visibility);
   const [price, setPrice] = useState();
   const [description, setDescription] = useState(event?.description);
@@ -22,8 +20,6 @@ const EventForm = ({ event }) => {
   const [isGroupLoaded, setIsGroupLoaded] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
   const group = useSelector((state) => state?.groups?.singleGroup[groupId]);
-  //   const [newStartDate, setNewStartDate] = useState('')
-  //   const [newEndDate, setNewEndDate] = useState('')
 
   useEffect(() => {
     dispatch(loadSingleGroup(groupId))
@@ -43,30 +39,34 @@ const EventForm = ({ event }) => {
     e.preventDefault();
     setNewErrors({});
 
-    const newStart = new Date(startDate).toString().split(" ");
-    const newStartYear = newStart[3];
-    const startMonth = newStart[1];
-    const newStartDay = newStart[2];
-    const newStartTime = newStart[4].slice(0, 5);
+    if (startDate) {
+      const newStart = new Date(startDate).toString().split(" ");
+      const newStartYear = newStart[3];
+      const startMonth = newStart[1];
+      const newStartDay = newStart[2];
+      const newStartTime = newStart[4].slice(0, 5);
 
-    const testStartDate = new Date(
-      `${newStartYear} ${startMonth} ${newStartDay}`
-    );
-    const newStartMonth = testStartDate.getMonth() + 1;
+      const testStartDate = new Date(
+        `${newStartYear} ${startMonth} ${newStartDay}`
+      );
+      const newStartMonth = testStartDate.getMonth() + 1;
+      setStartDate(
+        `${newStartYear}-${newStartMonth}-${newStartDay} ${newStartTime}`
+      );
+    }
 
-    const newEnd = new Date(endDate).toString().split(" ");
-    const newEndYear = newEnd[3];
-    const endMonth = newEnd[1];
-    const newEndDay = newEnd[2];
-    const newEndTime = newEnd[4].slice(0, 5);
+    if (endDate) {
+      const newEnd = new Date(endDate).toString().split(" ");
+      const newEndYear = newEnd[3];
+      const endMonth = newEnd[1];
+      const newEndDay = newEnd[2];
+      const newEndTime = newEnd[4].slice(0, 5);
 
-    const testEndDate = new Date(`${newEndYear} ${endMonth} ${newEndDay}`);
-    const newEndMonth = testEndDate.getMonth() + 1;
+      const testEndDate = new Date(`${newEndYear} ${endMonth} ${newEndDay}`);
+      const newEndMonth = testEndDate.getMonth() + 1;
 
-    setStartDate(
-      `${newStartYear}-${newStartMonth}-${newStartDay} ${newStartTime}`
-    );
-    setEndDate(`${newEndYear}-${newEndMonth}-${newEndDay} ${newEndTime}`);
+      setEndDate(`${newEndYear}-${newEndMonth}-${newEndDay} ${newEndTime}`);
+    }
 
     const newEvent = {
       name,
@@ -99,7 +99,9 @@ const EventForm = ({ event }) => {
     <>
       <div className="event form master container">
         <form className="create event" onSubmit={handleSubmit}>
-          <h1 className="form title">Create an event for {group?.name && group?.name}</h1>
+          <h1 className="form title">
+            Create an event for {group?.name && group?.name}
+          </h1>
           <p className="form subtitle">What is the name of your event?</p>
           {newErrors?.name && <p className="newErrors">{newErrors?.name}</p>}
           <input
@@ -136,17 +138,19 @@ const EventForm = ({ event }) => {
             <option value="true">Private</option>
             <option value="false">Public</option>
           </select>
-          <p className="form subtitle event price">What is the price for your event?</p>
+          <p className="form subtitle event price">
+            What is the price for your event?
+          </p>
           {newErrors?.price && <p className="newErrors">{newErrors?.price}</p>}
           <div className="form price container">
             <span className="form price dollarsign">$</span>
-          <input
-            type="text"
-            className="form event price input"
-            placeholder="0"
-            value={price && price}
-            onChange={(e) => setPrice(e.target.value)}
-          />
+            <input
+              type="text"
+              className="form event price input"
+              placeholder="0"
+              value={price && price}
+              onChange={(e) => setPrice(e.target.value)}
+            />
           </div>
           <hr></hr>
           <p className="form subtitle">When does your event start?</p>
@@ -171,7 +175,7 @@ const EventForm = ({ event }) => {
           />
           <hr></hr>
           <p className="form subtitle">
-            Please add an image url for your event!
+            Please add an image url for your event below:
           </p>
           {newErrors?.url && <p className="newErrors">{newErrors?.url}</p>}
           <input
@@ -182,7 +186,7 @@ const EventForm = ({ event }) => {
             onChange={(e) => setUrl(e.target.value)}
           />
           <hr></hr>
-          <p className="form subtitle">Give a description for the event</p>
+          <p className="form subtitle">Please describe your event</p>
           {newErrors?.description && (
             <p className="newErrors">{newErrors?.description}</p>
           )}
@@ -191,7 +195,7 @@ const EventForm = ({ event }) => {
             name="description"
             rows="9"
             cols="50"
-            placeholder="Give a brief description with a minimum of 30 characters."
+            placeholder="Please include at least 30 characters."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />

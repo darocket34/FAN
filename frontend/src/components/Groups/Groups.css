@@ -1,10 +1,13 @@
 
-
+form.create.group{
+    margin-top: -50px;
+}
 /* Upper Section */
 
 div.page.container {
     display: flex;
     flex-direction: column;
+    margin-bottom: 10px;
 }
 
 .fa-chevron-left {
@@ -25,11 +28,42 @@ div.upper.text.container > p {
     margin: 0;
 }
 
+p.topLine {
+    color: teal;
+    font-weight: bold;
+    margin-bottom: -15px;
+}
+
+h1.form.title{
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+input.form{
+    margin: 10px 0;
+}
+
+select.form.type,
+select.form.private {
+    margin-bottom: 20px;
+}
+
+textarea{
+    border: 1px solid lightgray;
+    border-radius: 7px;
+    padding-top: 5px;
+    padding-left: 5px;
+}
+
 p.upper {
     align-self: center;
     margin: 0;
 }
 
+input.form.img.url,
+input.form.name {
+    width: 300px;
+}
 .upperSection {
     display: flex;
     gap: 3%;
@@ -52,12 +86,13 @@ div.text.container {
 }
 
 img.upper {
-    align-self: center;
+    align-self: flex-end;
     min-width: 500px;
-    max-width: 600px;
+    /* max-width: 600px; */
 }
 
 div.upper.img.container {
+    display: flex;
     max-width: 600px;
     width: 100%;
 }
@@ -132,8 +167,15 @@ button.crud {
 }
 
 button.delete.modal {
-    height: 30px;
+    font-size: 20px;
+    font-family: 'Nunito', sans-serif;
+    height: 40px;
+    margin-bottom: 15px;
     width: 40%;
+}
+
+h1.delete.modal.title {
+    text-align: center;
 }
 
 a.update {
@@ -148,13 +190,14 @@ button.delete.modal.no {
 
 div.delete.modal.button.container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    gap: 5%;
+    margin-bottom: 10px;
 }
 
 p.dot {
     align-self: center;
-    font-size: 30px;
+    font-size: 33px;
 }
 
 button.upper.update {
@@ -191,7 +234,7 @@ div.lower.card.individual {
 }
 
 input.form.group.location {
-    width: 100px;
+    width: 140px;
 }
 
 p.card.groupslist.about {
@@ -203,4 +246,11 @@ p.card.groupslist.about {
     word-break: break-all;
     /* white-space: nowrap; */
     /* width: calc(90%); */
+}
+
+button.form.submit{
+    font-size: 20px;
+    font-family: 'Nunito', sans-serif;
+    height: 40px;
+    width: 150px;
 }
