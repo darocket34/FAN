@@ -12,7 +12,7 @@ const EventForm = ({ event }) => {
   const [name, setName] = useState(event?.name);
   const [type, setType] = useState(event?.type);
   const [visibility, setVisibility] = useState(event?.visibility);
-  const [price, setPrice] = useState(event?.price || 0);
+  const [price, setPrice] = useState(event?.price || '');
   const [description, setDescription] = useState(event?.description);
   const [startDate, setStartDate] = useState(event?.startDate);
   const [endDate, setEndDate] = useState(event?.endDate);
@@ -71,13 +71,12 @@ const EventForm = ({ event }) => {
     const newEvent = {
       name,
       type,
-      price,
+      price: price || 0,
       description,
       startDate,
       endDate,
       url,
     };
-
     try {
       const response = await dispatch(createNewEvent(newEvent, groupId));
       if (response && !response.errors) {
@@ -148,7 +147,7 @@ const EventForm = ({ event }) => {
               type="text"
               className="form event price input"
               placeholder="0"
-              value={price && price}
+              value={price}
               onChange={(e) => setPrice(e.target.value)}
             />
           </div>
