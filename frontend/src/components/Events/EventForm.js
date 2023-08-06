@@ -39,34 +39,34 @@ const EventForm = ({ event }) => {
     e.preventDefault();
     setNewErrors({});
 
-    if (startDate) {
-      const newStart = new Date(startDate).toString().split(" ");
-      const newStartYear = newStart[3];
-      const startMonth = newStart[1];
-      const newStartDay = newStart[2];
-      const newStartTime = newStart[4].slice(0, 5);
+    // if (startDate) {
+    //   const newStart = new Date(startDate).toString().split(" ");
+    //   const newStartYear = newStart[3];
+    //   const startMonth = newStart[1];
+    //   const newStartDay = newStart[2];
+    //   const newStartTime = newStart[4].slice(0, 5);
 
-      const testStartDate = new Date(
-        `${newStartYear} ${startMonth} ${newStartDay}`
-      );
-      const newStartMonth = testStartDate.getMonth() + 1;
-      setStartDate(
-        `${newStartYear}-${newStartMonth}-${newStartDay} ${newStartTime}`
-      );
-    }
+    //   const testStartDate = new Date(
+    //     `${newStartYear} ${startMonth} ${newStartDay}`
+    //   );
+    //   const newStartMonth = testStartDate.getMonth() + 1;
+    //   setStartDate(
+    //     `${newStartYear}-${newStartMonth}-${newStartDay} ${newStartTime}`
+    //   );
+    // }
 
-    if (endDate) {
-      const newEnd = new Date(endDate).toString().split(" ");
-      const newEndYear = newEnd[3];
-      const endMonth = newEnd[1];
-      const newEndDay = newEnd[2];
-      const newEndTime = newEnd[4].slice(0, 5);
+    // if (endDate) {
+    //   const newEnd = new Date(endDate).toString().split(" ");
+    //   const newEndYear = newEnd[3];
+    //   const endMonth = newEnd[1];
+    //   const newEndDay = newEnd[2];
+    //   const newEndTime = newEnd[4].slice(0, 5);
 
-      const testEndDate = new Date(`${newEndYear} ${endMonth} ${newEndDay}`);
-      const newEndMonth = testEndDate.getMonth() + 1;
+    //   const testEndDate = new Date(`${newEndYear} ${endMonth} ${newEndDay}`);
+    //   const newEndMonth = testEndDate.getMonth() + 1;
 
-      setEndDate(`${newEndYear}-${newEndMonth}-${newEndDay} ${newEndTime}`);
-    }
+    //   setEndDate(`${newEndYear}-${newEndMonth}-${newEndDay} ${newEndTime}`);
+    // }
 
     const newEvent = {
       name,

@@ -41,7 +41,7 @@ const EventsCard = ({ event, city, state }) => {
   }, [city, event.EventImages, event.startDate, state]);
 
   return (
-    <div key={`${event?.city}`}>
+    <div key={`${event && event?.id}`}>
       <Link className="listing event link" to={`/events/${event?.id}`}>
         <div className="listing event card">
           <div className="listing event img container">
