@@ -9,14 +9,14 @@ const EventForm = ({ event }) => {
   const dispatch = useDispatch();
   const { groupId } = useParams();
   const [newErrors, setNewErrors] = useState({});
-  const [name, setName] = useState(event?.name);
-  const [type, setType] = useState(event?.type);
-  const [visibility, setVisibility] = useState(event?.visibility);
-  const [price, setPrice] = useState(event?.price || '');
-  const [description, setDescription] = useState(event?.description);
-  const [startDate, setStartDate] = useState(event?.startDate);
-  const [endDate, setEndDate] = useState(event?.endDate);
-  const [url, setUrl] = useState(event?.url);
+  const [name, setName] = useState(event?.name || '');
+  const [type, setType] = useState(event?.type || '');
+  const [visibility, setVisibility] = useState(event?.visibility || '');
+  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState(event?.description || '');
+  const [startDate, setStartDate] = useState(event?.startDate || '');
+  const [endDate, setEndDate] = useState(event?.endDate || '');
+  const [url, setUrl] = useState(event?.url || '');
   const [isGroupLoaded, setIsGroupLoaded] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
   const group = useSelector((state) => state?.groups?.singleGroup[groupId]);
@@ -67,21 +67,22 @@ const EventForm = ({ event }) => {
 
     //   setEndDate(`${newEndYear}-${newEndMonth}-${newEndDay} ${newEndTime}`);
     // }
-    console.log('startDate', startDate)
-    console.log('endDate', endDate)
+    const newUTCStartDate = new Date(startDate);
+    const newUTCEndDate = new Date(endDate);
+
     const newEvent = {
       name,
       type,
       price: price || 0,
       description,
-      startDate,
-      endDate,
+      startDate: newUTCStartDate,
+      endDate: newUTCEndDate,
       url,
     };
     try {
       const response = await dispatch(createNewEvent(newEvent, groupId));
       if (response && !response.errors) {
-        // history.push(`/events/${response.id}`);
+        history.push(`/events/${response.id}`);
       }
       const { errors } = response;
       if (response && response.errors) {
