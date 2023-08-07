@@ -74,7 +74,7 @@ function LoginFormModal() {
         <button
           className="demo user link"
           onClick={() => {
-            setCredential("FakeUser1");
+            setCredential("john_doe");
             setPassword("password1");
           }}
         >

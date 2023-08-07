@@ -69,7 +69,7 @@ const EventForm = ({ event }) => {
     // }
     const newUTCStartDate = new Date(startDate);
     const newUTCEndDate = new Date(endDate);
-
+    console.log(newUTCStartDate)
     const newEvent = {
       name,
       type,

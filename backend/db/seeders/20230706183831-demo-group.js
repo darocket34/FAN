@@ -13,7 +13,7 @@ module.exports = {
           organizerId: 1,
           name: "Tech-Hooligans",
           about:
-            "A group of nerds looking for a good time blah blah blah blah blah blah blah blah",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
           type: "Online",
           private: false,
           city: "San Francisco",
@@ -23,7 +23,7 @@ module.exports = {
           organizerId: 2,
           name: "Lovers and Friends",
           about:
-            "Locals looking for love and new relationships blah blah blah blah blah blah blah blah",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
           type: "Online",
           private: true,
           city: "Seattle",
@@ -33,7 +33,7 @@ module.exports = {
           organizerId: 3,
           name: "Exploration Station",
           about:
-            "Wilderness experts expanding outdoorsy knowledge blah blah blah blah blah blah blah blah",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
           type: "In person",
           private: false,
           city: "Dallas",
