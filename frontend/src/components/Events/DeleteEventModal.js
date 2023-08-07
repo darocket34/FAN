@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { deleteEvent } from "../../store/events";
+import { deleteEvent, loadSingleEvent } from "../../store/events";
 import { useModal } from "../../context/Modal";
 import { loadSingleGroup } from "../../store/groups";
 import { useEffect } from "react";
@@ -11,16 +11,18 @@ const DeleteEventModal = ({ eventId }) => {
   const history = useHistory();
   const { closeModal } = useModal();
   const sessionUser = useSelector((state) => state.session.user);
+  const event = useSelector(state => state.events.singleEvent)
 
   const handleDelete = async (e) => {
     e.preventDefault();
+    dispatch(loadSingleEvent(eventId))
     dispatch(deleteEvent(eventId)).then(closeModal);
-    history.push("/events");
+    history.push(`/groups/${event.groupId}`);
   };
 
   if (!sessionUser) {
     closeModal();
-    history.push("/");
+    history.push('/');
   }
 
   return (

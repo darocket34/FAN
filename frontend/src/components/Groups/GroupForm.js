@@ -13,19 +13,19 @@ const GroupForm = ({ group, formType }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [newErrors, setNewErrors] = useState({});
-  const [name, setName] = useState(group?.name || '');
-  const [about, setAbout] = useState(group?.about|| '');
-  const [type, setType] = useState(group?.type|| '');
-  const [visibility, setVisibility] = useState(group?.private|| '');
-  const [city, setCity] = useState(group?.city|| '');
-  const [state, setState] = useState(group?.state|| '');
+  const [name, setName] = useState(group?.name || "");
+  const [about, setAbout] = useState(group?.about || "");
+  const [type, setType] = useState(group?.type || "");
+  const [visibility, setVisibility] = useState(group?.private || "");
+  const [city, setCity] = useState(group?.city || "");
+  const [state, setState] = useState(group?.state || "");
   const [url, setUrl] = useState("");
   const sessionUser = useSelector((state) => state.session.user);
   const currGroup = useSelector((state) => state.groups.singleGroup);
 
   if (group && formType === "update") {
     if (sessionUser?.id !== group?.organizerId || !sessionUser?.id) {
-      history.push("/unauthorized");
+      history.push("/");
     }
   }
   useEffect(() => {
@@ -117,14 +117,14 @@ const GroupForm = ({ group, formType }) => {
             </h1>
 
             <hr></hr>
-            <h1 className="form title">Where is this Group's base?</h1>
+            <h1 className="form title">Set your Group's location</h1>
             <p className="form subtitle">
               F.A.N groups meet locally, in person, and online. We'll connect
               you with people in your area
             </p>
-            {newErrors?.city && <p className="newErrors">{newErrors?.city}</p>}
-            {newErrors?.state && (
-              <p className="newErrors">{newErrors?.state}</p>
+            {/* {newErrors?.city && <p className="newErrors">{newErrors?.city}</p>} */}
+            {(newErrors?.state || newErrors?.city) && (
+              <p className="newErrors">Location is required</p>
             )}
             <input
               className="form group location city"
@@ -164,9 +164,13 @@ const GroupForm = ({ group, formType }) => {
             <p className="form subtitle">
               People will see this when we promote your group, but you'll be
               able to add to it later, too.
-              <li className="first line list">1. What's the purpose of the group?</li>
-              <li>2. Who should join?</li>
-              <li>3. What will you do at your events?</li>
+              <li className="first line list groupform">
+                1. What's the purpose of the group?
+              </li>
+              <li className="list groupform">2. Who should join?</li>
+              <li className="list groupform">
+                3. What will you do at your events?
+              </li>
             </p>
             {newErrors?.about && (
               <p className="newErrors">{newErrors?.about}</p>

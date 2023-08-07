@@ -18,6 +18,8 @@ h1.upper.title.groups {
     font-size: 20px;
     margin: 0;
     margin-bottom: 15px;
+    word-wrap: break-word;
+    word-break: break-all;
     text-align: left;
 }
 
@@ -227,11 +229,18 @@ button.upper.update {
     width: 300px;
 }
 
-div.lower.card {
+div.lower.card,
+a.lower.event.group.card.container {
     background-color: white;
     border-radius: 25px;
     padding: 20px;
     width: 60%;
+}
+
+a.lower.event.group.card.container {
+    padding: 0;
+    text-decoration: none;
+    width: 100%;
 }
 
 button.upper.crud.referencebutton {
@@ -246,6 +255,10 @@ div.lower.card.individual {
 
 input.form.group.location {
     width: 140px;
+}
+
+li.list.groupform {
+    list-style-type: none;
 }
 
 p.card.groupslist.about {

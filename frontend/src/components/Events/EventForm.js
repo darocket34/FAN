@@ -69,7 +69,6 @@ const EventForm = ({ event }) => {
     // }
     const newUTCStartDate = new Date(startDate);
     const newUTCEndDate = new Date(endDate);
-    console.log(newUTCStartDate)
     const newEvent = {
       name,
       type,
@@ -104,7 +103,7 @@ const EventForm = ({ event }) => {
             Create an event for {group?.name && group?.name}
           </h1>
           <p className="form subtitle">What is the name of your event?</p>
-          {newErrors?.name && <p className="newErrors">{newErrors?.name}</p>}
+
           <input
             className="form event name"
             name="name"
@@ -112,9 +111,10 @@ const EventForm = ({ event }) => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
+          {newErrors?.name && <p className="newErrors">{newErrors?.name}</p>}
           <hr></hr>
           <p className="form subtitle">Is this an in person or online event?</p>
-          {newErrors?.type && <p className="newErrors">{newErrors?.type}</p>}
+
           <select
             className="form event type"
             name="type"
@@ -125,10 +125,9 @@ const EventForm = ({ event }) => {
             <option value="Online">Online</option>
             <option value="In Person">In Person</option>
           </select>
+          {newErrors?.type && <p className="newErrors">{newErrors?.type}</p>}
           <p className="form subtitle">Is this event private or public?</p>
-          {newErrors?.private && (
-            <p className="newErrors">{newErrors?.private}</p>
-          )}
+
           <select
             className="form event private"
             name="visibility"
@@ -139,10 +138,13 @@ const EventForm = ({ event }) => {
             <option value="true">Private</option>
             <option value="false">Public</option>
           </select>
+          {newErrors?.private && (
+            <p className="newErrors">{newErrors?.private}</p>
+          )}
           <p className="form subtitle event price">
             What is the price for your event?
           </p>
-          {newErrors?.price && <p className="newErrors">{newErrors?.price}</p>}
+
           <div className="form price container">
             <span className="form price dollarsign">$</span>
             <input
@@ -153,32 +155,35 @@ const EventForm = ({ event }) => {
               onChange={(e) => setPrice(e.target.value)}
             />
           </div>
+          {newErrors?.price && <p className="newErrors">{newErrors?.price}</p>}
           <hr></hr>
           <p className="form subtitle">When does your event start?</p>
-          {newErrors?.startDate && (
-            <p className="newErrors">{newErrors?.startDate}</p>
-          )}
+
           <input
             className="form startdate"
             type="datetime-local"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
           />
-          <p className="form subtitle">When does your event end?</p>
-          {newErrors?.endDate && (
-            <p className="newErrors">{newErrors?.endDate}</p>
+          {newErrors?.startDate && (
+            <p className="newErrors">{newErrors?.startDate}</p>
           )}
+          <p className="form subtitle">When does your event end?</p>
+
           <input
             className="form enddate"
             type="datetime-local"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
           />
+          {newErrors?.endDate && (
+            <p className="newErrors">{newErrors?.endDate}</p>
+          )}
           <hr></hr>
           <p className="form subtitle">
             Please add an image url for your event below:
           </p>
-          {newErrors?.url && <p className="newErrors">{newErrors?.url}</p>}
+
           <input
             type="text"
             className="form event img url"
@@ -186,11 +191,10 @@ const EventForm = ({ event }) => {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
           />
+          {newErrors?.url && <p className="newErrors">{newErrors?.url}</p>}
           <hr></hr>
           <p className="form subtitle">Please describe your event</p>
-          {newErrors?.description && (
-            <p className="newErrors">{newErrors?.description}</p>
-          )}
+
           <textarea
             className="form event description"
             name="description"
@@ -200,6 +204,9 @@ const EventForm = ({ event }) => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
+          {newErrors?.description && (
+            <p className="newErrors">{newErrors?.description}</p>
+          )}
 
           <button className="form event create submit" type="submit">
             Create event

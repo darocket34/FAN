@@ -148,9 +148,12 @@ p.lower.event.endtimeactual {
 }
 
 p.lower.groupname.event.card {
+    color: black;
     font-weight: bold;
     margin: 0;
     margin-bottom: 5px;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 

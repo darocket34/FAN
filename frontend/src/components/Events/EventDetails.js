@@ -116,27 +116,32 @@ const EventDetails = () => {
                     ></img>
                   </div>
                   <div className="upper event card container">
-                    <div className="lower event group card container">
-                      <div className="lower event group card layout">
-                        <img
-                          className="lower group card"
-                          alt="group preview image"
-                          src={groupImgUrl}
-                        />
-                        <div className="lower group event card info">
-                          <div className="lower group event card text">
-                            <p className="lower groupname event card">
-                              {event?.Group?.name}
+                    <Link
+                      to={`/groups/${event.groupId}`}
+                      className="lower event group card container"
+                    >
+                      <div className="lower event group card container">
+                        <div className="lower event group card layout">
+                          <img
+                            className="lower group card"
+                            alt="group preview image"
+                            src={groupImgUrl}
+                          />
+                          <div className="lower group event card info">
+                            <div className="lower group event card text">
+                              <p className="lower groupname event card">
+                                {event?.Group?.name}
+                              </p>
+                            </div>
+                            <p className="lower group event card private grayout">
+                              {event?.Group?.private === false
+                                ? "Public"
+                                : "Private"}
                             </p>
                           </div>
-                          <p className="lower group event card private grayout">
-                            {event?.Group?.private === false
-                              ? "Public"
-                              : "Private"}
-                          </p>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                     <div className="lower event additionalInfo card container">
                       <div className="lower event details maincontainer">
                         <div className="lower event details dates container">
