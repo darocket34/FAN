@@ -46,6 +46,7 @@ ToDo:
 
 
 To run locally:
+
     - Download all files.
     - Navigate to backend and run "npm install" to get all dependancies
     - Navigate to frontend and run "npm install" to get all dependancies
