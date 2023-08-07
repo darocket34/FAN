@@ -64,6 +64,7 @@ p.upper.organizer {
     display: flex;
     flex-direction: row;
     gap: 10px;
+    height: 200px;
     justify-self: flex-end;
     padding-top: 20px;
     padding-bottom: 20px;

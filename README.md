@@ -32,7 +32,6 @@ Features:
 
 ![Signup Modal](/images/image-3.png)
 
-
 ToDo:
 
     - Complete CRUD for Events feature
@@ -44,7 +43,6 @@ ToDo:
     - View all members feature
     - Add profile image
 
-
 To run locally:
 
     - Download all files.
@@ -53,6 +51,11 @@ To run locally:
     - Run "npm remigrate" on the backend to seed local database
     - Run "npm start" on both frontend and back end
 
+    - Download all files.
+    - Navigate to backend and run "npm install" to get all dependancies
+    - Navigate to frontend and run "npm install" to get all dependancies
+    - Run "npm remigrate" on the backend to seed local database
+    - Run "npm start" on both frontend and back end
 
 Darian Brooks
 BrooksD@alumni.stanford.edu
