@@ -19,7 +19,7 @@ const GroupForm = ({ group, formType }) => {
   const [visibility, setVisibility] = useState(group?.private);
   const [city, setCity] = useState(group?.city);
   const [state, setState] = useState(group?.state);
-  const [url, setUrl] = useState(group?.GroupImages[0].url);
+  const [url, setUrl] = useState("");
   const sessionUser = useSelector((state) => state.session.user);
   const currGroup = useSelector((state) => state.groups.singleGroup);
 
@@ -41,7 +41,6 @@ const GroupForm = ({ group, formType }) => {
     setVisibility(group?.private);
     setCity(group?.city);
     setState(group?.state);
-    setUrl(group?.GroupImages[0].url);
   }, [group]);
 
   const handleSubmit = async (e) => {
@@ -67,7 +66,6 @@ const GroupForm = ({ group, formType }) => {
         type,
         city,
         state,
-        url,
         private: visibility,
       };
     }

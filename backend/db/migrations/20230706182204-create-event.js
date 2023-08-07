@@ -19,14 +19,14 @@ module.exports = {
           type: Sequelize.INTEGER,
           references: {
             model: "Venues",
-            onDelete: 'CASCADE',
+            onDelete: "CASCADE",
           },
         },
         groupId: {
           type: Sequelize.INTEGER,
           references: {
             model: "Groups",
-            onDelete: 'CASCADE',
+            onDelete: "CASCADE",
           },
         },
         name: {
@@ -47,10 +47,10 @@ module.exports = {
           allowNull: false,
         },
         startDate: {
-          type: Sequelize.DATEONLY,
+          type: Sequelize.DATE,
         },
         endDate: {
-          type: Sequelize.DATEONLY,
+          type: Sequelize.DATE,
         },
         createdAt: {
           allowNull: false,

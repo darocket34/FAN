@@ -17,7 +17,6 @@ const EventsList = () => {
   };
   useEffect(() => {
     dispatch(loadEvents()).then(() => setIsLoaded(true));
-
     setEventsListSorted(events);
   }, [dispatch, isLoaded]);
 

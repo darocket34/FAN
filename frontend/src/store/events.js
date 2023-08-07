@@ -23,10 +23,10 @@ const getSingleEvent = (event) => {
   };
 };
 
-const postNewEvent = (newEvent) => {
+const postNewEvent = (event) => {
   return {
     type: CREATE_EVENT,
-    newEvent,
+    event,
   };
 };
 
@@ -174,20 +174,20 @@ const eventsReducer = (state = initialState, action) => {
       });
       return { ...state, allEvents: newEvents };
     case LOAD_SINGLE_EVENT:
-      // const event = {...state}
-      // const singleEvent = Object.values(action.event)
-      // return { singleEvent: {...Object.values(...event)[0]}};
       return { ...state, singleEvent: action.event };
     case CREATE_EVENT:
-      state = { ...state, allEvents: action.newEvent };
+      state = { ...state, allEvents: {[action.event.id]: action.event} };
       return state;
     case DELETE_EVENT:
-      const newState = { ...state };
-      delete newState[action.eventId];
-      return newState;
+      const newStateDelete = { ...state };
+      delete newStateDelete.allEvents[action.eventId];
+      delete newStateDelete.singleEvent
+      return {...newStateDelete, singleEvent: {}};
     default:
       return state;
   }
 };
+
+
 
 export default eventsReducer;

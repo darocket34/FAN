@@ -67,7 +67,8 @@ const EventForm = ({ event }) => {
 
     //   setEndDate(`${newEndYear}-${newEndMonth}-${newEndDay} ${newEndTime}`);
     // }
-
+    console.log('startDate', startDate)
+    console.log('endDate', endDate)
     const newEvent = {
       name,
       type,
@@ -80,7 +81,7 @@ const EventForm = ({ event }) => {
     try {
       const response = await dispatch(createNewEvent(newEvent, groupId));
       if (response && !response.errors) {
-        history.push(`/events/${response.id}`);
+        // history.push(`/events/${response.id}`);
       }
       const { errors } = response;
       if (response && response.errors) {
