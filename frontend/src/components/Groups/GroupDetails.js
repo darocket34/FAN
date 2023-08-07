@@ -119,7 +119,7 @@ const GroupDetails = () => {
                     {group?.Organizer?.lastName}
                   </p>
                 </div>
-                {!isOrganizer && (
+                {!isOrganizer && user && (
                   <button
                     className="upper join"
                     onClick={() => alert("Feature coming soon...")}
