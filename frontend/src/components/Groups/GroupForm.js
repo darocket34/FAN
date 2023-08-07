@@ -13,12 +13,12 @@ const GroupForm = ({ group, formType }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [newErrors, setNewErrors] = useState({});
-  const [name, setName] = useState(group?.name);
-  const [about, setAbout] = useState(group?.about);
-  const [type, setType] = useState(group?.type);
-  const [visibility, setVisibility] = useState(group?.private);
-  const [city, setCity] = useState(group?.city);
-  const [state, setState] = useState(group?.state);
+  const [name, setName] = useState(group?.name || '');
+  const [about, setAbout] = useState(group?.about|| '');
+  const [type, setType] = useState(group?.type|| '');
+  const [visibility, setVisibility] = useState(group?.private|| '');
+  const [city, setCity] = useState(group?.city|| '');
+  const [state, setState] = useState(group?.state|| '');
   const [url, setUrl] = useState("");
   const sessionUser = useSelector((state) => state.session.user);
   const currGroup = useSelector((state) => state.groups.singleGroup);
@@ -164,7 +164,7 @@ const GroupForm = ({ group, formType }) => {
             <p className="form subtitle">
               People will see this when we promote your group, but you'll be
               able to add to it later, too.
-              <li>1. What's the purpose of the group?</li>
+              <li className="first line list">1. What's the purpose of the group?</li>
               <li>2. Who should join?</li>
               <li>3. What will you do at your events?</li>
             </p>

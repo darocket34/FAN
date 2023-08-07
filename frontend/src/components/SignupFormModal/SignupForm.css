@@ -6,14 +6,18 @@ form.signup {
 }
 
 input.signup {
-    font-size: 20px;
-    height: 30px;
-    margin-bottom: 5px;
+    font-size: 15px;
+    height: 25px;
+    margin-bottom: 3px;
 }
 
 button.signup {
-    font-size: 22px;
-    margin-top: 40px;
-    height: 40px;
+    font-size: 18px;
+    margin-top: 20px;
+    height: 30px;
     width: 100%;
+}
+
+h1.signup.title {
+    text-align: center;
 }

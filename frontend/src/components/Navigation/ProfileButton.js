@@ -53,8 +53,8 @@ function ProfileButton({ user }) {
       <div className="dropdown-menu">
         <button className="profile-dropdown" onClick={openMenu}>
           <div className="profile-dropdown div">
-            <i className="fas fa-user-circle fa-2x" />
-            <i className={`fa-solid fa-chevron-${chevron} fa-2x`} />
+            <i className="fas fa-user-circle fa-xl" />
+            <i className={`fa-solid fa-chevron-${chevron} fa-xl`} />
           </div>
         </button>
         <ul className={ulClassName} ref={ulRef}>

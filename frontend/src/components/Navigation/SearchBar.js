@@ -19,10 +19,12 @@ function SearchBar() {
       <button
         className="searchbar searchbutton"
         onClick={() => {
-          alert("Feature Coming Soon");
+          alert("Feature Coming Soon...");
         }}
       >
-        <i className="fas fa-magnifying-glass fa-md search" />
+        <i className="fas fa-magnifying-glass fa-sm search" onClick={() => {
+          alert("Feature Coming Soon...");
+        }}/>
       </button>
     </form>
   );

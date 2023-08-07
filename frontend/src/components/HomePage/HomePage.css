@@ -24,6 +24,7 @@ div.section1.info {
 }
 
 .section1.title {
+    font-size: 25px;
     text-align: left;
 }
 
@@ -48,7 +49,7 @@ div.section2.container {
 }
 
 .section2.title {
-    font-size: 1.875rem;
+    font-size: 20px;
 }
 
 /* Section 3 */
@@ -75,7 +76,7 @@ div.section33.container {
 
 .section3.navlink {
     color: #008080;
-    font-size: 1.25rem;
+    font-size: 15px;
     margin: 0 0 12px;
     text-decoration: none;
 }
@@ -110,12 +111,12 @@ div.section4 {
 
 button.section4 {
     font-size: 20px;
-    height: 50px;
-    width: 150px;
+    height: 35px;
+    width: 120px;
 }
 
 li.modal {
     font-family: 'Nunito', sans-serif;
-    font-size: 20px;
+    font-size: 14px;
     list-style-type: none;
 }

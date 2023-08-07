@@ -26,7 +26,7 @@ const GroupsCard = ({ group }) => {
                   <img
                     className="listing groupslist img"
                     src={group.previewImage}
-                    alt="hike img"
+                    alt="group preview img"
                   />
                 </div>
                 <div className="groups card groupslist text container">

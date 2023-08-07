@@ -1,6 +1,6 @@
 
 form.create.group{
-    margin-top: -50px;
+   margin-top: -20px;
 }
 /* Upper Section */
 
@@ -15,6 +15,7 @@ div.page.container {
 }
 
 h1.upper.title.groups {
+    font-size: 20px;
     margin: 0;
     margin-bottom: 15px;
     text-align: left;
@@ -31,11 +32,14 @@ div.upper.text.container > p {
 p.topLine {
     color: teal;
     font-weight: bold;
-    margin-bottom: -15px;
+}
+
+li.first.line.list {
+    margin-top: 10px;
 }
 
 h1.form.title{
-    margin-top: 15px;
+    margin-top: -5px;
     margin-bottom: 5px;
 }
 
@@ -51,6 +55,7 @@ select.form.private {
 textarea{
     border: 1px solid lightgray;
     border-radius: 7px;
+    margin-top: 10px;
     padding-top: 5px;
     padding-left: 5px;
 }
@@ -69,6 +74,8 @@ input.form.name {
     gap: 3%;
     margin-top: 5px;
     margin-bottom: 15px;
+    max-width: 100%;
+    width: 100%;
 }
 
 div.upper.container.groups {
@@ -86,15 +93,18 @@ div.text.container {
 }
 
 img.upper {
-    align-self: flex-end;
-    min-width: 500px;
-    /* max-width: 600px; */
+    width: auto;
+    max-height: 250px;
+    max-width: 420px;
 }
 
 div.upper.img.container {
     display: flex;
+    justify-content: flex-end;
+    max-height: 400px;
     max-width: 600px;
-    width: 100%;
+    height: auto;
+    width: 800px;
 }
 
 div.additionalInfo {
@@ -104,9 +114,9 @@ div.additionalInfo {
 button.upper.join {
     justify-self: flex-start;
     align-self: flex-end;
-    font-size: 1.4rem;
-    height: 40px;
-    width: 200px;
+    font-size: 14px;
+    height: 30px;
+    width: 130px;
 }
 
 .background {
@@ -160,18 +170,18 @@ p.newErrors {
 button.crud {
     background-color: gray;
     border: none;
-    font-size: 20px;
-    height: 30px;
+    font-size: 15px;
+    height: 23px;
     list-style-type: none;
-    width: 140px;
+    width: 110px;
 }
 
 button.delete.modal {
-    font-size: 20px;
+    font-size: 15px;
     font-family: 'Nunito', sans-serif;
-    height: 40px;
-    margin-bottom: 15px;
-    width: 40%;
+    height: 30px;
+    margin-bottom: 10px;
+    width: 100%;
 }
 
 h1.delete.modal.title {
@@ -201,7 +211,7 @@ p.dot {
 }
 
 button.upper.update {
-    width: 140px;
+    width: 110px;
 }
 
 .lower.event.text.container {
@@ -212,15 +222,16 @@ button.upper.update {
 .listing.img.container {
     display: flex;
     height: 100%;
+    max-height: 150px;
     justify-content: flex-start;
-    width: 80%;
+    width: 300px;
 }
 
 div.lower.card {
     background-color: white;
     border-radius: 25px;
     padding: 20px;
-    width: 600px;
+    width: 60%;
 }
 
 button.upper.crud.referencebutton {
@@ -239,7 +250,9 @@ input.form.group.location {
 
 p.card.groupslist.about {
     display: inline-block;
+    font-size: 12px;
     max-height: 140px;
+    margin: 0;
     overflow: hidden;
     text-overflow: clip;
     word-wrap: break-word;

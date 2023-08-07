@@ -47,7 +47,7 @@ const EventsCard = ({ event, city, state }) => {
         <div className="listing event card">
           <div className="listing event img container">
             {imgUrl && (
-              <img className="listing event img" src={imgUrl} alt="hike img" />
+              <img className="listing event img" src={imgUrl} alt="event preview img" />
             )}
           </div>
           <div className="event card text container">

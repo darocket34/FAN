@@ -16,7 +16,7 @@ a.grayout:hover{
 
 .grayoutHeader {
     color: gray;
-    font-size: 30px;
+    font-size: 20px;
     text-decoration: none;
 }
 
@@ -39,7 +39,7 @@ div.header.links {
 
 a.allevents,
 a.allgroups {
-    font-size: 30px;
+    font-size: 20px;
     color: teal;
 }
 
@@ -63,6 +63,10 @@ img.listing {
     width: 100%;
     max-height: 240px;
     max-width: 100%;
+}
+
+.listing.groupslist.img{
+    max-height: 150px;
 }
 
 img.listing.event {
@@ -89,7 +93,7 @@ div.event.card.time.container{
 
 p.event.card.startDate {
     color: teal;
-    font-size: 20px;
+    font-size: 14px;
     font-weight: bold;
     margin-top: 0;
 }
@@ -109,21 +113,28 @@ div.additionalInfo {
 }
 
 p.card.title {
-    font-size: 30px;
+    font-size: 20px;
     margin: 0;
 }
 
 p.card {
-    font-size: 17px;
+    font-size: 14px;
     word-wrap: break-word;
 }
 
+p.card.numEvents,
+p.card.groupslist.private {
+    margin: 15px 0;
+}
+
 p.location.card {
+    margin: 5px 0;
     font-weight: bold;
 }
 
 hr {
     border: 1px solid lightgray;
-    margin: 18px;
+    margin: 15px;
+    margin-left: 0px;
     width: 100%;
 }
