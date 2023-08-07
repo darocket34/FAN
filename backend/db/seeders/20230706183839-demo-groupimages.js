@@ -16,7 +16,7 @@ module.exports = {
         },
         {
           groupId: 2,
-          url: "https://th-thumbnailer.cdn-si-edu.com/xxsEGDng6hC_MEYtQkeP8H1YmzA=/fit-in/1600x0/filters:focal(2016x1517:2017x1518)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/1d/6c/1d6c9922-5c18-44b4-beff-2d5afde40c4b/picnic_grazing_table_with_picnic_in_background_credit_the_luxury_picnic_company.jpg",
+          url: "https://i.imgur.com/FYjtABS.jpeg",
           preview: true,
         },
         {
