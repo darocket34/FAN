@@ -17,7 +17,7 @@ module.exports = {
         },
         {
           eventId: 2,
-          url: "https://cdn.britannica.com/36/162636-050-932C5D49/Colosseum-Rome-Italy.jpg",
+          url: "https://i.imgur.com/WqoSBIZ.jpg",
           preview: true,
         },
         {

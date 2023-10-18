@@ -53,3 +53,5 @@ To run locally:
 
 Darian Brooks
 BrooksD@alumni.stanford.edu
+https://github.com/darocket34
+https://www.linkedin.com/in/darian-brooks92/

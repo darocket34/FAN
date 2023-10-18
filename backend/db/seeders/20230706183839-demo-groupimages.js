@@ -21,7 +21,7 @@ module.exports = {
         },
         {
           groupId: 3,
-          url: "https://wearecardinals.com/wp-content/uploads/2020/04/u1Re9qgMfM8d6kumlW85PS6s55jQh5fbdmppgQsP.jpeg",
+          url: "https://i.imgur.com/Kg28YXn.jpeg",
           preview: true,
         },
       ],
